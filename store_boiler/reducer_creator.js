@@ -1,6 +1,5 @@
 module.exports = (modelName, initialState) => {
-  return `import actions from "./../constants/action_constants"
-
+  return `import actions from "./../actions/action_types_for_${modelName.toUpperCase()}"
 
 const initialState = {
 	${modelName}List : [],
