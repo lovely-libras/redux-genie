@@ -5,7 +5,7 @@ module.exports = modelNames => {
 	GET_ALL_${modelName.toUpperCase()} : 'GET_ALL_${modelName.toUpperCase()}',
 	ADD_${modelName.toUpperCase()} : 'ADD_${modelName.toUpperCase()}',
 	UPDATE_${modelName.toUpperCase()} : 'UPDATE_${modelName.toUpperCase()}',
-	DELETE_${modelName.toUpperCase()} : 'DELETE_${modelName.toUpperCase()}'`;
+	DELETE_${modelName.toUpperCase()} : 'DELETE_${modelName.toUpperCase()}',`;
   };
 
   let axns = modelNames.reduce((a, b) => (a += axnMaker(b)), "");

@@ -1,6 +1,7 @@
 
 module.exports = {
 
-	actionFuncs_boiler : require('./store_boiler/actionFuncs_boiler'),
-	actionTypes_boiler : require('./store_boiler/actionTypes_boiler')
+	action_boiler_Rails_model : require('./store_boiler/action_boiler_Rails_model'),
+	actionTypes_boiler : require('./store_boiler/constants_boiler'),
+	reducer_creator : require('./store_boiler/reducer_creator')
 }
