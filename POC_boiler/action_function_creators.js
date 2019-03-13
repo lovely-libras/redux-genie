@@ -1,53 +1,101 @@
 import actions from "./actions"
 
-const getHello = ( data ) => {
+const getGit = ( data ) => {
 
 	return {
-		type: actions.GET_HELLO,
+		type: actions.GET_GIT,
 		data
 	}
 }
 
-const getAllHello = ( data ) => {
+const getAllGit = ( data ) => {
 
 	return {
-		type: actions.GET_ALL_HELLO,
+		type: actions.GET_ALL_GIT,
 		data
 	}
 }
 
-const createHello = ( data ) => {
+const createGit = ( data ) => {
 
 	return {
 
-		type: actions.ADD_HELLO,
+		type: actions.ADD_GIT,
 		data
 	}
 }
 
-const updateHello = ( data ) => {
+const updateGit = ( data ) => {
 
 	return {
 
-		type: actions.UPDATE_HELLO,
+		type: actions.UPDATE_GIT,
 		data
 	}
 }
 
-const deleteHello = ( data ) => {
+const deleteGit = ( data ) => {
 
 	return {
 
-		type: actions.DELETE_HELLO,
+		type: actions.DELETE_GIT,
+		data
+	}
+}
+
+const getBranch = ( data ) => {
+
+	return {
+		type: actions.GET_BRANCH,
+		data
+	}
+}
+
+const getAllBranch = ( data ) => {
+
+	return {
+		type: actions.GET_ALL_BRANCH,
+		data
+	}
+}
+
+const createBranch = ( data ) => {
+
+	return {
+
+		type: actions.ADD_BRANCH,
+		data
+	}
+}
+
+const updateBranch = ( data ) => {
+
+	return {
+
+		type: actions.UPDATE_BRANCH,
+		data
+	}
+}
+
+const deleteBranch = ( data ) => {
+
+	return {
+
+		type: actions.DELETE_BRANCH,
 		data
 	}
 }
 
 export default {
 
-	getHello,
-	getAllHello,
-	createHello,
-	updateHello,
-	deleteHello
+	getGit,
+	getAllGit,
+	createGit,
+	updateGit,
+	deleteGit
+	getBranch,
+	getAllBranch,
+	createBranch,
+	updateBranch,
+	deleteBranch
 }

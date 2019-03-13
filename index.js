@@ -11,7 +11,7 @@ console.log(
   chalk.green(
     figlet.textSync("ReduxGenie", {
       horizontalLayout: "full",
-      font: "Dancing Font"
+      font: "Ghost"
     })
   )
 );
