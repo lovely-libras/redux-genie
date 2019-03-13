@@ -8,8 +8,7 @@ module.exports = modelNames => {
 	DELETE_${modelName.toUpperCase()} : 'DELETE_${modelName.toUpperCase()}'`;
   };
 
-  // let axns = modelNames.reduce((a,b) => a += axnMaker(b), '')
-  let newAxns = axnMaker(modelNames);
-  console.log(newAxns, "what is newaxns");
-  return "export default {" + newAxns + "\n}";
+  let axns = modelNames.reduce((a, b) => (a += axnMaker(b)), "");
+
+  return "export default {" + axns + "\n}";
 };

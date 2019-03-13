@@ -8,26 +8,40 @@ const { actionFuncs_boiler, actionTypes_boiler } = require("./boiler_index");
 
 clear();
 console.log(
-  chalk.green(figlet.textSync("ReduxGenie", { horizontalLayout: "full" }))
+  chalk.green(
+    figlet.textSync("ReduxGenie", {
+      horizontalLayout: "full",
+      font: "Dancing Font"
+    })
+  )
 );
 
 const run = async () => {
-  const credentials = await inquirer.addModel();
-  let makeDir = spawn("mkdir POC_boiler", { shell: true });
-
-  makeDir.on("exit", () => {
-    fs.writeFile(
-      "./POC_boiler/action_types.js",
-      actionTypes_boiler(credentials.model),
-      () => console.log("actionTypes_boiler")
-    );
-    fs.writeFile(
-      "./POC_boiler/action_function_creators.js",
-      actionFuncs_boiler(credentials.model),
-      () => console.log("actionFuncs_boiler")
-    );
+  let credentials = await inquirer.addModel();
+  let modelNames = credentials.model.split(" ").filter(item => {
+    if (item.length) {
+      return item;
+    }
   });
-  console.log(credentials.model);
+
+  if (modelNames.length) {
+    let makeDir = spawn("mkdir POC_boiler", { shell: true });
+
+    makeDir.on("exit", () => {
+      fs.writeFile(
+        "./POC_boiler/action_types.js",
+        actionTypes_boiler(modelNames),
+        () => console.log("actionTypes_boiler")
+      );
+      fs.writeFile(
+        "./POC_boiler/action_function_creators.js",
+        actionFuncs_boiler(modelNames),
+        () => console.log("actionFuncs_boiler")
+      );
+    });
+  } else {
+    console.log(chalk.red("You did not enter a model name!"));
+  }
 };
 
 run();

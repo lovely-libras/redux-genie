@@ -1,53 +1,53 @@
 import actions from "./actions"
 
-const gethaha = ( data ) => {
+const getHello = ( data ) => {
 
 	return {
-		type: actions.GET_HAHA,
+		type: actions.GET_HELLO,
 		data
 	}
 }
 
-const getAllhaha = ( data ) => {
+const getAllHello = ( data ) => {
 
 	return {
-		type: actions.GET_ALL_HAHA,
+		type: actions.GET_ALL_HELLO,
 		data
 	}
 }
 
-const createhaha = ( data ) => {
+const createHello = ( data ) => {
 
 	return {
 
-		type: actions.ADD_HAHA,
+		type: actions.ADD_HELLO,
 		data
 	}
 }
 
-const updatehaha = ( data ) => {
+const updateHello = ( data ) => {
 
 	return {
 
-		type: actions.UPDATE_HAHA,
+		type: actions.UPDATE_HELLO,
 		data
 	}
 }
 
-const deletehaha = ( data ) => {
+const deleteHello = ( data ) => {
 
 	return {
 
-		type: actions.DELETE_HAHA,
+		type: actions.DELETE_HELLO,
 		data
 	}
 }
 
 export default {
 
-	gethaha,
-	getAllhaha,
-	createhaha,
-	updatehaha,
-	deletehaha
+	getHello,
+	getAllHello,
+	createHello,
+	updateHello,
+	deleteHello
 }
