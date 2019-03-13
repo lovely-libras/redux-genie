@@ -1,12 +1,10 @@
 module.exports = (modelName, initialState) => {
+  return `import actions from "./../constants/action_constants"
 
-return `import action_constants as actions from "./../constants/action_constants"
-
-_ = require('lodash')
 
 const initialState = {
-	...initialState,
-	${modelName}List : {}
+	${modelName}List : [],
+	Single${modelName}: {}
 }
 
 export default function ${modelName}_reducer (state = initialState, action) {
@@ -14,44 +12,32 @@ export default function ${modelName}_reducer (state = initialState, action) {
 	switch (action.type) {
 
 		case actions.GET_${modelName.toUpperCase()}: {
-
-			let key = Object.keys(action.data)[0]
-
-			return {...state, ${modelName}List : { key  } }
+			return { ...state, Single${modelName}: action.payload }
 		}
 
 		case actions.GET_ALL_${modelName.toUpperCase()}: {
 			
-			return {...state, ${modelName}List : action.data }
+			return { ...state, ${modelName}List: [...action.payload]}
 		}
 
 		case actions.ADD_${modelName.toUpperCase()}: {
-
-			let key = Object.keys(action.data)[0]
-			let value = Object.keys(action.data)[1]
-			
-			return {...state, ${modelName}List : { key : value } }
+			return { ...state, ${modelName}List: [...state.${modelName}List, action.payload ] }
 		}
 
 		case actions.UPDATE_${modelName.toUpperCase()}: {
+			const updated${modelName} = state.${modelName}List.filter(item => item.id === action.payload.it)
 
-			let key = Object.keys(action.data)[0]
-			let value = Object.keys(action.data)[1]
-			
-			return {...state, ${modelName}List : { key : value } }
+			return {...state, Single${modelName}: updated${modelName}}
 		}
 
 		case actions.DELETE_${modelName.toUpperCase()}: {
+			const updated${modelName} = state.${modelName}List.filter(item => item.id !== action.payload.it)
 
-			let key = Object.keys(action.data)[0]
-	
-			return { _.omit(state, [ key ] ) }
+			return {...state, Single${modelName}: updated${modelName}}
 		}
 
 		default:
 		  return state
 	}
-}`
-
-
-}
+}`;
+};

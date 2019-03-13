@@ -1,71 +1,77 @@
-// this is an action creator boiler plate for putting multiple model files 
-// into one big file- the Rail pattern option will create separate action creator 
+// this is an action creator boiler plate for putting multiple model files
+// into one big file- the Rail pattern option will create separate action creator
 // files for each model
 
- 
-let bodyMaker = (modelName) => {
-
-return `const get${modelName} = ( data ) => {
+let bodyMaker = modelName => {
+  return `const get${modelName} = ( payload ) => {
 
 	return {
-		type: actions.GET_${modelName.toUpperCase()},
-		data
+		type: actions.GET_${modelName},
+		payload
 	}
 }
 
-const getAll${modelName} = ( data ) => {
+const getAll${modelName} = ( payload ) => {
 
 	return {
-		type: actions.GET_ALL_${modelName.toUpperCase()},
-		data
+		type: actions.GET_ALL_${modelName},
+		payload
 	}
 }
 
-const create${modelName} = ( data ) => {
+const create${modelName} = ( payload ) => {
 
 	return {
 
-		type: actions.ADD_${modelName.toUpperCase()},
-		data
+		type: actions.ADD_${modelName},
+		payload
 	}
 }
 
-const update${modelName} = ( data ) => {
+const update${modelName} = ( payload ) => {
 
 	return {
 
-		type: actions.UPDATE_${modelName.toUpperCase()},
-		data
+		type: actions.UPDATE_${modelName},
+		payload
 	}
 }
 
-const delete${modelName} = ( data ) => {
+const delete${modelName} = ( payload ) => {
 
 	return {
 
-		type: actions.DELETE_${modelName.toUpperCase()},
-		data
+		type: actions.DELETE_${modelName},
+		payload
 	}
 }
 
-` 
-}
+`;
+};
 
-let exportStatementMaker = (modelName) => {
-
-return `
+let exportStatementMaker = modelName => {
+  return `
 	get${modelName},
 	getAll${modelName},
 	create${modelName},
 	update${modelName},
-	delete${modelName}`
-}
+	delete${modelName}`;
+};
 
-module.exports = (modelNames) => {
+module.exports = modelNames => {
+  let body = modelNames.reduce((a, b) => (a += bodyMaker(b)), "");
 
-let body = modelNames.reduce((a,b) => a += bodyMaker(b), '')
+  let exportStatement = modelNames.reduce(
+    (a, b) => (a += exportStatementMaker(b)),
+    ""
+  );
 
-let exportStatement = modelNames.reduce((a,b) => a += exportStatementMaker(b), '')
-
-return `import actions from "./actions"` + '\n\n' + body + `export default {\n` + exportStatement + `\n}`
-}
+  return (
+    `import actions from "./actions"` +
+    "\n\n" +
+    body +
+    `export default {\n` +
+    exportStatement +
+    `\n}`
+  );
+};
