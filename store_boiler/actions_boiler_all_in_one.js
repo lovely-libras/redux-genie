@@ -1,3 +1,7 @@
+// this is an action creator boiler plate for putting multiple model files 
+// into one big file- the Rail pattern option will create separate action creator 
+// files for each model
+
  
 let bodyMaker = (modelName) => {
 
