@@ -9,7 +9,3 @@ makeDir.on('exit', () => {
 	fs.writeFile('./POC_boiler/action_function_creators.js', actionFuncs_boiler(process.argv.slice(2)), () => console.log('actionFuncs_boiler'))
 	
 })
-
-	
-
-

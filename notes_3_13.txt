@@ -1,0 +1,19 @@
+Where we Are:
+
+take user input and generate action types and basic creators
+
+A. generate complete redux store
+
+1. reducer and thunks
+2. initial state
+3. individual files for each model
+4. combine reducers/create store index file
+
+B. create from the command line- help typing issues
+
+other ideas - logging middleware with dev flags
+	    - git integration- merge conflict resolution inside the file
+
+genie merge- update throws an error
+
+redux genie
