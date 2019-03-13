@@ -16,7 +16,7 @@ Roadmap for POC:
 > = file
 
 - POC_boiler
-	> index.js - compiles the store with all child files
+	> store.js - compiles the store with all child files
 	- store 
 		- actions
 			> (file for each model)
@@ -24,6 +24,7 @@ Roadmap for POC:
 			> (this should really just be one file- set it and forget it)
 		- reducers
 			> separate file for each reducer
+			> combine_reducers.js 
 		- containers (this means connected React components- let skip this for now)
 		- components (this means presentational or stateless React Components- let skip this for now as well)
 
