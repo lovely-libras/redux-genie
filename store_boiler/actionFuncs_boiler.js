@@ -1,7 +1,5 @@
- 
-let bodyMaker = (modelName) => {
-
-return `const get${modelName} = ( data ) => {
+let bodyMaker = modelName => {
+  return `const get${modelName} = ( data ) => {
 
 	return {
 		type: actions.GET_${modelName.toUpperCase()},
@@ -44,24 +42,32 @@ const delete${modelName} = ( data ) => {
 	}
 }
 
-` 
-}
+`;
+};
 
-let exportStatementMaker = (modelName) => {
-
-return `
+let exportStatementMaker = modelName => {
+  return `
 	get${modelName},
 	getAll${modelName},
 	create${modelName},
 	update${modelName},
-	delete${modelName}`
-}
+	delete${modelName}`;
+};
 
-module.exports = (modelNames) => {
+module.exports = modelNames => {
+  // let body = modelNames.reduce((a,b) => a += bodyMaker(b), '')
 
-let body = modelNames.reduce((a,b) => a += bodyMaker(b), '')
+  // let exportStatement = modelNames.reduce((a,b) => a += exportStatementMaker(b), '')
 
-let exportStatement = modelNames.reduce((a,b) => a += exportStatementMaker(b), '')
+  let body = bodyMaker(modelNames);
+  let exportStatement = exportStatementMaker(modelNames);
 
-return `import actions from "./actions"` + '\n\n' + body + `export default {\n` + exportStatement + `\n}`
-}
+  return (
+    `import actions from "./actions"` +
+    "\n\n" +
+    body +
+    `export default {\n` +
+    exportStatement +
+    `\n}`
+  );
+};
