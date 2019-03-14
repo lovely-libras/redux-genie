@@ -1,55 +1,17 @@
-const inquirer = require("./inquirer");
-const figlet = require("figlet");
-const chalk = require("chalk");
-const clear = require("clear");
+// code to generate a rails style structure
+
 const fs = require("fs");
-let { spawn } = require("child_process");
 const {
   action_boiler_Rails_model,
   actionTypes_boiler,
   reducer_creator,
   combine_reducers,
   store_reducer
-} = require("./boiler_index");
+} = require("./../../boiler_index").rails;
 
-clear();
-console.log(
-  chalk.green(
-    figlet.textSync("ReduxGenie", {
-      horizontalLayout: "full",
-      font: "Ghost"
-    })
-  )
-);
+module.exports = (modelNames) => {
 
-const capitalizeFirst = str => {
-  return str
-    .charAt(0)
-    .toUpperCase()
-    .concat(str.slice(1));
-};
-
-const run = async () => {
-
-  let credentials = await inquirer.addModel();
-  // console.log(capitalizeFirst("hello"), "testing");
-  let modelNames = credentials.model
-    .split(" ")
-    .filter(item => {
-      if (item.length) {
-        return item;
-      }
-    })
-    .map(item => item.toUpperCase());
-
-  let makeDir = spawn(
-    "mkdir POC_boiler POC_boiler/store POC_boiler/store/actions POC_boiler/store/constants POC_boiler/store/reducers",
-    { shell: true }
-  );
-
-  if (modelNames.length) {
-
-    makeDir.on("exit", () => {
+    console.log('hitting rails index')
 
       fs.writeFile(
         "./POC_boiler/store/constants/action_constants.js",
@@ -99,12 +61,4 @@ const run = async () => {
         );
     
       });
-    
-    });
-
-  } else {
-    console.log(chalk.red("You did not enter a model name!"));
-  }
-};
-
-run();
+}

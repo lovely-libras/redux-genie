@@ -2,7 +2,7 @@
 // separate file for each model
 
 module.exports = modelName => {
-  return `import actions from "./actions"
+  return `import actions from "../constants/action_constants"
 
 const get${modelName} = ( payload ) => {
 
