@@ -7,14 +7,14 @@ let { spawn } = require("child_process");
 let rails = require("./generator_code_files/rails_style/rails_index") 
 
 clear();
-console.log(
-  chalk.green(
-    figlet.textSync("ReduxGenie", {
-      horizontalLayout: "full",
-      font: "Ghost"
-    })
-  )
-);
+// console.log(
+//   chalk.green(
+//     figlet.textSync("ReduxGenie", {
+//       horizontalLayout: "full",
+//       font: "Ghost"
+//     })
+//   )
+// );
 
 const capitalizeFirst = str => {
   return str
@@ -25,7 +25,7 @@ const capitalizeFirst = str => {
 
 const run = async () => {
 
-  let structure = await inquirer.specifyStructure();
+  let { structure } = await inquirer.specifyStructure();
   
   let credentials = await inquirer.addModel();
 
@@ -38,8 +38,7 @@ const run = async () => {
     })
     .map(item => item.toUpperCase());
 
-
-  let validated = !!modelNames.length && structure && credentials
+  let validated = !!modelNames.length && structure
 
   if (validated) {
 
@@ -49,15 +48,25 @@ const run = async () => {
     );
 
     makeDir.on("exit", () => {
+  
+      if(structure === "rails"){
+  
+        rails(modelNames)
 
-      if(structure === 'rails'){
+      }
 
+      if(structure === "domain"){
+  
         // rails(modelNames)
 
       }
 
-    
-    
+      if(structure === "ducks"){
+  
+        // rails(modelNames)
+
+      }
+
     }); // makeDir on exit
 
   } else {

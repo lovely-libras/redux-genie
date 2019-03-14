@@ -1,11 +1,12 @@
 // code to generate a rails style structure
 
 const fs = require("fs");
-const action_boiler_Rails_model = require('./action_boiler_Rails_model')
-const actionTypes_boiler = require('./constants_boiler')
-const reducer_creator = require('./reducer_creator')
-const combine_reducers = require('./combine_reducers_boiler')
-const store_reducer = require('./store_boiler')
+
+const action_boiler_Rails_model = require('./generator_code_files/rails_style/action_boiler_Rails_model'),
+const actionTypes_boiler = require('./generator_code_files/rails_style/constants_boiler'),
+const reducer_creator = require('./generator_code_files/rails_style/reducer_creator'),
+const combine_reducers = require('./generator_code_files/rails_style/combine_reducers_boiler'),
+const store_reducer = require('./generator_code_files/rails_style/store_boiler')
 
 module.exports = (modelNames) => {
 
