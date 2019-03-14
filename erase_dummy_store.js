@@ -1,2 +1,2 @@
 
-require('child_process').spawn('rm -r POC_boiler', {shell: true})
+require('child_process').spawn('rm -r store', {shell: true})

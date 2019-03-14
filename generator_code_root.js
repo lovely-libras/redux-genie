@@ -5,78 +5,33 @@ const clear = require("clear");
 const fs = require("fs");
 let { spawn } = require("child_process");
 let rails = require("./generator_code_files/rails_style/rails_index") 
+const yaml = require('js-yaml');
 
-clear();
-// console.log(
-//   chalk.green(
-//     figlet.textSync("ReduxGenie", {
-//       horizontalLayout: "full",
-//       font: "Ghost"
-//     })
-//   )
-// );
+let yams 
 
-const capitalizeFirst = str => {
-  return str
-    .charAt(0)
-    .toUpperCase()
-    .concat(str.slice(1));
-};
+try {
+  yams = yaml.safeLoad(fs.readFileSync('./lamp.config.yml', 'utf8'));
+} catch (e) {
+  console.log(e);
+}
 
-const run = async () => {
+// processes yams input
 
-  let { structure } = await inquirer.specifyStructure();
-  
-  let credentials = await inquirer.addModel();
+const { File_Structure, Models } = yams;
 
-  let modelNames = credentials.model
-    .split(" ")
-    .filter(item => {
-      if (item.length) {
-        return item;
-      }
-    })
-    .map(item => item.toUpperCase());
+// console.log(File_Structure, Models)
 
-  let validated = !!modelNames.length && structure
+if(File_Structure === "Rails" || File_Structure === "rails"){
 
-  if (validated) {
+  let makeDir = spawn(
+    "mkdir store store/actions store/constants store/reducers",
+    { shell: true }
+  );
 
-    let makeDir = spawn(
-      "mkdir POC_boiler POC_boiler/store POC_boiler/store/actions POC_boiler/store/constants POC_boiler/store/reducers",
-      { shell: true }
-    );
+  makeDir.on("exit", () => {
 
-    makeDir.on("exit", () => {
-  
-      if(structure === "rails"){
-  
-        rails(modelNames)
+      rails(Models)
+  })
+}
 
-      }
-
-      if(structure === "domain"){
-  
-        // rails(modelNames)
-
-      }
-
-      if(structure === "ducks"){
-  
-        // rails(modelNames)
-
-      }
-
-    }); // makeDir on exit
-
-  } else {
-
-    throw new Error(chalk.red('please try again'))
-    // console.log(chalk.red("You did not enter a model name!"));
-  }
-  
-
-};
-
-run();
 

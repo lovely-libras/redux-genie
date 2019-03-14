@@ -1,38 +1,64 @@
-module.exports = (modelName, initialState) => {
-  return `import actions from "./../actions/action_types_for_${modelName.toUpperCase()}"
+module.exports = (Model, name) => {
+	const inputConversion = (arg) => {
+		arg = arg.toLowerCase()
+		if(arg === 'string'){
+			return `''`
+		} else if (arg === 'boolean'){
+			return true
+		} else if (arg === 'array'){
+			return `[]`
+		} else if (arg === 'object'){
+			return `{}`
+		} else if (arg === 'number'){
+			return `0`
+		}
+	}
+
+return `import actions from "./../actions/action_types_for_${name.toUpperCase()}"
 
 const initialState = {
-	${modelName}List : [],
-	Single${modelName}: {}
+	${name}List : [],
+	Single${name}: {
+		${
+			Model[name].map(trait => {
+				const key = Object.keys(trait)[0]
+				let value = Object.values(trait)[0]
+				value = inputConversion(value)
+				return `${key}: ${value}, \n        `
+			})
+			.join('')
+			.trim()
+		}
+	}
 }
 
-export default function ${modelName}_reducer (state = initialState, action) {
+export default function ${name}_reducer (state = initialState, action) {
 	
 	switch (action.type) {
 
-		case actions.GET_${modelName.toUpperCase()}: {
-			return { ...state, Single${modelName}: action.payload }
+		case actions.GET_${name.toUpperCase()}: {
+			return { ...state, Single${name}: action.payload }
 		}
 
-		case actions.GET_ALL_${modelName.toUpperCase()}: {
+		case actions.GET_ALL_${name.toUpperCase()}: {
 			
-			return { ...state, ${modelName}List: [...action.payload]}
+			return { ...state, ${name}List: [...action.payload]}
 		}
 
-		case actions.ADD_${modelName.toUpperCase()}: {
-			return { ...state, ${modelName}List: [...state.${modelName}List, action.payload ] }
+		case actions.ADD_${name.toUpperCase()}: {
+			return { ...state, ${name}List: [...state.${name}List, action.payload ] }
 		}
 
-		case actions.UPDATE_${modelName.toUpperCase()}: {
-			const updated${modelName} = state.${modelName}List.filter(item => item.id === action.payload.it)
+		case actions.UPDATE_${name.toUpperCase()}: {
+			const updated${name} = state.${name}List.filter(item => item.id === action.payload.it)
 
-			return {...state, Single${modelName}: updated${modelName}}
+			return {...state, Single${name}: updated${name}}
 		}
 
-		case actions.DELETE_${modelName.toUpperCase()}: {
-			const updated${modelName} = state.${modelName}List.filter(item => item.id !== action.payload.it)
+		case actions.DELETE_${name.toUpperCase()}: {
+			const updated${name} = state.${name}List.filter(item => item.id !== action.payload.it)
 
-			return {...state, Single${modelName}: updated${modelName}}
+			return {...state, Single${name}: updated${name}}
 		}
 
 		default:

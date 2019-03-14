@@ -7,7 +7,7 @@ module.exports = modelName => {
 const get${modelName} = ( payload ) => {
 
 	return {
-		type: actions.GET_${modelName},
+		type: actions.GET_${modelName.toUpperCase()},
 		payload
 	}
 }
@@ -15,7 +15,7 @@ const get${modelName} = ( payload ) => {
 const getAll${modelName} = ( payload ) => {
 
 	return {
-		type: actions.GET_ALL_${modelName},
+		type: actions.GET_ALL_${modelName.toUpperCase()},
 		payload
 	}
 }
@@ -24,7 +24,7 @@ const create${modelName} = ( payload ) => {
 
 	return {
 
-		type: actions.ADD_${modelName},
+		type: actions.ADD_${modelName.toUpperCase()},
 		payload
 	}
 }
@@ -33,7 +33,7 @@ const update${modelName} = ( payload ) => {
 
 	return {
 
-		type: actions.UPDATE_${modelName},
+		type: actions.UPDATE_${modelName.toUpperCase()},
 		payload
 	}
 }
@@ -42,7 +42,7 @@ const delete${modelName} = ( payload ) => {
 
 	return {
 
-		type: actions.DELETE_${modelName},
+		type: actions.DELETE_${modelName.toUpperCase()},
 		payload
 	}
 }

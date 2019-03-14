@@ -1,4 +1,5 @@
 module.exports = modelNames => {
+	
   let axnMaker = modelName => {
     return `
 	GET_${modelName.toUpperCase()} : 'GET_${modelName.toUpperCase()}',
