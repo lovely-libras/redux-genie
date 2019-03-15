@@ -1,11 +1,11 @@
-const inquirer = require("./inquirer");
-const figlet = require("figlet");
 const chalk = require("chalk");
 const clear = require("clear");
 const fs = require("fs");
 let { spawn } = require("child_process");
 let rails = require("./generator_code_files/rails_style/rails_index") 
 const yaml = require('js-yaml');
+
+console.log(chalk.red('your wish is my command'))
 
 let yams 
 
