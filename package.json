@@ -4,7 +4,9 @@
   "description": "let redux genie handle your redux boilerplate",
   "main": "generate_code_root.js",
   "scripts": {
-    "build": "npm install -g ./"
+    "build": "npm install -g ./",
+    "test": "mocha ./test/unit_testing/domain_style.test.spec.js ./test/integration_testing/domain_style_integration.test.spec",
+    "int-test": "mocha ./test/integration_testing/domain_style_integration.test.spec"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,12 @@
   },
   "homepage": "https://github.com/lovely-libras/Redux_Genie#readme",
   "dependencies": {
-    "minimist": "^1.2.0"
+    "chai": "^4.2.0",
+    "chai-things": "^0.2.0",
+    "fancy-test": "^1.4.3",
+    "js-yaml": "^3.12.2",
+    "minimist": "^1.2.0",
+    "mocha": "^6.0.2",
+    "shelljs": "^0.8.3"
   }
 }

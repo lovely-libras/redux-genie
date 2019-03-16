@@ -3,14 +3,13 @@
 File_Structure: Rails
 
 Models:
+  - Campus:
+      - Name: string
+      - Address: Boolean
+      - Phone Number: Array
 
-  - Dux: 
-    - Name : string
-    - Quacking : Boolean
-    - Ducklings: Array
-
-  - Terminator: 
-    - Kills: Number
-    - WillBeBack: Boolean
-    - OneLiners: Array
-    - Sequels: Number
+  - Student:
+      - First Name: Number
+      - Last Name: Boolean
+      - Campus: Array
+      - GPA: Number
