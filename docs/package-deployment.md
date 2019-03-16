@@ -160,4 +160,6 @@ Lastly, you can add a commit message with publication by adding the `-m` argumen
 
 Once you update the version number, you can then run `npm publish` to republish the package.
 
+###Closing
 
+For more information on publishing NPM packages, [please refer to the documentation on NPM](https://docs.npmjs.com/).
