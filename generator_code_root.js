@@ -15,6 +15,8 @@ try {
   console.log(e);
 }
 
+// console.log(yams)
+
 // processes yams input
 
 const { File_Structure, Models } = yams;
