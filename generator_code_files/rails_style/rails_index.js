@@ -6,6 +6,7 @@ const actionTypes_boiler = require('./constants_boiler')
 const reducer_creator = require('./reducer_creator')
 const combine_reducers = require('./combine_reducers_boiler')
 const store_reducer = require('./store_boiler')
+const chalk = require('chalk')
 
 module.exports = (Models) => {
 
@@ -17,7 +18,7 @@ module.exports = (Models) => {
         "./store/constants/action_constants.js",
         actionTypes_boiler(modelNames),
         () => {
-          console.log("actionTypes_boiler");
+          console.log(chalk.yellow(`made actionTypes_boiler for ${modelNames}`));
         }
       );
 
@@ -29,7 +30,7 @@ module.exports = (Models) => {
           `./store/actions/action_types_for_${modelName}.js`,
           action_boiler_Rails_model(modelName),
           () => {
-            console.log(`made action types for ${modelName}`);
+            console.log(chalk.yellow(`made action types for ${modelName}`));
           }
         )
         })
@@ -40,7 +41,7 @@ module.exports = (Models) => {
         "./store/reducers/combine_reducers.js",
         combine_reducers(modelNames),
         () => {
-          console.log("made the combine_reducers.js file");
+          console.log(chalk.yellow("made the combine_reducers.js file"));
         }
       );
 
@@ -51,7 +52,7 @@ module.exports = (Models) => {
         "./store/store.js",
         store_reducer(),
         () => {
-          console.log("made the store_reducer.js file");
+          console.log(chalk.yellow("made the store_reducer.js file"));
         }
       );
 
@@ -65,7 +66,7 @@ module.exports = (Models) => {
           `./store/reducers/${name}_reducer.js`,
           reducer_creator(model, name),
           () => {
-            console.log(`made reducer_creator for ${name}`);
+            console.log(chalk.yellow(`made reducer_creator for ${name}`));
           }
 
       );
