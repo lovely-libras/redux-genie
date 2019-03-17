@@ -1,22 +1,3 @@
-//this test file tests the interface
-
-// const cli = require("../../cli.js");
-
-// const { existsSync } = require("fs");
-// const { constants } = require("os");
-// const spawn = require("cross-spawn");
-// const concat = require("concat-stream");
-// const PATH = process.env.PATH;
-
-// const expect = require("chai").expect;
-// const cmd = require("./cmd");
-
-// describe("The redux-genie CLI", () => {
-//   it("should print the correct output", async () => {
-//     const fakeConfig = {};
-//   });
-// });
-
 const path = require("path");
 const fs = require("fs");
 const spawn = require("spawn-command");
