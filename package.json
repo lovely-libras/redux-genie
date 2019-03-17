@@ -1,7 +1,7 @@
 {
   "name": "redux-genie",
   "version": "1.0.0",
-  "description": "let redux genie handle your redux boilerplate",
+  "description": "the cheat codes for redux. let redux genie generate and handle your redux boilerplate",
   "main": "generate_code_root.js",
   "scripts": {
     "build": "npm install -g ./"
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/lovely-libras/Redux_Genie#readme",
   "dependencies": {
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "sha256": "^0.2.0"
   }
 }
