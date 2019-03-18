@@ -2,16 +2,36 @@
   "name": "redux-genie",
   "version": "0.0.3",
   "description": "A command line interface tool that generates a Redux store for managing an application's state. Users can create a React-Redux front-end from scratch, or add it to an existing project. Includes support for adding logging middleware.",
+  "main": ".eslintrc.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
   "scripts": {
-    "build": "npm install -g ./",
-    "test": "jest ./test/integration_testing/domain_style_integration.test.spec.js",
-    "unit-test": "mocha ./test/unit_testing/domain_style.test.spec.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lovely-libras/redux-genie.git"
   },
-  "keywords": ["redux", "react","genie", "redux-genie", "redux genie", "generate", "rails", "redux on rails", "redux rails"],
+  "keywords": [
+    "redux",
+    "react",
+    "genie",
+    "redux-genie",
+    "redux",
+    "genie",
+    "generate",
+    "rails",
+    "redux",
+    "on",
+    "rails",
+    "redux",
+    "rails",
+    "generator",
+    "lovely",
+    "libras"
+  ],
   "author": {
     "name": "The Lovely Libras",
     "email": "lovely.libras.1901@gmail.com",
@@ -40,37 +60,8 @@
     }
   ],
   "license": "MIT",
-  "bin": {
-    "genie": "./cli.js"
-  },
   "bugs": {
     "url": "https://github.com/lovely-libras/redux-genie/issues"
   },
   "homepage": "https://github.com/lovely-libras/redux-genie#readme"
-  "dependencies": {
-    "@types/jest": "^24.0.11",
-    "blog": "^1.0.0",
-    "chai": "^4.2.0",
-    "chai-things": "^0.2.0",
-    "directory-tree": "^2.2.1",
-    "eslint-plugin-jest": "^22.4.1",
-    "fancy-test": "^1.4.3",
-    "fs": "0.0.1-security",
-    "jasmine": "^3.3.1",
-    "js-yaml": "^3.12.2",
-    "minimist": "^1.2.0",
-    "mocha": "^6.0.2",
-    "path": "^0.12.7",
-    "pify": "^4.0.1",
-    "shelljs": "^0.8.3",
-    "spawn-command": "0.0.2-1",
-    "strip-ansi": "^5.1.0",
-    "yargs": "^13.2.2",
-    "yargs-parser": "^13.0.0"
-  },
-  "devDependencies": {
-    "jest": "^24.5.0",
-    "minimist": "^1.2.0",
-    "sha256": "^0.2.0"
-  }
 }
