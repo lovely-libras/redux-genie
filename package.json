@@ -1,6 +1,6 @@
 {
   "name": "redux-genie",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A command line interface tool that generates a Redux store for managing an application's state. Users can create a React-Redux front-end from scratch, or add it to an existing project. Includes support for adding logging middleware.",
   "main": ".eslintrc.js",
   "directories": {
