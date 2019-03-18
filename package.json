@@ -1,8 +1,7 @@
 {
   "name": "redux-genie",
-  "version": "1.0.0",
-  "description": "the cheat codes for redux. let redux genie generate and handle your redux boilerplate",
-  "main": "generate_code_root.js",
+  "version": "0.0.3",
+  "description": "A command line interface tool that generates a Redux store for managing an application's state. Users can create a React-Redux front-end from scratch, or add it to an existing project. Includes support for adding logging middleware.",
   "scripts": {
     "build": "npm install -g ./",
     "test": "jest ./test/integration_testing/domain_style_integration.test.spec.js",
@@ -10,20 +9,45 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lovely-libras/Redux_Genie.git"
+    "url": "git+https://github.com/lovely-libras/redux-genie.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["redux", "react","genie", "redux-genie", "redux genie", "generate", "rails", "redux on rails", "redux rails"],
+  "author": {
+    "name": "The Lovely Libras",
+    "email": "lovely.libras.1901@gmail.com",
+    "url": "https://github.com/lovely-libras"
+  },
+  "contributors": [
+    {
+      "name": "Gregory Ardison-Gardner",
+      "email": "greg.ardison.gardner@gmail.com",
+      "url": "https://github.com/Ardison-Gardner"
+    },
+    {
+      "name": "Jon Cannon",
+      "email": "",
+      "url": ""
+    },
+    {
+      "name": "Amy Kim",
+      "email": "",
+      "url": ""
+    },
+    {
+      "name": "Nick Pereslugoff",
+      "email": "",
+      "url": ""
+    }
+  ],
+  "license": "MIT",
   "bin": {
     "genie": "./cli.js"
   },
   "bugs": {
-    "url": "https://github.com/lovely-libras/Redux_Genie/issues"
+    "url": "https://github.com/lovely-libras/redux-genie/issues"
   },
-  "homepage": "https://github.com/lovely-libras/Redux_Genie#readme",
+  "homepage": "https://github.com/lovely-libras/redux-genie#readme"
   "dependencies": {
-
     "@types/jest": "^24.0.11",
     "blog": "^1.0.0",
     "chai": "^4.2.0",
@@ -45,10 +69,8 @@
     "yargs-parser": "^13.0.0"
   },
   "devDependencies": {
-    "jest": "^24.5.0"
-
+    "jest": "^24.5.0",
     "minimist": "^1.2.0",
     "sha256": "^0.2.0"
-
   }
 }
