@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/lovely-libras/Redux_Genie#readme",
   "dependencies": {
-
     "@types/jest": "^24.0.11",
     "blog": "^1.0.0",
     "chai": "^4.2.0",
@@ -48,6 +47,5 @@
     "jest": "^24.5.0",
     "minimist": "^1.2.0",
     "sha256": "^0.2.0"
-
   }
 }
