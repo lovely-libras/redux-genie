@@ -3,13 +3,11 @@
 File_Structure: Rails
 
 Models:
-
   - Dux: 
     - Name : string
     - Quacking : Boolean
     - Ducklings: Array
-
-  - Terminator: 
+  - Terminator:
     - Kills: Number
     - WillBeBack: Boolean
     - OneLiners: Array

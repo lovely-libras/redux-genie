@@ -1,34 +1,33 @@
 module.exports = (Model, name) => {
-	const inputConversion = (arg) => {
-		arg = arg.toLowerCase()
-		if(arg === 'string'){
-			return `''`
-		} else if (arg === 'boolean'){
-			return true
-		} else if (arg === 'array'){
-			return `[]`
-		} else if (arg === 'object'){
-			return `{}`
-		} else if (arg === 'number'){
-			return `0`
-		}
-	}
+  const inputConversion = arg => {
+    arg = arg.toLowerCase();
+    if (arg === "string") {
+      return `''`;
+    } else if (arg === "boolean") {
+      return true;
+    } else if (arg === "array") {
+      return `[]`;
+    } else if (arg === "object") {
+      return `{}`;
+    } else if (arg === "number") {
+      return `0`;
+    }
+  };
 
-return `import actions from "./../actions/action_types_for_${name.toUpperCase()}"
+  return `import actions from "./../actions/action_types_for_${name.toUpperCase()}"
 
 const initialState = {
 	${name}List : [],
 	Single${name}: {
-		${
-			Model[name].map(trait => {
-				const key = Object.keys(trait)[0]
-				let value = Object.values(trait)[0]
-				value = inputConversion(value)
-				return `${key}: ${value}, \n        `
-			})
-			.join('')
-			.trim()
-		}
+		${Model[name]
+      .map(trait => {
+        const key = Object.keys(trait)[0];
+        let value = Object.values(trait)[0];
+        value = inputConversion(value);
+        return `${key}: ${value}, \n        `;
+      })
+      .join("")
+      .trim()}
 	}
 }
 

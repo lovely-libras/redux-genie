@@ -87,7 +87,11 @@ function runCLI(arg = "", cwd = process.cwd()) {
 }
 
 async function runCLIAndAssertFileOutput(args, cwd) {
+<<<<<<< HEAD
   const { outputDir = "./" } = yargsParser(args);
+=======
+  const { outputDir = "./lamp.config.yml" } = yargsParser(args);
+>>>>>>> master
   const stdout = await runCLI(args, cwd).catch(getErrorLogger("runCLI"));
   const snapshotTitleBase = `${args} in ${relativeizePath(cwd)}`;
   expect(relativeizePath(stdout)).toMatchSnapshot(
@@ -95,8 +99,11 @@ async function runCLIAndAssertFileOutput(args, cwd) {
   );
   const tree = dirTree(cwd);
   relativeizePathInTree(tree);
+<<<<<<< HEAD
   console.log("Tree: ", tree);
   console.log("Title Base: ", snapshotTitleBase);
+=======
+>>>>>>> master
 
   expect(tree).toMatchSnapshot(`${snapshotTitleBase} file tree`);
   await expectDirectoryToMatchSnapshot(
@@ -106,7 +113,10 @@ async function runCLIAndAssertFileOutput(args, cwd) {
 }
 
 function expectDirectoryToMatchSnapshot(directory, snapshotTitle) {
+<<<<<<< HEAD
   console.log("Directory: ", directory);
+=======
+>>>>>>> master
   return pify(glob)(path.resolve(directory, "**/*"), { nodir: true })
     .then(readAllFilesAsPromise)
     .then(expectFilesToMatchSnapshot)
