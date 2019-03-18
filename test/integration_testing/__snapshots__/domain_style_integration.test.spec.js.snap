@@ -18,7 +18,7 @@ Object {
           "extension": "",
           "name": "COMMIT_EDITMSG",
           "path": "<projectRootDir>/redux-genie/.git/COMMIT_EDITMSG",
-          "size": 29,
+          "size": 65,
           "type": "file",
         },
         Object {
@@ -169,7 +169,7 @@ Object {
               "extension": "",
               "name": "HEAD",
               "path": "<projectRootDir>/redux-genie/.git/logs/HEAD",
-              "size": 12902,
+              "size": 13123,
               "type": "file",
             },
             Object {
@@ -245,13 +245,13 @@ Object {
                       "extension": "",
                       "name": "testing",
                       "path": "<projectRootDir>/redux-genie/.git/logs/refs/heads/testing",
-                      "size": 547,
+                      "size": 768,
                       "type": "file",
                     },
                   ],
                   "name": "heads",
                   "path": "<projectRootDir>/redux-genie/.git/logs/refs/heads",
-                  "size": 6524,
+                  "size": 6745,
                   "type": "directory",
                 },
                 Object {
@@ -334,19 +334,19 @@ Object {
                           "extension": "",
                           "name": "testing",
                           "path": "<projectRootDir>/redux-genie/.git/logs/refs/remotes/origin/testing",
-                          "size": 493,
+                          "size": 656,
                           "type": "file",
                         },
                       ],
                       "name": "origin",
                       "path": "<projectRootDir>/redux-genie/.git/logs/refs/remotes/origin",
-                      "size": 3334,
+                      "size": 3497,
                       "type": "directory",
                     },
                   ],
                   "name": "remotes",
                   "path": "<projectRootDir>/redux-genie/.git/logs/refs/remotes",
-                  "size": 3334,
+                  "size": 3497,
                   "type": "directory",
                 },
                 Object {
@@ -359,13 +359,13 @@ Object {
               ],
               "name": "refs",
               "path": "<projectRootDir>/redux-genie/.git/logs/refs",
-              "size": 11014,
+              "size": 11398,
               "type": "directory",
             },
           ],
           "name": "logs",
           "path": "<projectRootDir>/redux-genie/.git/logs",
-          "size": 23916,
+          "size": 24521,
           "type": "directory",
         },
         Object {
@@ -979,6 +979,21 @@ Object {
               "children": Array [
                 Object {
                   "extension": "",
+                  "name": "034f529f3270f02578f874756eda450d9b1faa",
+                  "path": "<projectRootDir>/redux-genie/.git/objects/64/034f529f3270f02578f874756eda450d9b1faa",
+                  "size": 87,
+                  "type": "file",
+                },
+              ],
+              "name": "64",
+              "path": "<projectRootDir>/redux-genie/.git/objects/64",
+              "size": 87,
+              "type": "directory",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "extension": "",
                   "name": "11ea43ecdcf5e04a0882242d958e458b522f0e",
                   "path": "<projectRootDir>/redux-genie/.git/objects/66/11ea43ecdcf5e04a0882242d958e458b522f0e",
                   "size": 245,
@@ -1003,6 +1018,21 @@ Object {
               "name": "6c",
               "path": "<projectRootDir>/redux-genie/.git/objects/6c",
               "size": 660,
+              "type": "directory",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "extension": "",
+                  "name": "d96dcc795e827ff52b58ef4159c9703b4b862f",
+                  "path": "<projectRootDir>/redux-genie/.git/objects/6d/d96dcc795e827ff52b58ef4159c9703b4b862f",
+                  "size": 455,
+                  "type": "file",
+                },
+              ],
+              "name": "6d",
+              "path": "<projectRootDir>/redux-genie/.git/objects/6d",
+              "size": 455,
               "type": "directory",
             },
             Object {
@@ -1083,6 +1113,13 @@ Object {
               "children": Array [
                 Object {
                   "extension": "",
+                  "name": "b1605e5035bac9d721c81cb066ac7f11398e0b",
+                  "path": "<projectRootDir>/redux-genie/.git/objects/7a/b1605e5035bac9d721c81cb066ac7f11398e0b",
+                  "size": 211,
+                  "type": "file",
+                },
+                Object {
+                  "extension": "",
                   "name": "fe54810cccac42647dd16f2e87d47a63f13544",
                   "path": "<projectRootDir>/redux-genie/.git/objects/7a/fe54810cccac42647dd16f2e87d47a63f13544",
                   "size": 217,
@@ -1091,7 +1128,7 @@ Object {
               ],
               "name": "7a",
               "path": "<projectRootDir>/redux-genie/.git/objects/7a",
-              "size": 217,
+              "size": 428,
               "type": "directory",
             },
             Object {
@@ -1277,6 +1314,13 @@ Object {
               "children": Array [
                 Object {
                   "extension": "",
+                  "name": "11e23ac03cea5fb0ca4ebebe988cfe650a4aaa",
+                  "path": "<projectRootDir>/redux-genie/.git/objects/9b/11e23ac03cea5fb0ca4ebebe988cfe650a4aaa",
+                  "size": 663,
+                  "type": "file",
+                },
+                Object {
+                  "extension": "",
                   "name": "a249299911d03ec759fcbb166b16b891f93ca5",
                   "path": "<projectRootDir>/redux-genie/.git/objects/9b/a249299911d03ec759fcbb166b16b891f93ca5",
                   "size": 249,
@@ -1285,7 +1329,7 @@ Object {
               ],
               "name": "9b",
               "path": "<projectRootDir>/redux-genie/.git/objects/9b",
-              "size": 249,
+              "size": 912,
               "type": "directory",
             },
             Object {
@@ -1337,6 +1381,21 @@ Object {
               "children": Array [
                 Object {
                   "extension": "",
+                  "name": "80ae8b7456406cc693705b0cf5f21ed892923a",
+                  "path": "<projectRootDir>/redux-genie/.git/objects/a3/80ae8b7456406cc693705b0cf5f21ed892923a",
+                  "size": 1345,
+                  "type": "file",
+                },
+              ],
+              "name": "a3",
+              "path": "<projectRootDir>/redux-genie/.git/objects/a3",
+              "size": 1345,
+              "type": "directory",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "extension": "",
                   "name": "886a980f9515415d2a885af499961b2c0e53b9",
                   "path": "<projectRootDir>/redux-genie/.git/objects/a5/886a980f9515415d2a885af499961b2c0e53b9",
                   "size": 321,
@@ -1372,10 +1431,17 @@ Object {
                   "size": 3382,
                   "type": "file",
                 },
+                Object {
+                  "extension": "",
+                  "name": "c99bbb64eeb4989ac399b22a543e425c987e4d",
+                  "path": "<projectRootDir>/redux-genie/.git/objects/a9/c99bbb64eeb4989ac399b22a543e425c987e4d",
+                  "size": 90,
+                  "type": "file",
+                },
               ],
               "name": "a9",
               "path": "<projectRootDir>/redux-genie/.git/objects/a9",
-              "size": 3382,
+              "size": 3472,
               "type": "directory",
             },
             Object {
@@ -1649,6 +1715,21 @@ Object {
               "children": Array [
                 Object {
                   "extension": "",
+                  "name": "47a27a466d228d68ac43be1aa0367de42675f0",
+                  "path": "<projectRootDir>/redux-genie/.git/objects/d2/47a27a466d228d68ac43be1aa0367de42675f0",
+                  "size": 150,
+                  "type": "file",
+                },
+              ],
+              "name": "d2",
+              "path": "<projectRootDir>/redux-genie/.git/objects/d2",
+              "size": 150,
+              "type": "directory",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "extension": "",
                   "name": "45bda0cdef33e08531a2804eb6de3946bc5204",
                   "path": "<projectRootDir>/redux-genie/.git/objects/da/45bda0cdef33e08531a2804eb6de3946bc5204",
                   "size": 198,
@@ -1731,6 +1812,13 @@ Object {
               "children": Array [
                 Object {
                   "extension": "",
+                  "name": "99c63929c7f93d267037a9f846a627d220255b",
+                  "path": "<projectRootDir>/redux-genie/.git/objects/e6/99c63929c7f93d267037a9f846a627d220255b",
+                  "size": 233357,
+                  "type": "file",
+                },
+                Object {
+                  "extension": "",
                   "name": "9de29bb2d1d6434b8b29ae775ad8c2e48c5391",
                   "path": "<projectRootDir>/redux-genie/.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391",
                   "size": 15,
@@ -1739,7 +1827,7 @@ Object {
               ],
               "name": "e6",
               "path": "<projectRootDir>/redux-genie/.git/objects/e6",
-              "size": 15,
+              "size": 233372,
               "type": "directory",
             },
             Object {
@@ -1981,7 +2069,7 @@ Object {
           ],
           "name": "objects",
           "path": "<projectRootDir>/redux-genie/.git/objects",
-          "size": 10909357,
+          "size": 11145715,
           "type": "directory",
         },
         Object {
@@ -2227,7 +2315,7 @@ Object {
       ],
       "name": ".git",
       "path": "<projectRootDir>/redux-genie/.git",
-      "size": 10959590,
+      "size": 11196589,
       "type": "directory",
     },
     Object {
@@ -71956,13 +72044,13 @@ Object {
                   "extension": ".snap",
                   "name": "domain_style_integration.test.spec.js.snap",
                   "path": "<projectRootDir>/redux-genie/test/integration_testing/__snapshots__/domain_style_integration.test.spec.js.snap",
-                  "size": 2996125,
+                  "size": 2999719,
                   "type": "file",
                 },
               ],
               "name": "__snapshots__",
               "path": "<projectRootDir>/redux-genie/test/integration_testing/__snapshots__",
-              "size": 2996125,
+              "size": 2999719,
               "type": "directory",
             },
             Object {
@@ -71976,13 +72064,13 @@ Object {
               "extension": ".js",
               "name": "domain_style_integration.test.spec.js",
               "path": "<projectRootDir>/redux-genie/test/integration_testing/domain_style_integration.test.spec.js",
-              "size": 3495,
+              "size": 3553,
               "type": "file",
             },
           ],
           "name": "integration_testing",
           "path": "<projectRootDir>/redux-genie/test/integration_testing",
-          "size": 3004523,
+          "size": 3008175,
           "type": "directory",
         },
         Object {
@@ -72003,13 +72091,13 @@ Object {
       ],
       "name": "test",
       "path": "<projectRootDir>/redux-genie/test",
-      "size": 3013162,
+      "size": 3016814,
       "type": "directory",
     },
   ],
   "name": "redux-genie",
   "path": "<projectRootDir>/redux-genie",
-  "size": 61727466,
+  "size": 61968117,
   "type": "directory",
 }
 `;

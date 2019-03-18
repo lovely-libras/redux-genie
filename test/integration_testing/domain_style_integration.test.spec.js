@@ -95,8 +95,8 @@ async function runCLIAndAssertFileOutput(args, cwd) {
   );
   const tree = dirTree(cwd);
   relativeizePathInTree(tree);
-  console.log(tree);
-  console.log(relativeizePath(stdout));
+  console.log('Tree: ', tree);
+  console.log('Title Base: ', snapshotTitleBase);
 
   expect(tree).toMatchSnapshot(`${snapshotTitleBase} file tree`);
   await expectDirectoryToMatchSnapshot(
@@ -106,6 +106,7 @@ async function runCLIAndAssertFileOutput(args, cwd) {
 }
 
 function expectDirectoryToMatchSnapshot(directory, snapshotTitle) {
+  console.log("Directory: ", directory);
   return pify(glob)(path.resolve(directory, "**/*"), { nodir: true })
     .then(readAllFilesAsPromise)
     .then(expectFilesToMatchSnapshot)
