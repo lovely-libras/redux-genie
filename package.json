@@ -1,5 +1,5 @@
 {
-  "name": "redux-genie",
+  "name": "redux_genie",
   "version": "1.0.0",
   "description": "the cheat codes for redux. let redux genie generate and handle your redux boilerplate",
   "main": "generate_code_root.js",
@@ -23,11 +23,11 @@
   },
   "homepage": "https://github.com/lovely-libras/Redux_Genie#readme",
   "dependencies": {
-
     "@types/jest": "^24.0.11",
     "blog": "^1.0.0",
     "chai": "^4.2.0",
     "chai-things": "^0.2.0",
+    "clear": "^0.1.0",
     "directory-tree": "^2.2.1",
     "eslint-plugin-jest": "^22.4.1",
     "fancy-test": "^1.4.3",
@@ -45,10 +45,8 @@
     "yargs-parser": "^13.0.0"
   },
   "devDependencies": {
-    "jest": "^24.5.0"
-
+    "jest": "^24.5.0",
     "minimist": "^1.2.0",
     "sha256": "^0.2.0"
-
   }
 }

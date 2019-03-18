@@ -21,19 +21,24 @@ try {
 
 const { File_Structure, Models } = yams;
 
-// console.log(File_Structure, Models)
+File_Structure = File_Structure.toLowerCase()
+console.log(File_Structure)
 
-if(File_Structure === "Rails" || File_Structure === "rails"){
+// if(File_Structure === "rails"){
 
-  let makeDir = spawn(
-    "mkdir store store/actions store/constants store/reducers",
-    { shell: true }
-  );
+//   let makeDir = spawn(
+//     "mkdir store store/actions store/constants store/reducers",
+//     { shell: true }
+//   );
 
-  makeDir.on("exit", () => {
+//   makeDir.on("exit", () => {
 
-      rails(Models)
-  })
+//       rails(Models)
+//   })
+// }
+
+if(File_Structure === 'ducks'){
+  console.log('we gonna make some darn ducks')
 }
 
 

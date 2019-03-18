@@ -1,14 +1,14 @@
 # { model: 'Duck Chicken' } 'rails'
 
-File_Structure: Rails
+File_Structure: Ducks
 
 Models:
-- Dux: 
+  -Dux: 
     - Name : string
     - Quacking : Boolean
     - Ducklings: Array
 
-  - Terminator: 
+  -Terminator: 
     - Kills: Number
     - WillBeBack: Boolean
     - OneLiners: Array
