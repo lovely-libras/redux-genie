@@ -1,6 +1,6 @@
 # { model: 'Duck Chicken' } 'rails'
 
-File_Structure: Ducks
+File_Structure: Rails
 
 Models:
   - Dux: 
