@@ -6,6 +6,9 @@ const create_reducer = require("./create_reducer")
 
 module.exports = (model, modelName) => {
   try {
+
+    // make action types
+
     fs.writeFile(
       `./store/${modelName}/${modelName}_action_types.js`,
       create_action_types(modelName.toUpperCase()),
@@ -13,6 +16,8 @@ module.exports = (model, modelName) => {
         console.log(chalk.yellow(`made action types for ${modelName}`));
       }
     );
+
+    // make action creators
 
     fs.writeFile(
       `./store/${modelName}/${modelName}_action_creators.js`,
@@ -22,6 +27,8 @@ module.exports = (model, modelName) => {
       }
     );
 
+    // make reducers
+
     fs.writeFile(
       `./store/${modelName}/${modelName}_reducer.js`,
       create_reducer(model, modelName),
@@ -29,6 +36,7 @@ module.exports = (model, modelName) => {
         console.log(chalk.yellow(`made reducer for ${modelName}`));
       }
     )
+
   } catch (error) {
     console.log(error);
   }
