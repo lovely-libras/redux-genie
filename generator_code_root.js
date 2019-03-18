@@ -3,6 +3,7 @@ const clear = require("clear");
 const fs = require("fs");
 let { spawn } = require("child_process");
 let rails = require("./generator_code_files/rails_style/rails_index") 
+const ducks = require('./generator_code_files/ducks_style')
 const yaml = require('js-yaml');
 
 console.log(chalk.red('your wish is my command'))
@@ -15,30 +16,37 @@ try {
   console.log(e);
 }
 
-// console.log(yams)
-
-// processes yams input
-
-const { File_Structure, Models } = yams;
-
+let { File_Structure, Models } = yams;
 File_Structure = File_Structure.toLowerCase()
-console.log(File_Structure)
 
-// if(File_Structure === "rails"){
 
-//   let makeDir = spawn(
-//     "mkdir store store/actions store/constants store/reducers",
-//     { shell: true }
-//   );
+spawn("mkdir store", {shell: true})
 
-//   makeDir.on("exit", () => {
+if(File_Structure === "rails"){
 
-//       rails(Models)
-//   })
-// }
+  let makeDir = spawn(
+    "mkdir store/actions store/constants store/reducers",
+    { shell: true }
+  );
+
+  makeDir.on("exit", () => {
+
+      rails(Models)
+  })
+}
 
 if(File_Structure === 'ducks'){
-  console.log('we gonna make some darn ducks')
+  Models.forEach(model => {
+    const modelName = Object.keys(model)[0]
+    let makeDir = spawn(
+      `mkdir store/${modelName}`, {shell: true}
+    )
+
+    makeDir.on("exit", () => {
+      ducks(model, modelName)
+    })
+
+  })
 }
 
 
