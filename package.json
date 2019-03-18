@@ -5,8 +5,8 @@
   "main": "generate_code_root.js",
   "scripts": {
     "build": "npm install -g ./",
-    "test": "jest ./test/integration_testing/domain_style_integration.test.spec.js",
-    "unit-test": "mocha ./test/unit_testing/domain_style.test.spec.js"
+    "test": "mocha ./test/unit_testing/domain_style.test.spec.js",
+    "integration": "jest ./test/integration_testing/domain_style_integration.test.spec.js  --watch --verbose false -- -u"
   },
   "repository": {
     "type": "git",

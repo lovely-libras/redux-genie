@@ -95,6 +95,8 @@ async function runCLIAndAssertFileOutput(args, cwd) {
   );
   const tree = dirTree(cwd);
   relativeizePathInTree(tree);
+  console.log(tree);
+  console.log(relativeizePath(stdout));
 
   expect(tree).toMatchSnapshot(`${snapshotTitleBase} file tree`);
   await expectDirectoryToMatchSnapshot(
