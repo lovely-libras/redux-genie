@@ -29,6 +29,7 @@ module.exports = (model, name) => {
 
   const initialState = {
     ${name}List : [],
+    isLoading: false,
     Single${name}: {
       ${stateValues}
     }

@@ -18,6 +18,7 @@ module.exports = (Model, name) => {
 
 const initialState = {
 	${name}List : [],
+	isLoading: false,
 	Single${name}: {
 		${Model[name]
       .map(trait => {
