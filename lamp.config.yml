@@ -1,14 +1,26 @@
-# { model: 'Duck Chicken' } 'rails'
+Structure: ducks  # Available options: Rails || Ducks  
 
-File_Structure: Rails
+# Thunks: separated # thunks will be written in a seaprate file from actions
+# Logging: true  # configures logging middleware
 
 Models:
   - Dux: 
-    - Name : string
-    - Quacking : Boolean
-    - Ducklings: Array
-  - Terminator:
-    - Kills: Number
-    - WillBeBack: Boolean
-    - OneLiners: Array
-    - Sequels: Number
+    - Name : string 
+    - Quacking : Boolean (false) 
+    - Ducklings: Object 
+    - Fly2Gether: Boolean (true)
+    # - Thunks: 
+    #   - getAll: '/api/Dux' 
+    #   - getOne: '/api/Dux/:dux' 
+  - Terminator: 
+    - WillBeBack: Boolean (true)
+    - OneLiners: Array 
+    - Sequels: Number 
+    # - Thunks:
+    #   - getAll: 'api/terminator'
+    #   - getOne: 'api/terminator/:terminator'
+
+# Normalize: 
+#   Associate: 
+
+
