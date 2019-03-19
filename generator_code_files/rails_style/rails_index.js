@@ -10,30 +10,55 @@ const chalk = require('chalk')
 
 module.exports = (Models) => {
 
+    // lets organize the information we'll need in the generator calls
+    // below
+
     let modelNames = Models.map( Model => Model = Object.keys(Model)[0] )
+
+    let crudedModelNames = Models.filter(model => !(model.CRUD === false))
+                                        
+    let userDefinedActions = Models.filter(model => model.Actions)
+
+    // addedActions
+    // thunkNames
 
     try{ 
 
+      // heres the action creator file:
+      // if actions declared separate on yaml 
+      // added action names to the action constants to be created
+      // if no crud, delete crud from action call
+
       fs.writeFile(
         "./store/constants/action_constants.js",
-        actionTypes_boiler(modelNames),
+        actionTypes_boiler(crudedModelNames, userDefinedActions),
         () => {
-          console.log(chalk.yellow(`made actionTypes_boiler for ${modelNames}`));
+          console.log(chalk.yellow(`made action constants for ${modelNames}`));
         }
       );
 
-      // create action types
 
-      modelNames.forEach(modelName=> {
+      // create action types
+      // same scenario gamed out like constants re: CRUD 
+      // and declared actions
+
+      Models.forEach(model=> {
+
+        let modelName = Object.keys(model)[0]
 
         fs.writeFile(
           `./store/actions/action_types_for_${modelName}.js`,
-          action_boiler_Rails_model(modelName),
+          action_boiler_Rails_model(modelName, model),
           () => {
             console.log(chalk.yellow(`made action types for ${modelName}`));
           }
         )
-        })
+      })
+
+  /*
+      // create thunks if thunks exist
+      // 
+
 
       // create combine_reducers.js file
 
@@ -72,8 +97,10 @@ module.exports = (Models) => {
       );
       
       });
+  */
     }
     catch(err){
       console.log(err)
     }
+
 }
