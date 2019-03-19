@@ -44,14 +44,17 @@ if (Structure === "Rails") {
 }
 
 if (Structure === "Ducks") {
+
   // create action types, action creators, and reducer
   Models.forEach(model => {
+    
     const modelName = Object.keys(model)[0];
     let makeDir = spawn(`mkdir store/${modelName}`, { shell: true });
 
     makeDir.on("exit", () => {
-      ducks(model, modelName);
+      ducks(model, modelName, Thunks);
     });
+
   });
 
   // create combine reducers

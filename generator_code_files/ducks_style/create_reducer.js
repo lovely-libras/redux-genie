@@ -1,5 +1,6 @@
 module.exports = (model, name) => {
-  let vals = Object.values(model)[0]
+
+  let vals = Object.values(model.Slice)
 
   const inputConversion = arg => {
     arg = arg.toLowerCase();

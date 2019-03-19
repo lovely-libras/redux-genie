@@ -50,9 +50,9 @@ module.exports = (Models, Thunks) => {
           console.log(chalk.yellow(`made action types for ${modelName}`));
         }
       );
-      if (model.Thunks) {
+      if (!Thunks && model.Thunks) {
         fs.writeFile(
-          `./store/actions/Thunks_for_${modelName}.js`,
+          `./store/actions/thunks_for_${modelName}.js`,
           thunks_Rails_model(modelName, model, Thunks),
           () => {
             console.log(chalk.yellow(`made thunks for ${modelName}`));
