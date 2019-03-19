@@ -15,15 +15,20 @@ let yams;
 try {
   yams = yaml.safeLoad(fs.readFileSync("./lamp.config.yml", "utf8"));
 } catch (e) {
-  console.log(e);
+
+  console.log(chalk.red(e.message));
+  process.exit()
 }
 
-let { File_Structure, Models } = yams;
-File_Structure = File_Structure.toLowerCase();
+console.log(yams)
+
+let { Structure, Models } = yams;
+
+Structure = Structure.toLowerCase();
 
 spawn("mkdir store", { shell: true });
 
-if (File_Structure === "rails") {
+if (Structure === "rails") {
   let makeDir = spawn("mkdir store/actions store/constants store/reducers", {
     shell: true
   });
@@ -33,7 +38,7 @@ if (File_Structure === "rails") {
   });
 }
 
-if (File_Structure === "ducks") {
+if (Structure === "ducks") {
 
   // create action types, action creators, and reducer
   Models.forEach(model => {
@@ -58,3 +63,4 @@ if (File_Structure === "ducks") {
     console.log(chalk.yellow(`made the store.js file`));
   });
 }
+

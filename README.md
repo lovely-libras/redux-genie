@@ -1,6 +1,5 @@
 this is the working readme that we can build on 
 
-
 # redux-genie 
 
 ### cheat codes for redux
@@ -19,7 +18,7 @@ Choose from the three file structures outlined in the Redux FAQs:
 https://redux.js.org/faq/code-structure
 
 ```
-File Structure: Rails || Domain || Ducks
+File Structure: Rails || Ducks
 ```
 
 Thunks can optionally be generated in a separate file for each model:
@@ -37,7 +36,7 @@ Define the models for the store. In Rails-style, each model will each receive it
 Full Rails-style lamp.config.yml file: 
 
 ```
-File Structure: Rails 
+Structure: Rails 
 
 Thunks: separated // omit this line to generate thunks inside the action files
 
@@ -47,14 +46,14 @@ Models:
     - Quacking : Boolean (false) // defaults false
     - Ducklings: Object // defaults { }
     - Fly2Gether: Boolean (true)
-    @Endpoint // configures thunk endpoints
+    - Thunks // configures thunk endpoints
     	- all: '/api/Dux' // ":" declares the variable location
     	- single: '/api/Dux/:dux' 
   - Terminator: 
     - WillBeBack: Boolean (true)
     - OneLiners: Array // defaults [ ]
     - Sequels: Number // defaults 0
-    @Endpoint
+    - Thunks:
     	- all: 'api/terminator'
     	- single: 'api/terminator/:terminator'
 ```
@@ -81,9 +80,7 @@ Output file structure:
     └── Terminator_reducer.js
 ```
 
-** Note, if no @Endpoint is included in the model definition, thunks will be omitted from the generate call. These can be added later via "genie update" (see below).
-
-
+** Note, if "Thunks" are excluded in the model definition, they will be omitted from the generate call. These can be added later via "genie update" (see below).
 
 ### Domain-Style and Ducks-Style
 
@@ -165,8 +162,6 @@ genie locate <domain name> <file type>
 
 Add models and actions to lamp.config.yml, then run genie update. The genie will diff to the previous config file and generate any required updates.
 
-
-
 #### genie delete 
 
 Yes, it will do this...but it will also prompt you.
@@ -179,27 +174,21 @@ genie delete domain <domain>
 
 ```
 
-#### genie revert
+#### genie lamp
 
-The genie automatically makes a git commit before any method that writes to disk. 
+Writes a sample lamp.config.yml file. 
 
 ## Advanced 
 
 ### Connected components 
 
+```bash
+genie generate connected NavBar slice User Consumer 
+```
 
-### Api Routes
+### Linking the genie to an Existing Store
 
-
-### Linking the genie to an Existing Project
-
-This is somewhat involved, but might be appropriate if you think you will need to extensively add models to an existing store, or functionality to an existing model.
-
-#### Linking to an existing store
-
-If you want to manage an existing project, declare the store's file structure. Afterwards, you can generate new models by adding to the lamp.config.yml and calling "genie update" or "genie generate".
-
-Rails-style:
+To link an exisitng store, declare the store's file structure and additional models. Afterwards, you can generate new models by adding to the lamp.config.yml and calling "genie update." 
 
 ```
 File Structure: Linked
@@ -216,24 +205,3 @@ In the root directory that contains the lamp.config.yml, run:
 ```bash
 genie link store
 ```
-
-#### Linking to an existing model
-
-After the store declaration, declare the file locations for each part of the model:
-
-```
-Dux: // model or domain name
-	- actions : './action_types_for_Dux.js'
-	- constants : './store/constants/action_constants.js'
-	- reducer : './store/reducers/Dux_reducer.js'
-	- combiner: root // If this slice needs to get combined prior to the root. Defaults to the root reducer. 
-
-```
-
-Then run:
-
-```bash
-genie link Dux
-```
-
-You will be prompted to confirm the injection points within each file.
