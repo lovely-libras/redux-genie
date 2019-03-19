@@ -1,15 +1,33 @@
-module.exports = modelNames => {
-	
-  let axnMaker = modelName => {
+module.exports = (crudedModelNames, userDefinedActions) => {
+
+	// create separate conditional branch if crud == true
+	// model names can still exist if crud is false, because
+	// user could declare separate action names
+
+	// is CRUD true and are there named actions
+
+  let crudMaker = modelName => {
+
+  	modelName = Object.keys(modelName)[0].toUpperCase()
+
     return `
-	GET_${modelName.toUpperCase()} : 'GET_${modelName.toUpperCase()}',
-	GET_ALL_${modelName.toUpperCase()} : 'GET_ALL_${modelName.toUpperCase()}',
-	ADD_${modelName.toUpperCase()} : 'ADD_${modelName.toUpperCase()}',
-	UPDATE_${modelName.toUpperCase()} : 'UPDATE_${modelName.toUpperCase()}',
-	DELETE_${modelName.toUpperCase()} : 'DELETE_${modelName.toUpperCase()}',`;
+	GET_${modelName} : 'GET_${modelName}',
+	GET_ALL_${modelName} : 'GET_ALL_${modelName}',
+	ADD_${modelName} : 'ADD_${modelName}',
+	UPDATE_${modelName} : 'UPDATE_${modelName}',
+	DELETE_${modelName} : 'DELETE_${modelName}',`;
   };
 
-  let axns = modelNames.reduce((a, b) => (a += axnMaker(b)), "");
+  let actionMaker = model => {
 
-  return "export default {" + axns + "\n}";
+  	return model.Actions.reduce((a,b)=> (a += `\t${b.toUpperCase()} : '${b.toUpperCase()}',\n`), "")
+  }
+
+	return ( "export default {" 
+			+ "\n\t// CRUD actions"
+			+ crudedModelNames.reduce((a, b) => (a += crudMaker(b)), "") 
+			+ "\n\n\t// YOUR actions \n" 
+			+ userDefinedActions.reduce((a,b)=> (a += actionMaker(b)), "") 
+			+ "}"
+			)
 };

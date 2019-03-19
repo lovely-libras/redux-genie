@@ -20,15 +20,22 @@ try {
   process.exit()
 }
 
-console.log(yams)
-
 let { Structure, Models } = yams;
 
-Structure = Structure.toLowerCase();
+if(!Structure){
+  console.log('Please specify file structure as "Structure".')
+  process.exit()
+} 
+
+if(!Models){
+  console.log('Please specify the slices of state as "Models".')
+  process.exit()
+}
 
 spawn("mkdir store", { shell: true });
 
-if (Structure === "rails") {
+if (Structure === "Rails") {
+
   let makeDir = spawn("mkdir store/actions store/constants store/reducers", {
     shell: true
   });
@@ -38,7 +45,7 @@ if (Structure === "rails") {
   });
 }
 
-if (Structure === "ducks") {
+if (Structure === "Ducks") {
 
   // create action types, action creators, and reducer
   Models.forEach(model => {
