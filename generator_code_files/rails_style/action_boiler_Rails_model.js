@@ -1,19 +1,15 @@
 // this is an action creator boiler plate for the Rail pattern
 // separate file for each model
 
-module.exports = (modelName, model) => {
+module.exports = (modelName, model, Thunks) => {
+  let modelNameCaps = modelName.toUpperCase();
 
-	let modelNameCaps = modelName.toUpperCase()
+  let returnStatement = `import actions from "../constants/action_constants"\n`;
 
-	let returnStatement = `import actions from "../constants/action_constants"\n`
+  let exportStatement = `\nexport default {`;
 
-	let exportStatement = `\nexport default {`
-
-
-if(!(model.CRUD === false)){
-
-
-returnStatement += `\nconst get${modelName} = ( payload ) => {
+  if (!(model.CRUD === false)) {
+    returnStatement += `\nconst get${modelName} = ( payload ) => {
 
 	return {
 		type: actions.GET_${modelNameCaps},
@@ -56,29 +52,36 @@ const delete${modelName} = ( payload ) => {
 	}
 
 }
-`
+`;
 
-exportStatement += `\n
+    exportStatement += `\n
 	get${modelName},
 	getAll${modelName},
 	create${modelName},
 	update${modelName},
-	delete${modelName},`
+	delete${modelName},`;
+  }
 
-}
+  if (model.Actions) {
+    model.Actions.forEach(action => {
+      returnStatement += `\nconst ${action} = () => {\n\n}\n`;
 
+      exportStatement += "\n\t" + action + ",";
+    });
+  }
 
-
-if(model.Actions){
-
-	model.Actions.forEach(action => {
-
-
-		returnStatement += `\nconst ${action} = () => {\n\n}\n`
-
-		exportStatement += "\n\t" + action + ','
-	})
-}
-
-	return returnStatement + exportStatement + '\n}'
+  if (Thunks) {
+    model.Thunks.forEach(thunk => {
+      console.log(Object.entries(thunk)[0][1], "thunk!!!");
+      returnStatement += `
+export const ${Object.entries(thunk)[0][0]} = () => dispatch => {
+	fetch('${Object.entries(thunk)[0][1]}')
+		.then((resp) => resp.json()) 
+		.then(function(data) {
+			dispatch(data)
+  });
+};\n`;
+    });
+  }
+  return returnStatement + exportStatement + "\n}";
 };
