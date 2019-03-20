@@ -1,3 +1,4 @@
+
 module.exports = (modelName, model) => {
 
   let modelNameCaps = modelName.toUpperCase();

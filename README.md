@@ -12,19 +12,13 @@ The genie can be comprehensive- generating the whole Redux store from the outset
 
 To generate a store, Redux Genie's configuration file- lamp.config.yml - will need define the total store structure. 
 
-Define models and/or domains, and the genie automatically generates and configures all CRUD methods with separate subreducers, linked to the Redux-Thunk middleware calling your API endpoints.
+Define your slices of state. We refer to them as "Models", but they can correspond to database models, domains ("landing page"), features ("checkout"), or any other way you want to slice your state. The genie automatically generates and configures all CRUD methods with separate subreducers for each Model, linked to the Redux-Thunk middleware calling your API endpoints.
 
-Choose from the three file structures outlined in the Redux FAQs:
+Choose from the two of the file structures outlined in the Redux FAQs:
 https://redux.js.org/faq/code-structure
 
 ```
 File Structure: Rails || Ducks
-```
-
-Thunks can optionally be generated in a separate file for each model:
-
-```
-Thunks: separate
 ```
 
 ### Rails-Style
@@ -36,26 +30,43 @@ Define the models for the store. In Rails-style, each model will each receive it
 Full Rails-style lamp.config.yml file: 
 
 ```
-Structure: Rails 
-
-Thunks: separated // omit this line to generate thunks inside the action files
+Structure: Ducks # Two options: Rails || Ducks
 
 Models:
-  - Dux: 
-    - Name : string // defaults ''
-    - Quacking : Boolean (false) // defaults false
-    - Ducklings: Object // defaults { }
-    - Fly2Gether: Boolean (true)
-    - Thunks // configures thunk endpoints
-    	- all: '/api/Dux' // ":" declares the variable location
-    	- single: '/api/Dux/:dux' 
-  - Terminator: 
-    - WillBeBack: Boolean (true)
-    - OneLiners: Array // defaults [ ]
-    - Sequels: Number // defaults 0
-    - Thunks:
-    	- all: 'api/terminator'
-    	- single: 'api/terminator/:terminator'
+
+  - Dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    CRUD: false
+
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll: "/api/Dux"
+      - getOne: "/api/Dux/:dux"
+
+  - Terminator:
+
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+
+    Actions:
+      - killJohnConnor
+      - backInTime
+
+    Thunks:
+      - getAll: "api/terminator"
+      - getOne: "api/terminator/:terminator"
 ```
 
 In the root directory that contains the lamp.config.yml, run:
@@ -80,10 +91,106 @@ Output file structure:
     └── Terminator_reducer.js
 ```
 
-** Note, if "Thunks" are excluded in the model definition, they will be omitted from the generate call. These can be added later via "genie update" (see below).
+### Ducks-Style
 
-### Domain-Style and Ducks-Style
+> “Ducks”: separate folders per feature or domain
 
+
+#### Options
+
+Several options can be configured to customize the generate call.
+
+#### CRUD = false
+
+Each model is automatically generated with CRUD methods. These can be excluded from the generate call as follows:
+
+```
+Models:
+
+  - Dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    CRUD: false
+
+    ...
+
+```
+#### Thunks
+
+Thunks can optionally be included in the same file as the actions: 
+
+```
+Thunks: included
+```
+
+If "Thunks" are excluded in the model definition, they will be omitted from the generate call. These can be added later via "genie update" (see below).
+
+#### Logging
+
+Redux logger is wired into the store by default, but can be excluded.
+
+```
+Logging: false  
+```
+
+#### Normalizr 
+
+While this will obviously be specific to your use case, the genie can begin the wiring for normalizr inside the appropriate store files.
+
+```
+Normalize:
+  Associate:
+```
+
+#### Example of Full Configuration File:
+
+```
+Structure: Ducks # Two options: Rails || Ducks
+
+# Thunks: included # thunks will be included in the same file as the actions
+# Logging: false  # configures logging middleware
+
+Models:
+
+  - Dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    CRUD: false
+
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll: "/api/Dux"
+      - getOne: "/api/Dux/:dux"
+
+  - Terminator:
+
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+
+    Actions:
+      - killJohnConnor
+      - backInTime
+
+    Thunks:
+      - getAll: "api/terminator"
+      - getOne: "api/terminator/:terminator"
+```
 
 ## CLI interface
 
@@ -129,7 +236,7 @@ genie list store
 
 Returns the total file structure of the store:
 
-```
+```bash
 e.g. (Rails-Style)
 
 ├─┬ store
@@ -182,7 +289,17 @@ genie delete domain <domain>
 
 #### genie lamp
 
-Writes a sample lamp.config.yml file. 
+Prints a sample lamp.config.yml file. 
+
+#### genie edit
+
+Edit the template files.
+
+```bash
+genie edit <File Structure> <file type>
+
+genie edit ducks actions
+```
 
 ## Advanced 
 
@@ -192,7 +309,7 @@ Writes a sample lamp.config.yml file.
 genie generate connected NavBar slice User Consumer 
 ```
 
-### Linking the genie to an Existing Store
+<!-- ### Linking the genie to an Existing Store
 
 To link an exisitng store, declare the store's file structure and additional models. Afterwards, you can generate new models by adding to the lamp.config.yml and calling "genie update." 
 
@@ -210,4 +327,4 @@ In the root directory that contains the lamp.config.yml, run:
 
 ```bash
 genie link store
-```
+``` -->

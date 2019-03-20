@@ -9,7 +9,7 @@ const store_reducer = require("./store_boiler");
 const chalk = require("chalk");
 const thunks_Rails_model = require("./thunks_Rails_model");
 
-module.exports = (Models, Thunks) => {
+module.exports = (Models, Thunks, Logging) => {
   // lets organize the information we'll need in the generator calls
   // below
 
@@ -23,6 +23,7 @@ module.exports = (Models, Thunks) => {
   // thunkNames
 
   try {
+
     // heres the action creator file:
     // if actions declared separate on yaml
     // added action names to the action constants to be created
@@ -44,15 +45,24 @@ module.exports = (Models, Thunks) => {
       let modelName = Object.keys(model)[0];
 
       fs.writeFile(
+        `./store/actions/selectors_for_${modelName}.js`,
+        '',
+        () => {
+          console.log(chalk.yellow(`made selector file for ${modelName}`));
+        }
+      );
+
+      fs.writeFile(
         `./store/actions/action_types_for_${modelName}.js`,
         action_boiler_Rails_model(modelName, model, Thunks),
         () => {
           console.log(chalk.yellow(`made action types for ${modelName}`));
         }
       );
-      if (model.Thunks) {
+
+      if (!Thunks && model.Thunks) {
         fs.writeFile(
-          `./store/actions/Thunks_for_${modelName}.js`,
+          `./store/actions/thunks_for_${modelName}.js`,
           thunks_Rails_model(modelName, model, Thunks),
           () => {
             console.log(chalk.yellow(`made thunks for ${modelName}`));
@@ -60,11 +70,6 @@ module.exports = (Models, Thunks) => {
         );
       }
     });
-
-    /*
-      // create thunks if thunks exist
-      // 
-
 
       // create combine_reducers.js file
 
@@ -81,7 +86,7 @@ module.exports = (Models, Thunks) => {
 
       fs.writeFile(
         "./store/store.js",
-        store_reducer(),
+        store_reducer(Logging),
         () => {
           console.log(chalk.yellow("made the store_reducer.js file"));
         }
@@ -92,7 +97,7 @@ module.exports = (Models, Thunks) => {
       Models.forEach(model => {
 
         let name = Object.keys(model)[0]
-
+  
         fs.writeFile(
           `./store/reducers/${name}_reducer.js`,
           reducer_creator(model, name),
@@ -100,10 +105,10 @@ module.exports = (Models, Thunks) => {
             console.log(chalk.yellow(`made reducer_creator for ${name}`));
           }
 
-      );
+        );
       
       });
-  */
+
   } catch (err) {
     console.log(err);
   }
