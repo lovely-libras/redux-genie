@@ -1,4 +1,4 @@
-Structure: Rails # Two options: Rails || Ducks
+Structure: Ducks # Two options: Rails || Ducks
 
 # Thunks: included # thunks will be included in the same file as the actions
 # Logging: false  # configures logging middleware

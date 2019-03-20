@@ -83,5 +83,6 @@ export const ${Object.entries(thunk)[0][0]} = () => dispatch => {
 };\n`;
     });
   }
+  
   return returnStatement + exportStatement + "\n}";
 };
