@@ -19,7 +19,7 @@ try {
   process.exit();
 }
 
-let { Structure, Models, Thunks } = yams;
+let { Structure, Models, Thunks, Logging } = yams;
 
 if (!Structure) {
   console.log('Please specify file structure as "Structure".');
@@ -39,19 +39,22 @@ if (Structure === "Rails") {
   });
 
   makeDir.on("exit", () => {
-    rails(Models, Thunks);
+    rails(Models, Thunks, Logging);
   });
 }
 
 if (Structure === "Ducks") {
+
   // create action types, action creators, and reducer
   Models.forEach(model => {
+    
     const modelName = Object.keys(model)[0];
     let makeDir = spawn(`mkdir store/${modelName}`, { shell: true });
 
     makeDir.on("exit", () => {
-      ducks(model, modelName);
+      ducks(model, modelName, Thunks);
     });
+
   });
 
   // create combine reducers
@@ -65,7 +68,7 @@ if (Structure === "Ducks") {
   );
 
   // create store
-  fs.writeFile("./store/store.js", create_store(), () => {
+  fs.writeFile("./store/store.js", create_store(Logging), () => {
     console.log(chalk.yellow(`made the store.js file`));
   });
 }
