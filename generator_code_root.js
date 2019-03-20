@@ -19,7 +19,7 @@ try {
   process.exit();
 }
 
-let { Structure, Models, Thunks } = yams;
+let { Structure, Models, Thunks, Logging } = yams;
 
 if (!Structure) {
   console.log('Please specify file structure as "Structure".');
@@ -39,7 +39,7 @@ if (Structure === "Rails") {
   });
 
   makeDir.on("exit", () => {
-    rails(Models, Thunks);
+    rails(Models, Thunks, Logging);
   });
 }
 
@@ -68,7 +68,7 @@ if (Structure === "Ducks") {
   );
 
   // create store
-  fs.writeFile("./store/store.js", create_store(), () => {
+  fs.writeFile("./store/store.js", create_store(Logging), () => {
     console.log(chalk.yellow(`made the store.js file`));
   });
 }

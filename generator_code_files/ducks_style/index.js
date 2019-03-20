@@ -5,7 +5,7 @@ const create_action_creators = require("./create_action_creators")
 const create_reducer = require("./create_reducer")
 const thunk_creator = require("./create_thunks_ducks")
 
-module.exports = (model, modelName, Thunks) => {
+module.exports = (model, modelName, Thunks, Logging) => {
   try {
 
     // make action types
@@ -31,8 +31,7 @@ module.exports = (model, modelName, Thunks) => {
     // make thunks if not included
 
     if (!Thunks && model.Thunks) {
-      console.log('hitting ', modelName)
-
+  
         fs.writeFile(
           `./store/${modelName}/Thunks_for_${modelName}.js`,
           thunk_creator(modelName, model),

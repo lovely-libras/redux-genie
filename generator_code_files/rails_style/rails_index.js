@@ -9,7 +9,7 @@ const store_reducer = require("./store_boiler");
 const chalk = require("chalk");
 const thunks_Rails_model = require("./thunks_Rails_model");
 
-module.exports = (Models, Thunks) => {
+module.exports = (Models, Thunks, Logging) => {
   // lets organize the information we'll need in the generator calls
   // below
 
@@ -61,7 +61,6 @@ module.exports = (Models, Thunks) => {
       }
     });
 
-    /*
       // create thunks if thunks exist
       // 
 
@@ -81,7 +80,7 @@ module.exports = (Models, Thunks) => {
 
       fs.writeFile(
         "./store/store.js",
-        store_reducer(),
+        store_reducer(Logging),
         () => {
           console.log(chalk.yellow("made the store_reducer.js file"));
         }
@@ -92,7 +91,7 @@ module.exports = (Models, Thunks) => {
       Models.forEach(model => {
 
         let name = Object.keys(model)[0]
-
+  
         fs.writeFile(
           `./store/reducers/${name}_reducer.js`,
           reducer_creator(model, name),
@@ -103,7 +102,7 @@ module.exports = (Models, Thunks) => {
       );
       
       });
-  */
+
   } catch (err) {
     console.log(err);
   }

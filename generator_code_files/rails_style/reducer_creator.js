@@ -1,4 +1,5 @@
 module.exports = (Model, name) => {
+
   const inputConversion = arg => {
     arg = arg.toLowerCase();
     if (arg === "string") {
@@ -20,7 +21,7 @@ const initialState = {
 	${name}List : [],
 	isLoading: false,
 	Single${name}: {
-		${Model[name]
+		${Model.Slice
       .map(trait => {
         const key = Object.keys(trait)[0];
         let value = Object.values(trait)[0];
