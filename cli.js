@@ -15,16 +15,20 @@ const shell = (command) => {
 		)
 }
 
-if(command === 'delete' && arg1 === 'all') {
 
-	let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`
-
-	shell(genieDeleteCall)
-}
 
 if(command === 'generate' && arg1 === 'store') {
 
 	let generateCall = `node ${__dirname}/generator_code_root.js`
 
 	shell(generateCall)
+}
+
+
+if(command === 'delete' && arg1 === 'all') {
+
+	let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`
+
+	shell(genieDeleteCall)
+
 }

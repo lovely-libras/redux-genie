@@ -1,26 +1,40 @@
-Structure: ducks  # Available options: Rails || Ducks  
+Structure: Rails # Available options: Rails || Ducks
 
-# Thunks: separated # thunks will be written in a seaprate file from actions
+# Thunks: included # thunks will be included in the same file as the actions
 # Logging: true  # configures logging middleware
 
 Models:
-  - Dux: 
-    - Name : string 
-    - Quacking : Boolean (false) 
-    - Ducklings: Object 
-    - Fly2Gether: Boolean (true)
-    # - Thunks: 
-    #   - getAll: '/api/Dux' 
-    #   - getOne: '/api/Dux/:dux' 
-  - Terminator: 
-    - WillBeBack: Boolean (true)
-    - OneLiners: Array 
-    - Sequels: Number 
-    # - Thunks:
-    #   - getAll: 'api/terminator'
-    #   - getOne: 'api/terminator/:terminator'
+  - Dux:
 
-# Normalize: 
-#   Associate: 
+    Slice:
+      - Name: string
+      - Quacking: Boolean (false)
+      - Ducklings: Object
+      - Fly2Gether: Boolean (true)
 
+    CRUD: false
 
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll: "/api/Dux"
+      - getOne: "/api/Dux/:dux"
+
+  - Terminator:
+
+    Slice:
+      - WillBeBack: Boolean (true)
+      - OneLiners: Array
+      - Sequels: Number
+
+    Actions:
+      - killJohnConnor
+      - backInTime
+    Thunks:
+      - getAll: "api/terminator"
+      - getOne: "api/terminator/:terminator"
+# Normalize:
+#   Associate:
