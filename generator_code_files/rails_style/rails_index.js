@@ -23,6 +23,7 @@ module.exports = (Models, Thunks, Logging) => {
   // thunkNames
 
   try {
+
     // heres the action creator file:
     // if actions declared separate on yaml
     // added action names to the action constants to be created
@@ -44,12 +45,21 @@ module.exports = (Models, Thunks, Logging) => {
       let modelName = Object.keys(model)[0];
 
       fs.writeFile(
+        `./store/actions/selectors_for_${modelName}.js`,
+        '',
+        () => {
+          console.log(chalk.yellow(`made selector file for ${modelName}`));
+        }
+      );
+
+      fs.writeFile(
         `./store/actions/action_types_for_${modelName}.js`,
         action_boiler_Rails_model(modelName, model, Thunks),
         () => {
           console.log(chalk.yellow(`made action types for ${modelName}`));
         }
       );
+
       if (!Thunks && model.Thunks) {
         fs.writeFile(
           `./store/actions/thunks_for_${modelName}.js`,
@@ -60,10 +70,6 @@ module.exports = (Models, Thunks, Logging) => {
         );
       }
     });
-
-      // create thunks if thunks exist
-      // 
-
 
       // create combine_reducers.js file
 
@@ -99,7 +105,7 @@ module.exports = (Models, Thunks, Logging) => {
             console.log(chalk.yellow(`made reducer_creator for ${name}`));
           }
 
-      );
+        );
       
       });
 

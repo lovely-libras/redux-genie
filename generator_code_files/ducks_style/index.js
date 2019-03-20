@@ -18,6 +18,14 @@ module.exports = (model, modelName, Thunks, Logging) => {
       }
     );
 
+    fs.writeFile(
+        `./store/${modelName}/selectors_for_${modelName}.js`,
+        '',
+        () => {
+          console.log(chalk.yellow(`made selector file for ${modelName}`));
+        }
+      );
+
     // make action creators
 
     fs.writeFile(
