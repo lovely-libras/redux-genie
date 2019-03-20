@@ -1,4 +1,5 @@
 module.exports = (Model, name) => {
+  name = name[0].toUpperCase().concat(name.slice(1));
 
   const inputConversion = arg => {
     arg = arg.toLowerCase();
@@ -21,13 +22,14 @@ const initialState = {
 	${name}List : [],
 	isLoading: false,
 	Single${name}: {
-		${Model.Slice
-      .map(trait => {
-        const key = Object.keys(trait)[0];
-        let value = Object.values(trait)[0];
-        value = inputConversion(value);
-        return `${key}: ${value}, \n        `;
-      })
+		${Model.Slice.map(trait => {
+      const key = Object.keys(trait)[0][0]
+        .toUpperCase()
+        .concat(Object.keys(trait)[0].slice(1));
+      let value = Object.values(trait)[0];
+      value = inputConversion(value);
+      return `${key}: ${value}, \n        `;
+    })
       .join("")
       .trim()}
 	}

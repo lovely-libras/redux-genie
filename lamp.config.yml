@@ -4,39 +4,30 @@ Structure: Rails # Two options: Rails || Ducks
 # Logging: false  # configures logging middleware
 
 Models:
-
-  - Dux:
+  - dux:
 
     Slice:
-      - Name: string
+      - name: string
       - Quacking: Boolean
       - Ducklings: Object
       - Fly2Gether: Boolean
 
-    CRUD: false
-
+    CRUD: true
     Actions:
       - countDux
       - migrateDux
       - quackOne
-
     Thunks:
-      - getAll: "/api/Dux"
+      - getAll: "/api/dux"
       - getOne: "/api/Dux/:dux"
-
-  - Terminator:
-
-    Slice:
-      - WillBeBack: Boolean
-      - OneLiners: Array
-      - Sequels: Number
-
-    Actions:
-      - killJohnConnor
-      - backInTime
-
-    Thunks:
-      - getAll: "api/terminator"
-      - getOne: "api/terminator/:terminator"
-
-
+  # - Terminator:
+  #   Slice:
+  #     - WillBeBack: Boolean
+  #     - OneLiners: Array
+  #     - Sequels: Number
+  #   Actions:
+  #     - killJohnConnor
+  #     - backInTime
+  #   Thunks:
+  #     - getAll: "api/terminator"
+  #     - getOne: "api/terminator/:terminator"

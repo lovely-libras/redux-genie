@@ -1,0 +1,13 @@
+export default {
+	// CRUD actions
+	GET_DUX : 'GET_DUX',
+	GET_ALL_DUX : 'GET_ALL_DUX',
+	ADD_DUX : 'ADD_DUX',
+	UPDATE_DUX : 'UPDATE_DUX',
+	DELETE_DUX : 'DELETE_DUX',
+
+	// YOUR actions 
+	COUNTDUX : 'COUNTDUX',
+	MIGRATEDUX : 'MIGRATEDUX',
+	QUACKONE : 'QUACKONE',
+}

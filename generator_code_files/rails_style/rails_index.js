@@ -13,7 +13,12 @@ module.exports = (Models, Thunks, Logging) => {
   // lets organize the information we'll need in the generator calls
   // below
 
-  let modelNames = Models.map(Model => (Model = Object.keys(Model)[0]));
+  let modelNames = Models.map(
+    Model =>
+      (Model = Object.keys(Model)[0][0]
+        .toUpperCase()
+        .concat(Object.keys(Model)[0].slice(1)))
+  );
 
   let crudedModelNames = Models.filter(model => !(model.CRUD === false));
 
@@ -44,65 +49,78 @@ module.exports = (Models, Thunks, Logging) => {
       let modelName = Object.keys(model)[0];
 
       fs.writeFile(
-        `./store/actions/action_types_for_${modelName}.js`,
+        `./store/actions/action_types_for_${modelName[0]
+          .toUpperCase()
+          .concat(modelName.slice(1))}.js`,
         action_boiler_Rails_model(modelName, model, Thunks),
         () => {
-          console.log(chalk.yellow(`made action types for ${modelName}`));
+          console.log(
+            chalk.yellow(
+              `made action types for ${modelName[0]
+                .toUpperCase()
+                .concat(modelName.slice(1))}`
+            )
+          );
         }
       );
       if (!Thunks && model.Thunks) {
         fs.writeFile(
-          `./store/actions/thunks_for_${modelName}.js`,
+          `./store/actions/thunks_for_${modelName[0]
+            .toUpperCase()
+            .concat(modelName.slice(1))}.js`,
           thunks_Rails_model(modelName, model, Thunks),
           () => {
-            console.log(chalk.yellow(`made thunks for ${modelName}`));
+            console.log(
+              chalk.yellow(
+                `made thunks for ${modelName[0]
+                  .toUpperCase()
+                  .concat(modelName.slice(1))}`
+              )
+            );
           }
         );
       }
     });
 
-      // create thunks if thunks exist
-      // 
+    // create thunks if thunks exist
+    //
 
+    // create combine_reducers.js file
 
-      // create combine_reducers.js file
+    fs.writeFile(
+      "./store/reducers/combine_reducers.js",
+      combine_reducers(modelNames),
+      () => {
+        console.log(chalk.yellow("made the combine_reducers.js file"));
+      }
+    );
+
+    // create store.js file
+
+    fs.writeFile("./store/store.js", store_reducer(Logging), () => {
+      console.log(chalk.yellow("made the store_reducer.js file"));
+    });
+
+    // create reducer for each model
+
+    Models.forEach(model => {
+      let name = Object.keys(model)[0];
+      name = name[0].toUpperCase().concat(name.slice(1));
 
       fs.writeFile(
-        "./store/reducers/combine_reducers.js",
-        combine_reducers(modelNames),
+        `./store/reducers/${name}_reducer.js`,
+        reducer_creator(model, name),
         () => {
-          console.log(chalk.yellow("made the combine_reducers.js file"));
+          console.log(
+            chalk.yellow(
+              `made reducer_creator for ${name[0]
+                .toUpperCase()
+                .concat(name.slice(1))}`
+            )
+          );
         }
       );
-
-
-      // create store.js file
-
-      fs.writeFile(
-        "./store/store.js",
-        store_reducer(Logging),
-        () => {
-          console.log(chalk.yellow("made the store_reducer.js file"));
-        }
-      );
-
-      // create reducer for each model
-
-      Models.forEach(model => {
-
-        let name = Object.keys(model)[0]
-  
-        fs.writeFile(
-          `./store/reducers/${name}_reducer.js`,
-          reducer_creator(model, name),
-          () => {
-            console.log(chalk.yellow(`made reducer_creator for ${name}`));
-          }
-
-      );
-      
-      });
-
+    });
   } catch (err) {
     console.log(err);
   }

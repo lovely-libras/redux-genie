@@ -2,6 +2,7 @@
 // separate file for each model
 
 module.exports = (modelName, model, Thunks) => {
+  modelName = modelName[0].toUpperCase().concat(modelName.slice(1));
   let modelNameCaps = modelName.toUpperCase();
 
   let returnStatement = `import actions from "../constants/action_constants"\n`;
@@ -72,7 +73,6 @@ const delete${modelName} = ( payload ) => {
 
   if (Thunks && model.Thunks) {
     model.Thunks.forEach(thunk => {
-  
       returnStatement += `
 export const ${Object.entries(thunk)[0][0]} = () => dispatch => {
 	fetch('${Object.entries(thunk)[0][1]}')
