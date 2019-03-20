@@ -1,16 +1,17 @@
-Structure: Rails # Available options: Rails || Ducks
+Structure: Rails # Two options: Rails || Ducks
 
 # Thunks: included # thunks will be included in the same file as the actions
-# Logging: true  # configures logging middleware
+# Logging: false  # configures logging middleware
 
 Models:
+
   - Dux:
 
     Slice:
       - Name: string
-      - Quacking: Boolean (false)
+      - Quacking: Boolean
       - Ducklings: Object
-      - Fly2Gether: Boolean (true)
+      - Fly2Gether: Boolean
 
     CRUD: false
 
@@ -26,15 +27,16 @@ Models:
   - Terminator:
 
     Slice:
-      - WillBeBack: Boolean (true)
+      - WillBeBack: Boolean
       - OneLiners: Array
       - Sequels: Number
 
     Actions:
       - killJohnConnor
       - backInTime
+
     Thunks:
       - getAll: "api/terminator"
       - getOne: "api/terminator/:terminator"
-# Normalize:
-#   Associate:
+
+

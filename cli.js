@@ -15,13 +15,14 @@ const shell = (command) => {
 		)
 }
 
+if(command === 'generate' || command === 'gen') {
 
+	if(arg1 === 'store'){
+		
+		let generateCall = `node ${__dirname}/generator_code_root.js`
 
-if(command === 'generate' && arg1 === 'store') {
-
-	let generateCall = `node ${__dirname}/generator_code_root.js`
-
-	shell(generateCall)
+		shell(generateCall)
+	}
 }
 
 

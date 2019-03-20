@@ -70,9 +70,9 @@ const delete${modelName} = ( payload ) => {
     });
   }
 
-  if (Thunks) {
+  if (Thunks && model.Thunks) {
     model.Thunks.forEach(thunk => {
-      console.log(Object.entries(thunk)[0][1], "thunk!!!");
+  
       returnStatement += `
 export const ${Object.entries(thunk)[0][0]} = () => dispatch => {
 	fetch('${Object.entries(thunk)[0][1]}')
