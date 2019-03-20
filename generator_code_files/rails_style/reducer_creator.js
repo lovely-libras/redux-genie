@@ -37,6 +37,7 @@ export default function ${name}_reducer (state = initialState, action) {
 	switch (action.type) {
 
 		case actions.GET_${name.toUpperCase()}: {
+			
 			return { ...state, Single${name}: action.payload }
 		}
 
@@ -46,17 +47,18 @@ export default function ${name}_reducer (state = initialState, action) {
 		}
 
 		case actions.ADD_${name.toUpperCase()}: {
+
 			return { ...state, ${name}List: [...state.${name}List, action.payload ] }
 		}
 
 		case actions.UPDATE_${name.toUpperCase()}: {
-			const updated${name} = state.${name}List.filter(item => item.id === action.payload.it)
+			const updated${name} = state.${name}List.filter(item => item.id === action.payload.id)
 
 			return {...state, Single${name}: updated${name}}
 		}
 
 		case actions.DELETE_${name.toUpperCase()}: {
-			const updated${name} = state.${name}List.filter(item => item.id !== action.payload.it)
+			const updated${name} = state.${name}List.filter(item => item.id !== action.payload.id)
 
 			return {...state, Single${name}: updated${name}}
 		}

@@ -125,6 +125,8 @@ genie generate action <action name> <model assignment>
 
 #### genie list ( genie ls )
 
+genie list store
+
 Returns the total file structure of the store:
 
 ```
@@ -142,6 +144,10 @@ e.g. (Rails-Style)
 │   └── Terminator_reducer.js
 └── store.js
 ```
+
+genie list models
+genie list actions mine
+genie list thunks
 
 #### genie locate ( genie loc )
 
