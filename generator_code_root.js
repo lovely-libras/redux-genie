@@ -7,77 +7,94 @@ const ducks = require("./generator_code_files/ducks_style");
 const yaml = require("js-yaml");
 const create_store = require("./generator_code_files/ducks_style/create_store");
 const create_combine_reducers = require("./generator_code_files/ducks_style/create_combine_reducers");
+const { makeLock } = require('./lock')
 
-console.log(chalk.red("your wish is my command"));
+if (fs.existsSync('./.lamp-lock.json')) {
+  
+  // lamp-lock already exists
 
-let yams;
-
-try {
-  yams = yaml.safeLoad(fs.readFileSync("./lamp.config.yml", "utf8"));
-} catch (e) {
-  console.log(chalk.red(e.message));
-  process.exit();
+  console.log(chalk.yellow('Store has already been initialized. Please use the "genie update" or "genie add" methods.'))
 }
+else{
 
-let { Structure, Models, Thunks, Logging } = yams;
+  console.log(chalk.red("your wish is my command"));
 
-if (!Structure) {
-  console.log('Please specify file structure as "Structure".');
-  process.exit();
-}
+  let yams;
 
-if (!Models) {
-  console.log('Please specify the slices of state as "Models".');
-  process.exit();
-}
+  try {
+    yams = yaml.safeLoad(fs.readFileSync("./lamp.config.yml", "utf8"));
+  } catch (e) {
+    console.log(chalk.red(e.message));
+    process.exit();
+  }
+  // this is the logic for the initial generate store call
+  
+  // we make the lock file containing the store declaration
+  // at the initial generate call
 
-spawn("mkdir store", { shell: true });
+  makeLock(yams)
 
-if (Structure === "Rails") {
-  let makeDir = spawn("mkdir store/actions store/constants store/reducers", {
-    shell: true
-  });
+  let { Structure, Models, Thunks, Logging } = yams;
 
-  makeDir.on("exit", () => {
-    rails(Models, Thunks, Logging);
-  });
-}
+  if (!Structure) {
+    console.log('Please specify file structure as "Structure".');
+    process.exit();
+  }
 
-if (Structure === "Ducks") {
+  if (!Models) {
+    console.log('Please specify the slices of state as "Models".');
+    process.exit();
+  }
 
-  // create action types, action creators, and reducer
-  Models.forEach(model => {
-    
-    let modelName = Object.keys(model)[0][0]
-                                    .toUpperCase()
-                                       .concat(Object.keys(model)[0].slice(1))
+  spawn("mkdir store", { shell: true });
 
-    let makeDir = spawn(`mkdir store/${modelName}`, { shell: true });
-
-    makeDir.on("exit", () => {
-      ducks(model, modelName, Thunks);
+  if (Structure === "Rails") {
+    let makeDir = spawn("mkdir store/actions store/constants store/reducers", {
+      shell: true
     });
 
-  });
+    makeDir.on("exit", () => {
+      rails(Models, Thunks, Logging);
+    });
+  }
 
-  // create combine reducers
-  let modelNames = Models.map(
-   Model =>
-     (Model = Object.keys(Model)[0][0]
-       .toUpperCase()
-       .concat(Object.keys(Model)[0].slice(1)))
-  )
+  if (Structure === "Ducks") {
 
-  fs.writeFile(
-    "./store/combine_reducers.js",
-    create_combine_reducers(modelNames),
-    () => {
-      console.log(chalk.yellow(`made the combine_reducers.js file`));
-    }
-  );
+    // create action types, action creators, and reducer
+    Models.forEach(model => {
+      
+      let modelName = Object.keys(model)[0][0]
+                                      .toUpperCase()
+                                         .concat(Object.keys(model)[0].slice(1))
 
-  // create store
-  fs.writeFile("./store/store.js", create_store(Logging), () => {
-    console.log(chalk.yellow(`made the store.js file`));
-  });
+      let makeDir = spawn(`mkdir store/${modelName}`, { shell: true });
+
+      makeDir.on("exit", () => {
+        ducks(model, modelName, Thunks);
+      });
+
+    });
+
+    // create combine reducers
+    let modelNames = Models.map(
+     Model =>
+       (Model = Object.keys(Model)[0][0]
+         .toUpperCase()
+         .concat(Object.keys(Model)[0].slice(1)))
+    )
+
+    fs.writeFile(
+      "./store/combine_reducers.js",
+      create_combine_reducers(modelNames),
+      () => {
+        console.log(chalk.yellow(`made the combine_reducers.js file`));
+      }
+    );
+
+    // create store
+    fs.writeFile("./store/store.js", create_store(Logging), () => {
+      console.log(chalk.yellow(`made the store.js file`));
+    });
+  }
+
 }
