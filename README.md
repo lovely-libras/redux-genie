@@ -12,7 +12,7 @@ The genie can be comprehensive- generating the whole Redux store from the outset
 
 To generate a store, Redux Genie's configuration file- lamp.config.yml - will need define the total store structure. 
 
-Define your slices of state. We refer to them as "Models", but they can correspond to database models, domains ("landing page"), features ("checkout"), or any other way you want to slice your state. The genie automatically generates and configures all CRUD methods with separate subreducers for each Model, linked to the Redux-Thunk middleware calling your API endpoints.
+Define your slices of state. We refer to them as "Models", but they can correspond to database models, domains ("landing page"), features ("checkout"), or any other way you want to slice your state. The genie automatically generates and configures all CRUD methods with separate subreducers for each Model, with Thunks linked to the Redux-Thunk middleware calling your defined API endpoints.
 
 Choose from the two of the file structures outlined in the Redux FAQs:
 https://redux.js.org/faq/code-structure
@@ -69,9 +69,9 @@ Models:
       - getOne: "api/terminator/:terminator"
 ```
 
-In the root directory that contains the lamp.config.yml, run:
+Place the lamp.config.yml file in the project root directory, navigate there, then run:
 
-```
+```bash
 genie generate store
 ```
 
@@ -96,15 +96,19 @@ Output file structure:
 > “Ducks”: separate folders per feature or domain
 
 
-#### Options
+### Options
 
-Several options can be configured to customize the generate call.
+Options to customize the generate call.
 
 #### CRUD = false
 
 Each model is automatically generated with CRUD methods. These can be excluded from the generate call as follows:
 
 ```
+// lamp.config.yml 
+
+...
+
 Models:
 
   - Dux:
@@ -117,7 +121,7 @@ Models:
 
     CRUD: false
 
-    ...
+...
 
 ```
 #### Thunks
@@ -150,10 +154,10 @@ Normalize:
 #### Example of Full Configuration File:
 
 ```
-Structure: Ducks # Two options: Rails || Ducks
+Structure: Ducks # Rails || Ducks
 
-# Thunks: included # thunks will be included in the same file as the actions
-# Logging: false  # configures logging middleware
+Thunks: included # thunks will be included in the same file as the actions
+Logging: false  # configures logging middleware
 
 Models:
 
@@ -194,9 +198,31 @@ Models:
 
 ## CLI interface
 
-#### genie generate ( genie gen )
+#### genie generate 
 
-Add to the store from the command line without defining the model within yaml configuration (via the genie update)
+To initialize a project, write the yaml configuration file and call:
+
+```bash
+genie generate
+```
+
+#### genie update
+
+After the store is initialized, the genie can add to the store in two ways: from the yml configuration file via "genie update," or from the command line via "genie add".
+
+To perform a yml update, add or alter the yaml file and then call: 
+
+```bash
+genie update store
+```
+
+The genie will diff the new yml config to previous version and generate any required updates.
+
+Note: Logging, CRUD, and thunk separation choices cannot be changed after initial generate.
+
+#### genie add
+
+Add directly from the command line, declaring the same information:
 
 ```
 genie generate model <model name> // generates a model with crud methods 
@@ -222,7 +248,7 @@ genie generate thunk <thunk name> <thunk endpoints> (generates additional named 
 
 genie generate domain <feature name>
 
-	eg: genie geneate domain 
+	eg: genie generate domain 
 
 genie generate thunk <thunk name> <thunk endpoint>
 
@@ -271,21 +297,6 @@ genie locate <domain name> <file type>
 
 ```
 
-#### genie update
-
-Add models and actions to lamp.config.yml, then run genie update. The genie will diff to the previous config file and generate any required updates.
-
-#### genie delete 
-
-Yes, it will do this...but it will also prompt you.
-
-```bash
-genie delete model <Model>
-genie delete domain <domain>
-
-	eg: genie delete model terminator
-
-```
 
 #### genie lamp
 
@@ -299,6 +310,18 @@ Edit the template files.
 genie edit <File Structure> <file type>
 
 genie edit ducks actions
+```
+
+#### genie delete 
+
+Yes, it will do this...but it will also prompt you.
+
+```bash
+genie delete model <Model>
+genie delete domain <domain>
+
+  eg: genie delete model terminator
+
 ```
 
 ## Advanced 

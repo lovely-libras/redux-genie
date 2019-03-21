@@ -15,31 +15,20 @@ const shell = (command) => {
 		)
 }
 
-if(command === 'generate' || command === 'gen') {
-
-	if(arg1 === 'store'){
+if(command === 'generate') {
 		
-		let generateCall = `node ${__dirname}/generator_code_root.js`
+	let generateCall = `node ${__dirname}/generator_code_root.js`
 
-		shell(generateCall)
-	}
+	shell(generateCall)
+	
 }
 
+if(command === 'update'){
 
+	let updateCall = `node ${__dirname}/updateCodeRoot.js`
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+	shell(updateCall)
+}
 
 
 // this is just for development 
