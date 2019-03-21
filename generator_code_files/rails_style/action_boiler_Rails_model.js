@@ -2,8 +2,7 @@
 // separate file for each model
 
 module.exports = (modelName, model, Thunks) => {
-
-  modelName = modelName[0].toUpperCase().concat(modelName.slice(1))
+  modelName = modelName[0].toUpperCase().concat(modelName.slice(1));
   let modelNameCaps = modelName.toUpperCase();
 
   let returnStatement = `import actions from "../constants/action_constants"\n`;
@@ -68,23 +67,22 @@ const delete${modelName} = ( payload ) => {
     model.Actions.forEach(action => {
       returnStatement += `\nconst ${action} = () => {\n\n}\n`;
 
-      exportStatement += "\n\t" + action + ",";
+      exportStatement += '\n\t' + action + ',';
     });
   }
 
   if (Thunks && model.Thunks) {
     model.Thunks.forEach(thunk => {
-  
       returnStatement += `
 export const ${Object.entries(thunk)[0][0]} = () => dispatch => {
 	fetch('${Object.entries(thunk)[0][1]}')
-		.then((resp) => resp.json()) 
+		.then((resp) => resp.json())
 		.then(function(data) {
 			dispatch(data)
   });
 };\n`;
     });
   }
-  
-  return returnStatement + exportStatement + "\n}";
+
+  return returnStatement + exportStatement + '\n}';
 };
