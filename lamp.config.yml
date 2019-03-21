@@ -5,7 +5,7 @@ Structure: Ducks # Two options: Rails || Ducks
 
 Models:
 
-  - Dux:
+  - dux:
 
     Slice:
       - Name: string
@@ -13,7 +13,7 @@ Models:
       - Ducklings: Object
       - Fly2Gether: Boolean
 
-    CRUD: false
+    # CRUD: false
 
     Actions:
       - countDux
@@ -24,7 +24,7 @@ Models:
       - getAll: "/api/Dux"
       - getOne: "/api/Dux/:dux"
 
-  - Terminator:
+  - terminator:
 
     Slice:
       - WillBeBack: Boolean

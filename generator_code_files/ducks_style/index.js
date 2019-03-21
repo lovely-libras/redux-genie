@@ -6,12 +6,17 @@ const create_reducer = require("./create_reducer")
 const thunk_creator = require("./create_thunks_ducks")
 
 module.exports = (model, modelName, Thunks, Logging) => {
+
+
+  modelName = modelName[0].toUpperCase()
+                            .concat(modelName.slice(1))
+
   try {
 
     // make action types
 
     fs.writeFile(
-      `./store/${modelName}/${modelName}_action_types.js`,
+      `./store/${modelName}/action_constants_for_${modelName}.js`,
       create_action_types(modelName.toUpperCase()),
       () => {
         console.log(chalk.yellow(`made action types for ${modelName}`));
@@ -29,7 +34,7 @@ module.exports = (model, modelName, Thunks, Logging) => {
     // make action creators
 
     fs.writeFile(
-      `./store/${modelName}/${modelName}_action_creators.js`,
+      `./store/${modelName}/actions_for_${modelName}.js`,
       create_action_creators(modelName, model, Thunks),
       () => {
         console.log(chalk.yellow(`made action creators for ${modelName}`));
@@ -41,7 +46,7 @@ module.exports = (model, modelName, Thunks, Logging) => {
     if (!Thunks && model.Thunks) {
   
         fs.writeFile(
-          `./store/${modelName}/Thunks_for_${modelName}.js`,
+          `./store/${modelName}/thunks_for_${modelName}.js`,
           thunk_creator(modelName, model),
           () => {
             console.log(chalk.yellow(`made thunks for ${modelName}`));
@@ -53,7 +58,7 @@ module.exports = (model, modelName, Thunks, Logging) => {
     // make reducers
 
     fs.writeFile(
-      `./store/${modelName}/${modelName}_reducer.js`,
+      `./store/${modelName}/reducer_for_${modelName}.js`,
       create_reducer(model, modelName),
       () => {
         console.log(chalk.yellow(`made reducer for ${modelName}`));
