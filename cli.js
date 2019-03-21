@@ -26,6 +26,24 @@ if(command === 'generate' || command === 'gen') {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// this is just for development 
+
 if(command === 'delete' && arg1 === 'all') {
 
 	let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`

@@ -48,7 +48,10 @@ if (Structure === "Ducks") {
   // create action types, action creators, and reducer
   Models.forEach(model => {
     
-    const modelName = Object.keys(model)[0];
+    let modelName = Object.keys(model)[0][0]
+                                    .toUpperCase()
+                                       .concat(Object.keys(model)[0].slice(1))
+
     let makeDir = spawn(`mkdir store/${modelName}`, { shell: true });
 
     makeDir.on("exit", () => {
@@ -58,7 +61,13 @@ if (Structure === "Ducks") {
   });
 
   // create combine reducers
-  const modelNames = Models.map(model => Object.keys(model)[0]);
+  let modelNames = Models.map(
+   Model =>
+     (Model = Object.keys(Model)[0][0]
+       .toUpperCase()
+       .concat(Object.keys(Model)[0].slice(1)))
+  )
+
   fs.writeFile(
     "./store/combine_reducers.js",
     create_combine_reducers(modelNames),
