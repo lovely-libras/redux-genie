@@ -15,14 +15,15 @@ Models:
 
     # CRUD: false
 
-    Actions:
-      - countDux
-      - migrateDux
-      - quackOne
+    # Actions:
+    #   - countDux
+    #   - migrateDux
+    #   - quackOne
 
-    Thunks:
-      - getAll: "/api/Dux"
-      - getOne: "/api/Dux/:dux"
+    # Thunks:
+    #   - getAll: "/api/Dux"
+    #   - getOne: "/api/Dux/:dux"
+    #   - getStuff: "/api/Dux/getStuff"
 
   - terminator:
 
@@ -31,12 +32,15 @@ Models:
       - OneLiners: Array
       - Sequels: Number
 
-    Actions:
-      - killJohnConnor
-      - backInTime
+    # Actions:
+    #   - killJohnConnor
+    #   - backInTime
 
-    Thunks:
-      - getAll: "api/terminator"
-      - getOne: "api/terminator/:terminator"
+    # Thunks:
+    #   - getAll: "api/terminator"
+    #   - getOne: "api/terminator/:terminator"
 
+  # - Ducklings: 
 
+  #   Slice: 
+  #     - lilFeet: Array
