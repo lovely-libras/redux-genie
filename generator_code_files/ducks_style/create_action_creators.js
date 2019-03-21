@@ -2,11 +2,11 @@
 // separate file for each model
 
 module.exports = (modelName, model, Thunks) => {
-  let modelNameCaps = modelName.toUpperCase();
+  let modelNameCaps = modelName.toUpperCase()
 
-  let returnStatement = `import actions from "../constants/action_constants"\n`;
+  let returnStatement = `import actions from "../constants/action_constants"\n`
 
-  let exportStatement = `\nexport default {`;
+  let exportStatement = `\nexport default {`
 
   if (!(model.CRUD === false)) {
     returnStatement += `\nconst get${modelName} = ( payload ) => {
@@ -52,36 +52,35 @@ const delete${modelName} = ( payload ) => {
 	}
 
 }
-`;
+`
 
     exportStatement += `\n
 	get${modelName},
 	getAll${modelName},
 	create${modelName},
 	update${modelName},
-	delete${modelName},`;
+	delete${modelName},`
   }
 
   if (model.Actions) {
     model.Actions.forEach(action => {
-      returnStatement += `\nconst ${action} = () => {\n\n}\n`;
+      returnStatement += `\nconst ${action} = () => {\n\n}\n`
 
-      exportStatement += "\n\t" + action + ",";
-    });
+      exportStatement += '\n\t' + action + ','
+    })
   }
 
   if (Thunks && model.Thunks) {
     model.Thunks.forEach(thunk => {
-   
       returnStatement += `
 export const ${Object.entries(thunk)[0][0]} = () => dispatch => {
 	fetch('${Object.entries(thunk)[0][1]}')
-		.then((resp) => resp.json()) 
+		.then((resp) => resp.json())
 		.then(function(data) {
 			dispatch(data)
   });
-};\n`;
-    });
+};\n`
+    })
   }
-  return returnStatement + exportStatement + "\n}";
-};
+  return returnStatement + exportStatement + '\n}'
+}
