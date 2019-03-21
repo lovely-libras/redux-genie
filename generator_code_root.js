@@ -13,7 +13,7 @@ if (fs.existsSync('./.lamp-lock.json')) {
   
   // lamp-lock already exists
 
-  console.log(chalk.yellow('Store has already been initialized. Please use the "genie update" or "genie add" methods.'))
+  console.log(chalk.yellow('\nStore has already been initialized.\nPlease use the "genie update" or "genie add" methods to alter the store.\n'))
 }
 else{
 
@@ -32,7 +32,7 @@ else{
   // we make the lock file containing the store declaration
   // at the initial generate call
 
-  makeLock(yams)
+  makeLock(yams, null)
 
   let { Structure, Models, Thunks, Logging } = yams;
 
@@ -70,31 +70,33 @@ else{
       let makeDir = spawn(`mkdir store/${modelName}`, { shell: true });
 
       makeDir.on("exit", () => {
+
         ducks(model, modelName, Thunks);
+
+          // create combine reducers
+          let modelNames = Models.map(
+           Model =>
+             (Model = Object.keys(Model)[0][0]
+               .toUpperCase()
+               .concat(Object.keys(Model)[0].slice(1)))
+          )
+
+          fs.writeFile(
+            "./store/combine_reducers.js",
+            create_combine_reducers(modelNames),
+            (err) => {
+              if(err) throw err
+              console.log(chalk.yellow(`made the combine_reducers.js file`));
+            }
+          );
+
+          // create store
+          fs.writeFile("./store/store.js", create_store(Logging), (err) => {
+            if(err) throw err
+            console.log(chalk.yellow(`made the store.js file`));
+          });
       });
-
-    });
-
-    // create combine reducers
-    let modelNames = Models.map(
-     Model =>
-       (Model = Object.keys(Model)[0][0]
-         .toUpperCase()
-         .concat(Object.keys(Model)[0].slice(1)))
-    )
-
-    fs.writeFile(
-      "./store/combine_reducers.js",
-      create_combine_reducers(modelNames),
-      () => {
-        console.log(chalk.yellow(`made the combine_reducers.js file`));
-      }
-    );
-
-    // create store
-    fs.writeFile("./store/store.js", create_store(Logging), () => {
-      console.log(chalk.yellow(`made the store.js file`));
+      
     });
   }
-
 }

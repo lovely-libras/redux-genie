@@ -6,7 +6,7 @@ return `import { createStore, applyMiddleware } from 'redux'
 import createLogger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
-import combinedReducers from './reducers/combine_reducers'
+import combinedReducers from './combine_reducers'
 
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -18,7 +18,7 @@ export default createStore(combinedReducers, middleware)`
 }
 else if (!Logging){
 return `import { createStore } from 'redux'
-import combinedReducers from './reducers/combine_reducers'
+import combinedReducers from './combine_reducers'
 
 export default createStore(combinedReducers)`
 }

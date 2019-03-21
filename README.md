@@ -218,7 +218,9 @@ genie update store
 
 The genie will diff the new yml config to previous version and generate any required updates.
 
-Note: Logging, CRUD, and thunk separation choices cannot be changed after initial generate.
+Note: Logging, CRUD, and thunk separation choices cannot be changed after initial generate. 
+
+The genie update method will never result in a deletion, even if parts of the original config file are deleted.
 
 #### genie add
 
@@ -296,7 +298,6 @@ genie locate <domain name> <file type>
 	eg: genie locate navbar reducer // $ ./store/navbar/reducers
 
 ```
-
 
 #### genie lamp
 

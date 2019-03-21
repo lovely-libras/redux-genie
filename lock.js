@@ -3,26 +3,52 @@ const fs = require("fs");
 const yaml = require("js-yaml");
 const { diff } = require('json-diff')
 
-const makeLock = (yams) => {
+const makeLock = (current, previous) => {
 
-	fs.writeFile(
-	    "./.lamp-lock.json",
-	    JSON.stringify(yams, null, "\t"),
-	    () => {
-	    }
-	);
+	if(!previous){
 
+		fs.writeFile(
+		    "./.lamp-lock.json",
+		    JSON.stringify(current, null, "\t"),
+		    () => {
+		    }
+		);
+	}
+	else{
+
+		// so they can't change the structure choice
+		// this would make it impossible to resolve the 
+		// file locations after the fact
+	
+		let nextLock = {
+
+			Structure: previous.Structure,
+			Models: current.Models 
+		
+		} 
+
+		previous.Thunks ? nextLock.Thunks = 'included' : '' ;
+
+		console.log(nextLock)
+
+		// fs.writeFile(
+		//     "./.lamp-lock.json",
+		//     JSON.stringify(nextLock, null, "\t"),
+		//     () => {
+		//     }
+		// );
+	}
 }
 
 const diffLock = () => {
 
-	let yams
-	let locked 
+	let currentYam
+	let previousYam 
 
 	try {
 
-	  yams = yaml.safeLoad(fs.readFileSync("./lamp.config.yml", "utf8"));
-	  yams = JSON.parse(JSON.stringify(yams, null, '\t'))
+	  currentYam = yaml.safeLoad(fs.readFileSync("./lamp.config.yml", "utf8"));
+	  currentYam = JSON.parse(JSON.stringify(currentYam, null, '\t'))
 	} catch (e) {
 	  console.log(e.message);
 	  process.exit();
@@ -30,8 +56,8 @@ const diffLock = () => {
 
 	try {
 
-	  locked = fs.readFileSync("./.lamp-lock.json", "utf8");
-	  locked = JSON.parse(locked)
+	  previousYam = fs.readFileSync("./.lamp-lock.json", "utf8");
+	  previousYam = JSON.parse(previousYam)
 	} catch (e) {
 	  console.log(e.message);
 	  process.exit();
@@ -59,30 +85,49 @@ const diffLock = () => {
 				for(let part in model){
 
 					let storeParts = part === 'Thunks' || part === "Slice" || part === "Actions"
-					
-					// if the user didn't previously define a part in the yaml
-					if(!previous.Models[i][part] && storeParts){
 
-						modelUpdates.push(i, part, [ '+' , model[part]] )
+
+					// if the user didn't previously define a part in the yaml
+					
+					if(!previous.Models[i][part] && storeParts && model[part]){
+
+						model[part].forEach( newEntry => {
+
+							modelUpdates.push( [ i, part, [ '+' , newEntry ] ]  )
+
+						})
+
 					}
 					else{
 
 						// else, lets see if they added anything to each part
+
 						let thisDiff = diff( previous.Models[i][part], model[part] )
 
-						if(thisDiff){
+						if(thisDiff && !(part === 'CRUD')){
 
-							modelUpdates.push( [i, part, thisDiff[2] ] )
+							if(!thisDiff.filter){
+								console.log('Please added some property to: ', part)
+								process.exit()
+							}
+
+							thisDiff = thisDiff.filter((diff, i) => diff[0] === "+" || diff[0] === '-')
+
+							thisDiff.forEach(diff => {
+
+								modelUpdates.push( [ i, part, diff ] )
+							})
 						}
 					}
 				}
 			}
 		})
 
-		let updates = { addedModels, modelUpdates }
+		return { addedModels, modelUpdates:  modelUpdates  }
+
 	}
 
-	return diffify(yams, locked)
+	return [currentYam, previousYam, diffify(currentYam, previousYam)]
 }
 
 module.exports = {

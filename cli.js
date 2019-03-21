@@ -6,6 +6,8 @@ const currentDirectory = require('path').dirname
 let input = minimist(process.argv)
 let command = input._[2]
 let arg1 = input._[3]
+const { makeLock, diffLock } = require('./lock')
+const simulation = require('./test_simulation')
 
 const shell = (command) => {
 
@@ -19,8 +21,7 @@ if(command === 'generate') {
 		
 	let generateCall = `node ${__dirname}/generator_code_root.js`
 
-	shell(generateCall)
-	
+	shell(generateCall)	
 }
 
 if(command === 'update'){
@@ -30,8 +31,7 @@ if(command === 'update'){
 	shell(updateCall)
 }
 
-
-// this is just for development 
+// these will only be for development 
 
 if(command === 'delete' && arg1 === 'all') {
 
@@ -40,3 +40,16 @@ if(command === 'delete' && arg1 === 'all') {
 	shell(genieDeleteCall)
 
 }
+
+if(command === 'sim'){
+
+	if(arg1 === 'last'){
+
+		simulation[simulation.length-1]()
+	}
+	else{
+
+		simulation[Number(arg1)]()
+	}
+}
+
