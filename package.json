@@ -51,6 +51,7 @@
     "spawn-command": "0.0.2-1"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
     "chai": "^4.2.0",
     "eslint": "^5.15.3",
     "eslint-config-fullstack": "^6.0.0",
