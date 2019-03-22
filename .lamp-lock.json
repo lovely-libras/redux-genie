@@ -1,0 +1,36 @@
+{
+	"Structure": "Ducks",
+	"Models": [
+		{
+			"dux": null,
+			"Slice": [
+				{
+					"Name": "string"
+				},
+				{
+					"Quacking": "Boolean"
+				},
+				{
+					"Ducklings": "Object"
+				},
+				{
+					"Fly2Gether": "Boolean"
+				}
+			]
+		},
+		{
+			"terminator": null,
+			"Slice": [
+				{
+					"WillBeBack": "Boolean"
+				},
+				{
+					"OneLiners": "Array"
+				},
+				{
+					"Sequels": "Number"
+				}
+			]
+		}
+	]
+}
