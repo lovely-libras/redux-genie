@@ -28,7 +28,7 @@ module.exports = (Model, name) => {
 
     let cases = ''
 
-if(Model.CRUD === undefined){
+if(!(Model.CRUD === false)){
 
 cases += `
     case actions.GET_${name.toUpperCase()}: {
@@ -71,7 +71,7 @@ cases += `
     `
   })}
 
-  return `import actions from "./../actions/action_types_for_${name.toUpperCase()}"
+  return `import actions from "./action_constants_for_${name.toUpperCase()}"
 
 const initialState = {
   ${name}List : [],

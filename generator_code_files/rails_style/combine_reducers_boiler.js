@@ -1,6 +1,6 @@
 let makeImportStatement = (modelName) => {
 
-	return `import ${modelName}_state from './${modelName}_reducer'\n`
+	return `import ${modelName}_state from './reducer_for_${modelName}'\n`
 }
 
 module.exports = (modelNames) => {

@@ -11,13 +11,18 @@ module.exports = (model, modelName, Thunks, Logging) => {
   modelName = modelName[0].toUpperCase()
                             .concat(modelName.slice(1))
 
+  let crudedModel = !!model.CRUD
+
+  let userDefinedActions = model.Actions;
+
   try {
 
     // make action types
 
     fs.writeFile(
       `./store/${modelName}/action_constants_for_${modelName}.js`,
-      create_action_types(modelName.toUpperCase()),
+      // create_action_types(modelName.toUpperCase()),
+      create_action_types(crudedModel, userDefinedActions, modelName),
       () => {
         console.log(chalk.yellow(`made action types for ${modelName}`));
       }
