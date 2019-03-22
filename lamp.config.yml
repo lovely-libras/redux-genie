@@ -1,11 +1,7 @@
-Structure: Ducks # Two options: Rails || Ducks
-
-# Thunks: included # thunks will be included in the same file as the actions
-# Logging: false  # configures logging middleware
+Structure: Rails 
 
 Models:
-
-  - dux:
+  - campus:
 
     Slice:
       - Name: string
@@ -13,34 +9,15 @@ Models:
       - Ducklings: Object
       - Fly2Gether: Boolean
 
-    # CRUD: false
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
 
-    # Actions:
-    #   - countDux
-    #   - migrateDux
-    #   - quackOne
-
-    # Thunks:
-    #   - getAll: "/api/Dux"
-    #   - getOne: "/api/Dux/:dux"
-    #   - getStuff: "/api/Dux/getStuff"
-
-  - terminator:
-
-    Slice:
-      - WillBeBack: Boolean
-      - OneLiners: Array
-      - Sequels: Number
-
-    # Actions:
-    #   - killJohnConnor
-    #   - backInTime
-
-    # Thunks:
-    #   - getAll: "api/terminator"
-    #   - getOne: "api/terminator/:terminator"
-
-  # - Ducklings: 
-
-  #   Slice: 
-  #     - lilFeet: Array
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux

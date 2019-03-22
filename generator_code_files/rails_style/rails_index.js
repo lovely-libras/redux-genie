@@ -9,11 +9,7 @@ const store_reducer = require("./store_boiler");
 const chalk = require("chalk");
 const thunks_Rails_model = require("./thunks_Rails_model");
 
-module.exports = (Models, Thunks, Logging) => {
-  // lets organize the information we'll need in the generator calls
-  // below
-
-  // let modelNames = Models.map(Model => (Model = Object.keys(Model)[0]));
+module.exports = (Models, Thunks, Logging, Update) => {
 
   let modelNames = Models.map(
    Model =>
@@ -26,9 +22,6 @@ module.exports = (Models, Thunks, Logging) => {
 
   let userDefinedActions = Models.filter(model => model.Actions);
 
-  // addedActions
-  // thunkNames
-
   try {
 
     // heres the action creator file:
@@ -36,19 +29,22 @@ module.exports = (Models, Thunks, Logging) => {
     // added action names to the action constants to be created
     // if no crud, delete crud from action call
 
-    fs.writeFile(
-      `./store/constants/action_constants_for_${modelNames}.js`,
-      actionTypes_boiler(crudedModelNames, userDefinedActions),
-      () => {
-        console.log(chalk.yellow(`made action constants for ${modelNames}`));
-      }
-    );
+    if(!Update){
+
+      fs.writeFile(
+        `./store/constants/action_constants_for_${modelNames}.js`,
+        actionTypes_boiler(crudedModelNames, userDefinedActions),
+        () => {
+          console.log(chalk.yellow(`made action constants for ${modelNames}`));
+        }
+      );
+    }
 
     // create action types
     // same scenario gamed out like constants re: CRUD
     // and declared actions
 
-    Models.forEach(model => {
+    Models.forEach( async (model) => {
 
       let modelName = Object.keys(model)[0][0]
                                     .toUpperCase()
@@ -83,6 +79,8 @@ module.exports = (Models, Thunks, Logging) => {
 
       // create combine_reducers.js file
 
+    if(!Update){
+
       fs.writeFile(
         "./store/reducers/combine_reducers.js",
         combine_reducers(modelNames),
@@ -90,9 +88,10 @@ module.exports = (Models, Thunks, Logging) => {
           console.log(chalk.yellow("made combine_reducers.js file"));
         }
       );
-
+    }
 
       // create store.js file
+    if(!Update){
 
       fs.writeFile(
         "./store/store.js",
@@ -101,10 +100,10 @@ module.exports = (Models, Thunks, Logging) => {
           console.log(chalk.yellow("made store_reducer.js file"));
         }
       );
-
+    }
       // create reducer for each model
 
-      Models.forEach(model => {
+      Models.forEach( async (model) => {
 
         let modelName = Object.keys(model)[0][0]
                                     .toUpperCase()
@@ -122,6 +121,7 @@ module.exports = (Models, Thunks, Logging) => {
       });
 
   } catch (err) {
+    
     console.log(err);
   }
 };
