@@ -71,30 +71,36 @@ else{
 
       makeDir.on("exit", () => {
 
-        ducks(model, modelName, Thunks);
+        setTimeout(()=>{
 
-          // create combine reducers
-          let modelNames = Models.map(
-           Model =>
-             (Model = Object.keys(Model)[0][0]
-               .toUpperCase()
-               .concat(Object.keys(Model)[0].slice(1)))
-          )
+            // create combine reducers
+            let modelNames = Models.map(
+             Model =>
+               (Model = Object.keys(Model)[0][0]
+                 .toUpperCase()
+                 .concat(Object.keys(Model)[0].slice(1)))
+            )
 
-          fs.writeFile(
-            "./store/combine_reducers.js",
-            create_combine_reducers(modelNames),
-            (err) => {
+            fs.writeFile(
+              "./store/combine_reducers.js",
+              create_combine_reducers(modelNames),
+              (err) => {
+                if(err) throw err
+                console.log(chalk.yellow(`made the combine_reducers.js file`));
+              }
+            );
+
+            // create store
+            fs.writeFile("./store/store.js", create_store(Logging), (err) => {
               if(err) throw err
-              console.log(chalk.yellow(`made the combine_reducers.js file`));
-            }
-          );
+              console.log(chalk.yellow(`made the store.js file`));
 
-          // create store
-          fs.writeFile("./store/store.js", create_store(Logging), (err) => {
-            if(err) throw err
-            console.log(chalk.yellow(`made the store.js file`));
-          });
+            
+              ducks(model, modelName, Thunks);
+            });
+
+        }, 50)
+
       });
       
     });

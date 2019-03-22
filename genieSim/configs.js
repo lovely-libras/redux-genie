@@ -21,8 +21,12 @@ Models:
       - quackOne
 
     Thunks:
-      - getAll: "/api/Dux"
-      - getOne: "/api/Dux/:dux"`
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux`
 }
 
 

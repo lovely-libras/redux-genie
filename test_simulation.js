@@ -69,14 +69,22 @@ async function testZero (){
 		await fs.writeFile(
 	      "./lamp.config.yml",
 	      config.testZeroYaml(),
+	      
 	      () => {
 	        console.log(chalk.red(`printed zero base config`));
-	      }
-	    );
 
+			
+	    
+	      });
+		
 		// run genie generate (after deleting and rewriting config)
 
 		let genCall = shell('genie generate')
+
+		genCall.on('exit', () => {
+
+			process.exit()
+		})
 	})
 }
 

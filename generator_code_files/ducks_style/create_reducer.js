@@ -71,7 +71,7 @@ cases += `
     `
   })}
 
-  return `import actions from "./../actions/action_types_for_${name.toUpperCase()}"
+  return `import actions from "./action_constants_for_${name.toUpperCase()}"
 
 const initialState = {
   ${name}List : [],

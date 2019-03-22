@@ -48,8 +48,10 @@ if(command === 'sim'){
 		simulation[simulation.length-1]()
 	}
 	else{
+		
 
 		simulation[Number(arg1)]()
+		
 	}
 }
 
