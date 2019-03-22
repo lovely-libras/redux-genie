@@ -11,18 +11,28 @@ const shell = command => {
   spawn(command, {shell: true, stdio: 'inherit'})
 }
 
-if (command === 'generate' || command === 'gen') {
-  if (arg1 === 'store') {
-    let generateCall = `node ${__dirname}/generator_code_root.js`
+if(command === 'generate') {
 
-    shell(generateCall)
-  }
+	let generateCall = `node ${__dirname}/generator_code_root.js`
+
+	shell(generateCall)
+
 }
+
+if(command === 'update'){
+
+	let updateCall = `node ${__dirname}/updateCodeRoot.js`
+
+	shell(updateCall)
+}
+
 
 // this is just for development
 
-if (command === 'delete' && arg1 === 'all') {
-  let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`
+if(command === 'delete' && arg1 === 'all') {
 
-  shell(genieDeleteCall)
+	let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`
+
+	shell(genieDeleteCall)
+
 }
