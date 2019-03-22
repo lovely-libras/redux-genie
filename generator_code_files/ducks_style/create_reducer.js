@@ -28,7 +28,7 @@ module.exports = (Model, name) => {
 
     let cases = ''
 
-if(Model.CRUD === undefined){
+if(!(Model.CRUD === false)){
 
 cases += `
     case actions.GET_${name.toUpperCase()}: {

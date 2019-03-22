@@ -8,8 +8,7 @@ see the cli.js file under "genie sim"
 
 */
 
-
-const config = require('./genieSim/configs') // these are dummy lamp.config.yml files
+const config = require('./test/config') // these are dummy lamp.config.yml files
 const fs = require('fs').promises
 const chalk = require('chalk')
 const { spawn } = require('child_process')
@@ -21,11 +20,8 @@ const shell = (command) => {
 					stdio: 'inherit' 
 				}
 		)
-
 	return thisProc
 }
-
-
 
 /* 
 
@@ -69,12 +65,8 @@ async function testZero (){
 		await fs.writeFile(
 	      "./lamp.config.yml",
 	      config.testZeroYaml(),
-	      
 	      () => {
 	        console.log(chalk.red(`printed zero base config`));
-
-			
-	    
 	      });
 		
 		// run genie generate (after deleting and rewriting config)
@@ -86,6 +78,38 @@ async function testZero (){
 			process.exit()
 		})
 	})
+
+}
+
+async function testOne (){
+
+	console.log(chalk.yellow('hi greg'))
+
+	// delete current store
+
+	let deleteCall = shell('genie delete all')
+
+	deleteCall.on('exit', async () =>{
+
+		// print base config file- first circle of hell
+
+		await fs.writeFile(
+	      "./lamp.config.yml",
+	      config.testZeroYaml(),
+	      () => {
+	        console.log(chalk.red(`printed zero base config`));
+	      });
+		
+		// run genie generate (after deleting and rewriting config)
+
+		let genCall = shell('genie generate')
+
+		genCall.on('exit', () => {
+
+			process.exit()
+		})
+	})
+
 }
 
 /*
@@ -512,4 +536,4 @@ Ducks model
 */
 
 
-module.exports = [ testZero, ]
+module.exports = [ testZero, testOne ]

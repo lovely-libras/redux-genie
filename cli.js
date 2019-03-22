@@ -50,7 +50,7 @@ if(command === 'sim'){
 	else{
 		
 
-		simulation[Number(arg1)]()
+		simulation[ Number(arg1) ]()
 		
 	}
 }

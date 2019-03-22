@@ -6,7 +6,7 @@ module.exports = (modelName, model, Thunks) => {
   modelName = modelName[0].toUpperCase().concat(modelName.slice(1))
   let modelNameCaps = modelName.toUpperCase();
 
-  let returnStatement = `import actions from "../constants/action_constants"\n`;
+  let returnStatement = `import actions from "../constants/action_constants_for_${modelName}"\n`;
 
   let exportStatement = `\nexport default {`;
 
@@ -66,7 +66,12 @@ const delete${modelName} = ( payload ) => {
 
   if (model.Actions) {
     model.Actions.forEach(action => {
-      returnStatement += `\nconst ${action} = () => {\n\n}\n`;
+      returnStatement += `\nconst ${action} = (payload) => {
+      	return {
+      		type: actions.${action.toUpperCase()},
+      		payload
+      	}
+      }\n`;
 
       exportStatement += "\n\t" + action + ",";
     });
