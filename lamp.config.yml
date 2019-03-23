@@ -1,13 +1,15 @@
 Structure: Rails 
 
 Models:
-  - campus:
+  - Dux:
 
     Slice:
       - Name: string
       - Quacking: Boolean
       - Ducklings: Object
       - Fly2Gether: Boolean
+
+    CRUD: false
 
     Actions:
       - countDux

@@ -13,14 +13,19 @@ const middleware = composeWithDevTools(
 )
 
 export default createStore(combinedReducers, middleware)`
-
-
 }
+
 else if (!Logging){
-return `import { createStore } from 'redux'
+return `import { createStore, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk'
+import {composeWithDevTools} from 'redux-devtools-extension'
 import combinedReducers from './reducers/combine_reducers'
 
-export default createStore(combinedReducers)`
+const middleware = composeWithDevTools(
+  applyMiddleware(thunkMiddleware))
+)
+
+export default createStore(combinedReducers, middleware)`
 }
 
 }

@@ -11,6 +11,7 @@ module.exports = (crudedModelNames, userDefinedActions) => {
   	modelName = Object.keys(modelName)[0].toUpperCase()
 
     return `
+    // CRUD actions
 	GET_${modelName} : 'GET_${modelName}',
 	GET_ALL_${modelName} : 'GET_ALL_${modelName}',
 	ADD_${modelName} : 'ADD_${modelName}',
@@ -24,7 +25,6 @@ module.exports = (crudedModelNames, userDefinedActions) => {
   }
 
 	return ( "export default {" 
-			+ "\n\t// CRUD actions"
 			+ crudedModelNames.reduce((a, b) => (a += crudMaker(b)), "") 
 			+ "\n\n\t// YOUR actions \n" 
 			+ userDefinedActions.reduce((a,b)=> (a += actionMaker(b)), "") 
