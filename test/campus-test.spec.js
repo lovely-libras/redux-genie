@@ -1,14 +1,13 @@
 import { expect } from "chai";
-import fetchMock from "fetch-mock";
-import store from "../../store/store";
+import store from "../store";
 import {
   getAll,
   createOne,
   getOne,
   updateOne,
   deleteOne
-  //} from "../../store/Campus/thunks_for_Campus";// for ducks
-} from "../../store/actions/thunks_for_Campus"; //for rails
+} from "./thunks_for_Campus";
+import fetchMock from "fetch-mock";
 
 const campuses = [
   { name: "campus1", address: "not here yet" },
@@ -30,75 +29,12 @@ fetchMock.mock(
   { data: campuses, status: 203 },
   { overwriteRoutes: false }
 );
-const { spawn } = require("child_process");
-
-const shell = command => {
-  let thisProc = spawn(command, { shell: true, stdio: "inherit" });
-
-  return thisProc;
-};
-/*
-describe("Rails model", () => {
-  // beforeEach(done => {
-  //   let storeGenerate = shell("genie sim 0");
-
-  //   storeGenerate.on("exit", async () => {
-  //     done();
-  //   });
-  // });
-
-  it("generates a valid store", async () => {
-    const store = require("./../../store/store.js").default; // this is a wonky node -> front end issue
-
-    try {
-      //    const campusSlice = {
-      // 		    Name: '',
-      // 		      Quacking: true,
-      // 		      Ducklings: {},
-      // 		      Fly2Gether: true,
-      // 		  }
-
-      // const URL = "/api/Dux";
-
-      // fetchMock.mock(URL, { data: campusSlice, status: 200 });
-
-      const {
-        countDux
-      } = require("./../../store/actions/actions_for_Campus").default;
-      // const { getAll } = require("./../../store/Campus/thunks_for_Campus");
-
-      // const campusList = await store.getState().Campus_state.SingleCampus;
-
-      expect(store.dispatch(countDux("blank"))).to.deep.equal({
-        type: "COUNTDUX",
-        payload: "blank"
-      });
-
-      expect();
-    } catch (err) {
-      console.log(err);
-    }
-
-    // store.dispatch(actions.getAllCampus(campuses));
-
-    // const data = await fetch(URL).then(res => res.json());
-    // console.log(data, "data!!!!!!!!");
-  });
-
-  /*
-
-
-		it dispatches actions to update the store
-		it 
-
-  	*/
-// });
 
 describe("campuses", () => {
   it("should get all campus in the store", async () => {
     await store.dispatch(getAll());
+
     const campusList = store.getState().Campus_state.CampusList;
-    console.log(campusList, "campusList!!!!!");
     expect(campusList).to.deep.equal(campuses);
   });
 

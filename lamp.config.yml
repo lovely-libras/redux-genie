@@ -1,4 +1,5 @@
-Structure: Rails 
+#prettier-ignore
+Structure: Rails
 
 Models:
   - campus:
@@ -9,6 +10,8 @@ Models:
       - Ducklings: Object
       - Fly2Gether: Boolean
 
+    CRUD: true;
+
     Actions:
       - countDux
       - migrateDux
@@ -16,8 +19,8 @@ Models:
 
     Thunks:
       - getAll:
-        - "/api/Dux" 
-        - countDux
-      - getOne: 
-        - "/api/Dux/:dux"
-        - migrateDux
+          - "/api/Dux"
+          - getAllCampus
+      - getOne:
+          - "/api/Dux/${payload}"
+          - getCampus
