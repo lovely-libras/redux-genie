@@ -1,8 +1,5 @@
-
-
 const testZeroYaml = () => {
-
-  return `Structure: Rails 
+  return `Structure: Ducks 
 
 Models:
   - campus:
@@ -24,11 +21,10 @@ Models:
         - countDux
       - getOne: 
         - "/api/Dux/:dux"
-        - migrateDux`
-}
+        - migrateDux`;
+};
 
 const testOneYaml = () => {
-
   return `Structure: Rails 
 
 Models:
@@ -51,12 +47,13 @@ Models:
         - countDux
       - getOne: 
         - "/api/Dux/:dux"
-        - migrateDux`
-}
+        - migrateDux`;
+};
 
 module.exports = {
-  testZeroYaml, testOneYaml
-}
+  testZeroYaml,
+  testOneYaml
+};
 
 /*
 
@@ -192,7 +189,6 @@ module.exports = {
 }
 
 */
-
 
 /*
 # heres the entire config file:

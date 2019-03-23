@@ -1,6 +1,4 @@
-
 module.exports = (modelName, model) => {
-
   let modelNameCaps = modelName.toUpperCase();
 
   let returnStatement = `import actions from "./actions_for_${modelName}"\n`;
@@ -8,9 +6,8 @@ module.exports = (modelName, model) => {
   let exportStatement = `\nexport default {`;
 
   model.Thunks.forEach(thunk => {
+    thisThunk = Object.entries(thunk)[0];
 
-    thisThunk = Object.entries(thunk)[0]
-  
     returnStatement += `\nexport const ${thisThunk[0]} = () => dispatch => {
   fetch('${thisThunk[1][0]}')
       .then((resp) => resp.json()) 
@@ -19,8 +16,7 @@ module.exports = (modelName, model) => {
   });
 };\n`;
 
-    exportStatement += "\n\t" + Object.entries(thunk)[0][0] + ','
-
+    exportStatement += "\n\t" + Object.entries(thunk)[0][0] + ",";
   });
 
   return returnStatement + exportStatement + "\n}";
