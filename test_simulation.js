@@ -8,20 +8,16 @@ see the cli.js file under "genie sim"
 
 */
 
-const config = require('./test/config') // these are dummy lamp.config.yml files
-const fs = require('fs').promises
-const chalk = require('chalk')
-const { spawn } = require('child_process')
-const util = require('util')
+const config = require("./test/config"); // these are dummy lamp.config.yml files
+const fs = require("fs").promises;
+const chalk = require("chalk");
+const { spawn } = require("child_process");
+const util = require("util");
 
-const shell = (command) => {
-
-	let thisProc = spawn(command, {shell: true, 
-					stdio: 'inherit' 
-				}
-		)
-	return thisProc
-}
+const shell = command => {
+  let thisProc = spawn(command, { shell: true, stdio: "inherit" });
+  return thisProc;
+};
 
 /* 
 
@@ -37,8 +33,6 @@ const shell = (command) => {
 
 */
 
-
-
 /*
 
 generate store 
@@ -49,67 +43,52 @@ generate store
 		there to be separate files for both thunk libraries
 */
 
+async function testZero() {
+  console.log(chalk.yellow("running simulation zero"));
 
-async function testZero (){
+  // delete current store
 
-	console.log(chalk.yellow('running simulation zero'))
+  let deleteCall = shell("genie delete all");
 
-	// delete current store
+  deleteCall.on("exit", async () => {
+    // print base config file- first circle of hell
 
-	let deleteCall = shell('genie delete all')
+    await fs.writeFile("./lamp.config.yml", config.testZeroYaml(), () => {
+      console.log(chalk.red(`printed zero base config`));
+    });
 
-	deleteCall.on('exit', async () =>{
+    // run genie generate (after deleting and rewriting config)
 
-		// print base config file- first circle of hell
+    let genCall = shell("genie generate");
 
-		await fs.writeFile(
-	      "./lamp.config.yml",
-	      config.testZeroYaml(),
-	      () => {
-	        console.log(chalk.red(`printed zero base config`));
-	      });
-		
-		// run genie generate (after deleting and rewriting config)
-
-		let genCall = shell('genie generate')
-
-		genCall.on('exit', () => {
-
-			process.exit()
-		})
-	})
-
+    genCall.on("exit", () => {
+      process.exit();
+    });
+  });
 }
 
-async function testOne (){
+async function testOne() {
+  console.log(chalk.yellow("hi greg"));
 
-	console.log(chalk.yellow('hi greg'))
+  // delete current store
 
-	// delete current store
+  let deleteCall = shell("genie delete all");
 
-	let deleteCall = shell('genie delete all')
+  deleteCall.on("exit", async () => {
+    // print base config file- first circle of hell
 
-	deleteCall.on('exit', async () =>{
+    await fs.writeFile("./lamp.config.yml", config.testZeroYaml(), () => {
+      console.log(chalk.red(`printed zero base config`));
+    });
 
-		// print base config file- first circle of hell
+    // run genie generate (after deleting and rewriting config)
 
-		await fs.writeFile(
-	      "./lamp.config.yml",
-	      config.testZeroYaml(),
-	      () => {
-	        console.log(chalk.red(`printed zero base config`));
-	      });
-		
-		// run genie generate (after deleting and rewriting config)
+    let genCall = shell("genie generate");
 
-		let genCall = shell('genie generate')
-
-		genCall.on('exit', () => {
-
-			process.exit()
-		})
-	})
-
+    genCall.on("exit", () => {
+      process.exit();
+    });
+  });
 }
 
 /*
@@ -122,8 +101,6 @@ generate store
 		thunks to be defined in the same file as actions
 */
 
-
-
 /*
 
 generate store 
@@ -133,8 +110,6 @@ generate store
 	expect-
 		the store file to not include logging middleware
 */
-
-
 
 /*
 
@@ -146,9 +121,6 @@ generate store
 		there to be separate files for both thunk libraries
 */
 
-
-
-
 /*
 
 generate store 
@@ -159,8 +131,6 @@ generate store
 		thunks to be defined in the same file as actions
 */
 
-
-
 /*
 
 generate store 
@@ -170,15 +140,12 @@ generate store
 	expect-
 		the store file to not include logging middleware
 */
-
-
 
 /*
 generate store and then add a completely new model 
 using the 'update' method
 Rails model
 */
-
 
 /*
 
@@ -252,7 +219,6 @@ async function zero (){
 }
 
 */
-
 
 /*
 generate store and then add a completely new model 
@@ -340,16 +306,11 @@ and then add the action section using the 'update' method
 Rails model
 */
 
-
-
-
 /*
 generate store with a model that has actions
 and then add actions using the 'update' method
 Rails model
 */
-
-
 
 /*
 generate store with a model that doesn't have thunks, where
@@ -358,8 +319,6 @@ and then add the thunks section using the 'update' method
 Rails model
 */
 
-
-
 /*
 generate store with a model that doesn't have thunks, where
 thunks are included in the action file,
@@ -367,8 +326,6 @@ and then add the thunks section using the 'update' method
 Rails model
 */
 
-
-
 /*
 generate store with a model that has thunks
 and then add thunks using the 'update' method
@@ -380,7 +337,6 @@ generate store, added "CRUD" false, and make sure
 the update call doesn't enqueue any updates 
 Rails model
 */
-
 
 /*
 generate store, add "CRUD" true, and make sure
@@ -388,14 +344,11 @@ the update call doesn't fail
 Rails model
 */
 
-
-
 /*
 generate store and make sure "CRUD = true" doesn't 
 affect the generate call
 
 */
-
 
 /*
 generate store with a model that doesn't have actions
@@ -403,16 +356,11 @@ and then add the action section using the 'update' method
 Ducks model
 */
 
-
-
-
 /*
 generate store with a model that has actions
 and then add actions using the 'update' method
 Ducks model
 */
-
-
 
 /*
 generate store with a model that doesn't have thunks
@@ -420,15 +368,11 @@ and then add the thunks section using the 'update' method
 Ducks model
 */
 
-
-
 /*
 generate store with a model that has thunks
 and then add thunks using the 'update' method
 Ducks model
 */
-
-
 
 /*
 generate store, added "CRUD" false, and make sure
@@ -442,9 +386,7 @@ using the 'add' method
 Rails model
 */
 
-	// steps involved in add model- 
-
-
+// steps involved in add model-
 
 /*
 generate store with a model that doesn't have actions
@@ -452,24 +394,17 @@ and then add the action section using the 'add' method
 Rails model
 */
 
-
-
-
 /*
 generate store with a model that has actions
 and then add actions using the 'add' method
 Rails model
 */
 
-
-
 /*
 generate store with a model that doesn't have thunks
 and then add the thunks section using the 'add' method
 Rails model
 */
-
-
 
 /*
 generate store with a model that has thunks
@@ -482,9 +417,6 @@ generate store, added "CRUD" false, and make sure
 the add call doesn't enqueue any updates 
 Rails model
 */
-
-
-
 
 /*
 generate store and then add a completely new model 
@@ -492,18 +424,11 @@ using the 'add' method
 Ducks model
 */
 
-
-
-
-
 /*
 generate store with a model that doesn't have actions
 and then add the action section using the 'add' method
 Ducks model
 */
-
-
-
 
 /*
 generate store with a model that has actions
@@ -511,15 +436,11 @@ and then add actions using the 'add' method
 Ducks model
 */
 
-
-
 /*
 generate store with a model that doesn't have thunks
 and then add the thunks section using the 'add' method
 Ducks model
 */
-
-
 
 /*
 generate store with a model that has thunks
@@ -527,13 +448,10 @@ and then add thunks using the 'add' method
 Ducks model
 */
 
-
-
 /*
 generate store, added "CRUD" false, and make sure
 the add call doesn't enqueue any updates 
 Ducks model
 */
 
-
-module.exports = [ testZero, testOne ]
+module.exports = [testZero, testOne];
