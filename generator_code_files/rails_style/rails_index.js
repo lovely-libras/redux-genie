@@ -20,6 +20,8 @@ module.exports = (Models, Thunks, Logging, Update) => {
 
   let crudedModelNames = Models.filter(model => !(model.CRUD === false));
 
+  console.log(crudedModelNames)
+
   let userDefinedActions = Models.filter(model => model.Actions);
 
   try {
