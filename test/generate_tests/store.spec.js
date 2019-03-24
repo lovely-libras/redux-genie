@@ -1,4 +1,8 @@
-import { expect } from "chai";
+/*use strict*/
+import { expect, should, equal } from "chai";
+import { createSpy, spyOn, isSpy } from "expect";
+import sinon from "sinon";
+import sinonchai from "sinon-chai";
 import fetchMock from "fetch-mock";
 import store from "../../store/store";
 import assert from "assert";
@@ -70,6 +74,7 @@ import actions from "../../store/actions/actions_for_Campus"; //rails
 //action constants
 import action_constants from "../../store/constants/action_constants_for_Campus";
 
+//thunks
 import {
   getAll,
   createOne,
@@ -78,6 +83,9 @@ import {
   deleteOne
   //} from "../../store/Campus/thunks_for_Campus";// for ducks
 } from "../../store/actions/thunks_for_Campus"; //for rails
+
+//reducers
+import reducer from '../../store/reducers/reducer_for_Campus'//for rails
 
 const campuses = [
   { name: "campus1", address: "not here yet" },
@@ -188,9 +196,62 @@ describe("tests action creators", () => {
     expect(actions.createCampus(payload)).to.deep.equal(expectedAction);
   });
 });
+describe("thunk unit tests", () => {
+  function practice(){
+    return 'something'
+  }
+  it("thunk returns a function", () => {
+    expect(typeof(getAll)).to.deep.equal('function');
 
-describe("thunk returns a function", () => {});
+  });
 
-describe("tests reducers. A reducer should return the new state after applying the action to the previous state, and that's the behavior tested below.", () => {});
+});
+
+describe("tests reducers. A reducer should return the new state after applying the action to the previous state, and that's the behavior tested below.", () => {  
+  it('should return the initial state', ()=>{
+    expect(reducer(undefined, {})).to.deep.equal({
+      CampusList: [],
+      isLoading: false,
+      SingleCampus: {
+        Name: "",
+        Quacking: true,
+        Ducklings: {},
+        Fly2Gether: true
+      }
+    })
+  })
+
+  it('should handle GET_ALL_CAMPUS', () => {
+    expect(
+      reducer([{
+        CampusList: [{name: 'campus1'},{name: 'campus2'}],
+        isLoading: false,
+        SingleCampus: {
+          Name: "",
+          Quacking: true,
+          Ducklings: {},
+          Fly2Gether: true
+        }
+      }], {
+        type: actions.GET_ALL_CAMPUS
+      })
+    ).to.deep.equal([
+      {   CampusList: [{name: 'campus1'},{name: 'campus2'}],
+          isLoading: false,
+          SingleCampus: {
+            Name: "",
+            Quacking: true,
+            Ducklings: {},
+            Fly2Gether: true
+          }
+        
+      }
+    ])
+
+  })
+})
+
+
+
 
 describe("tests logging middleware", () => {});

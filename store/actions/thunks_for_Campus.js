@@ -11,10 +11,10 @@ export const getAll = () => dispatch => {
 };
 
 export const getOne = payload => dispatch => {
-  return fetch(`/api/Dux/${payload}`)
+  return fetch(`/api/Dux/${payload}`, {method:'POST', body:payload})
     .then(resp => resp.json())
     .then(function({ data }) {
-      dispatch(data);
+      dispatch(actions.createCampus(payload));
     });
 };
 
