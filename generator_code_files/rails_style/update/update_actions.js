@@ -1,34 +1,48 @@
-const fs = require("fs");
+const fs = require("fs").promises;
 
-module.exports = (modelName)=> {
+module.exports = async (model, Thunks)=> {
 
-	var text;
-	// First I want to read the file
-	fs.readFile('./store/actions/actions.html', (err, data) => {
+	let modelName 
+
+	let originalFile
+	
+	/* 
+		First I want to read the originalFile-
+		we should update the file based on its
+		current state rather than the yaml,
+		in case the user updates it manually without
+		using the genie
+
+	*/
+	
+	await fs.readFile('./store/actions/actions', (err, data) => {
 
 	    if (err) {
 	        throw err;
 	    }
-	    text = data;
-	    console.log(text);
+	    originalFile = data;
+
+	    console.log(file);
 	    processFile();    
 	});
 
-	function processFile() {
+	let newData = 
 
-	    // console.log(text);
+	function processFile(newData, originalFile) {
+
+	    // console.log(file);
 
 	}
 
-
-	fs.writeFile(
+	await fs.writeFile(
 
 		`./store/actions/actions_for_${modelName}.js`,
 		
-		action_boiler_Rails_model(modelName, model, Thunks),
+		newFile,
 
 		() => {
-		  console.log(chalk.yellow(`updated actions for ${modelName}`));
+		  console.log(chalk.yellow(`updated the action creator file to add ${modelName}`));
 		}
 	);
 }
+

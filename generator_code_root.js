@@ -46,23 +46,27 @@ else{
     process.exit();
   }
 
-  spawn("mkdir store", { shell: true });
+  let rootStore = spawn("mkdir store", { shell: true });
 
   if (Structure === "Rails") {
+    process.send('Generating Rails file structure')
     let makeDir = spawn("mkdir store/actions store/constants store/reducers", {
       shell: true
     });
 
     makeDir.on("exit", () => {
+      
       rails(Models, Thunks, Logging);
     });
   }
 
   if (Structure === "Ducks") {
+    process.send('Generating Ducks file structure')
 
     // create action types, action creators, and reducer
-    Models.forEach(model => {
-      
+
+    Models.forEach((model, i) => {
+
       let modelName = Object.keys(model)[0][0]
                                       .toUpperCase()
                                          .concat(Object.keys(model)[0].slice(1))
@@ -71,38 +75,36 @@ else{
 
       makeDir.on("exit", () => {
 
-        setTimeout(()=>{
-
-            // create combine reducers
-            let modelNames = Models.map(
-             Model =>
-               (Model = Object.keys(Model)[0][0]
-                 .toUpperCase()
-                 .concat(Object.keys(Model)[0].slice(1)))
-            )
-
-            fs.writeFile(
-              "./store/combine_reducers.js",
-              create_combine_reducers(modelNames),
-              (err) => {
-                if(err) throw err
-                console.log(chalk.yellow(`made the combine_reducers.js file`));
-              }
-            );
-
-            // create store
-            fs.writeFile("./store/store.js", create_store(Logging), (err) => {
-              if(err) throw err
-              console.log(chalk.yellow(`made the store.js file`));
-
-            
-              ducks(model, modelName, Thunks);
-            });
-
-        }, 50)
-
+          ducks(model, modelName, Thunks);
       });
-      
     });
+
+    rootStore.on('exit', ()=>{
+
+        // create combine reducers
+      let modelNames = Models.map(
+
+       Model =>
+         (Model = Object.keys(Model)[0][0]
+           .toUpperCase()
+           .concat(Object.keys(Model)[0].slice(1)))
+      )
+
+     fs.writeFile(
+          "./store/combine_reducers.js",
+          create_combine_reducers(modelNames),
+          (err) => {
+            if(err) process.send(err)
+            process.send(chalk.yellow(`made the combine_reducers.js file`));
+          }
+        );
+
+        // create store
+        fs.writeFile("./store/store.js", create_store(Logging), (err) => {
+          if(err) process.send(err)
+          process.send(chalk.yellow(`made the store.js file`));
+        });
+    })
+
   }
 }

@@ -25,7 +25,7 @@ module.exports = (crudedModel, userDefinedActions, modelName) => {
   	modelName = modelName.toUpperCase()
 
     return `
-    \n\t// CRUD actions
+
 	GET_${modelName} : 'GET_${modelName}',
 	GET_ALL_${modelName} : 'GET_ALL_${modelName}',
 	ADD_${modelName} : 'ADD_${modelName}',
@@ -49,7 +49,7 @@ module.exports = (crudedModel, userDefinedActions, modelName) => {
   }
 
   if(userDefinedActions){
-  	returnStatement += "\n\n\t// YOUR actions \n" + userDefinedActions.reduce((a,b)=> (a += actionMaker(b)), "")
+  	returnStatement += userDefinedActions.reduce((a,b)=> (a += actionMaker(b)), "")
   }
 
 	return "export default {" + returnStatement + "}"

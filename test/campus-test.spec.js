@@ -31,6 +31,7 @@ fetchMock.mock(
 );
 
 describe("campuses", () => {
+  
   it("should get all campus in the store", async () => {
     await store.dispatch(getAll());
 

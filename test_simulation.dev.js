@@ -20,11 +20,12 @@ const util = require('util')
 
 const shell = (command) => {
 
-	let thisProc = spawn(command, {shell: true, 
-					stdio: 'inherit' 
-				}
-		)
-	return thisProc
+	let thisCommand	= spawn(command, {shell: true, 
+						stdio: [ 'pipe', 'pipe', 'pipe', 'ipc' ]
+								}
+						)
+
+	return thisCommand
 }
 
 /* 
@@ -38,6 +39,14 @@ const shell = (command) => {
 	  could simply have the store slice exposed as an entire object,
 	  and the user would have to destructure it themselves
 	  this would be the simplest way of implementing that
+
+	- user tries to create an action or thunk that is the same
+	  as the CRUD methods themselves
+*/
+
+/*
+
+SIMS FOR THE GENERATE FEATURE
 
 */
 
@@ -60,16 +69,14 @@ async function genTest(yamlFunc){
 
 		let genCall = shell('genie generate')
 
-		genCall.on('exit', () => {
+		genCall.on('message', (message)=>{
 
-			process.exit()
+			console.log(chalk.yellow(message))
+
 		})
+
 	})
 }
-
-
-
-
 
 /*
 
@@ -193,6 +200,164 @@ const testSeven = () => {
 	genTest(config.testSevenYaml)
 }
 
+/*
+
+SIMS FOR THE ADD/UPDATE FEATURES
+
+*/
+
+async function updateTest(yam1, yam2){
+
+	// delete current store
+
+	let deleteCall = shell('genie delete all')
+
+	deleteCall.on('exit', async () =>{
+
+		// print base config file- first circle of hell
+
+		await fs.writeFile(
+	      "./lamp.config.yml",
+	      yam1(),
+	      () => {}
+	    );
+
+		// run genie generate (after deleting and rewriting config)
+
+		let genCall = shell('genie generate')
+
+
+		genCall.on('message', (message)=>{
+
+			console.log(chalk.yellow(message))
+		})
+
+		genCall.on('exit', async () =>{
+
+			// print new config file with new model added
+
+			await fs.writeFile(
+		      "./lamp.config.yml",
+		      yam2(),
+		      () => {}
+		    )
+
+			let updateCall = shell('genie update')
+			console.log('update call firing')
+			updateCall.on('message', (message)=>{
+
+				console.log(chalk.yellow(message))
+			})	
+
+		})
+
+	})
+}
+
+
+
+/*
+
+NOTES ON THE UPDATE METHOD:
+
+FOR UPDATE THAT CREATES A NEW MODEL
+
+1. print new files:
+	- action: new action files
+	- thunk: new thunk files if selected, otherwise no
+		
+		test code to validate passing before writing to file
+
+	we expect this to NOT overwrite the current
+	create reducers file and store file- configured a Boolean
+	to separate these two calls
+
+3. update the action constants
+
+3. update the root create reducer 
+
+4. validate the new lamp lock:
+	what shouldn't get changed: Slice, Structure, other options
+
+
+FOR UPDATE THAT ADDS TO AN EXISTING MODEL
+
+1. validate lamp lock before proceeding
+	what can't change- 
+	- structure can't change
+	- CRUD selection can't change
+	- logging can't change
+
+2. print new files:
+	- action: new action files
+	- thunk: new thunk files if selected, otherwise no
+		
+		test code to validate passing before writing to file
+
+	we expect this to NOT overwrite the current
+	create reducers file and store file- configured a Boolean
+	to separate these two calls
+
+3. update the action constants
+
+3. update the root create reducer 
+
+4. validate the new lamp lock:
+	what shouldn't get changed: Slice, Structure, other options
+*/
+
+
+/*
+
+update creates one new model with no thunks or actions- CRUD true
+Rails model
+
+	- expect - 
+		- reducer file for new model
+		- selector file for new model
+		- actions with crud methods
+		- no thunk file
+		- reducer updated with both models
+		- action constants updated with all models
+
+*/
+
+let testEight = () => {
+	console.log('running test 8')
+	updateTest(config.testEightBaseYaml, config.testEightAddYaml)
+}
+
+
+/* 
+
+update creates multiple new models with no thunks or actions- CRUD true
+Rails model
+
+*/
+
+/*
+
+update creates new model with no thunks or actions- CRUD false
+Rails model
+
+	- expect - 
+		- reducer file for new model
+		- selector file for new model
+
+*/
+
+
+/*
+update creates new model with separate thunks and added actions- CRUD true
+Rails model
+
+	- expect - 
+		- reducer file for new model
+		- selector file for new model
+
+*/
+
+
 module.exports = [ 
 testZero, 
 testOne, 
@@ -201,96 +366,9 @@ testThree,
 testFour,
 testFive,
 testSix,
-testSeven
+testSeven,
+testEight
 ]
-
-/*
-
-TESTS FOR THE ADD/UPDATE FEATURES
-
-*/
-
-
-/*
-generate store and then add a completely new model 
-using the 'update' method
-Rails model
-*/
-
-
-/*
-
-async function zero (){
-
-	console.log(chalk.yellow('running simulation zero'))
-
-	// delete current store
-
-	let deleteCall = shell('genie delete all')
-
-	deleteCall.on('exit', async () =>{
-
-		// print base config file- first circle of hell
-
-		await fs.writeFile(
-	      "./lamp.config.yml",
-	      config.zeroBaseConfig(),
-	      () => {
-	        console.log(chalk.red(`printed zero base config`));
-	      }
-	    );
-
-		// run genie generate (after deleting and rewriting config)
-
-		let genCall = shell('genie generate')
-
-
-		genCall.on('exit', async () =>{
-
-			// print new config file with new model added
-
-			await fs.writeFile(
-		      "./lamp.config.yml",
-		      config.zeroAddedModel(),
-		      () => {
-		        console.log(chalk.red(`printed zero added model config`));
-		      }
-		    )
-
-			// run genie update
-
-			shell('genie update')
-
-			
-				// update procedure:
-
-				// update invokes the update model file 
-				// which needs to:
-
-				// 	1. print new action and thunk files
-				// 			validation procedure (this can happen later)
-				// 			test code to validate passing before writing to file
-
-				// 		we expect this to NOT overwrite the current
-				// 		create reducers file and store file- configured a Boolean
-				// 		to separate these two calls
-				
-				// 	2. update the action constants
-				
-						
-
-				// 	3. update the root create reducer 
-			
-				// 	4. validate the new lamp lock:
-				// 		what shouldn't get changed: Slice, Structure, other options
-			
-
-		})
-	})
-}
-
-*/
-
 
 /*
 generate store and then add a completely new model 
@@ -299,78 +377,6 @@ Ducks model
 
 */
 
-/*
-
-async function one (){
-
-	console.log(chalk.yellow('running simulation zero'))
-
-	// delete current store
-
-	let deleteCall = shell('genie delete all')
-
-	deleteCall.on('exit', async () =>{
-
-		// print base config file- first circle of hell
-
-		await fs.writeFile(
-	      "./lamp.config.yml",
-	      config.zeroBaseConfig(),
-	      () => {
-	        console.log(chalk.red(`printed zero base config`));
-	      }
-	    );
-
-		// run genie generate (after deleting and rewriting config)
-
-		let genCall = shell('genie generate')
-
-
-		genCall.on('exit', async () =>{
-
-			// print new config file with new model added
-
-			await fs.writeFile(
-		      "./lamp.config.yml",
-		      config.zeroAddedModel(),
-		      () => {
-		        console.log(chalk.red(`printed zero added model config`));
-		      }
-		    )
-
-			// run genie update
-
-			shell('genie update')
-
-			
-				// update procedure:
-
-				// update invokes the update model file 
-				// which needs to:
-
-				// 	1. print new action and thunk files
-				// 			validation procedure (this can happen later)
-				// 			test code to validate passing before writing to file
-
-				// 		we expect this to NOT overwrite the current
-				// 		create reducers file and store file- configured a Boolean
-				// 		to separate these two calls
-				
-				// 	2. update the action constants
-				
-						
-
-				// 	3. update the root create reducer 
-			
-				// 	4. validate the new lamp lock:
-				// 		what shouldn't get changed: Slice, Structure, other options
-			
-
-		})
-	})
-}
-
-*/
 
 /*
 generate store with a model that doesn't have actions

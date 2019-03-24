@@ -20,8 +20,6 @@ module.exports = (Models, Thunks, Logging, Update) => {
 
   let crudedModelNames = Models.filter(model => !(model.CRUD === false));
 
-  console.log(crudedModelNames)
-
   let userDefinedActions = Models.filter(model => model.Actions);
 
   try {
@@ -34,10 +32,10 @@ module.exports = (Models, Thunks, Logging, Update) => {
     if(!Update){
 
       fs.writeFile(
-        `./store/constants/action_constants_for_${modelNames}.js`,
+        `./store/constants/action_constants.js`,
         actionTypes_boiler(crudedModelNames, userDefinedActions),
         () => {
-          console.log(chalk.yellow(`made action constants for ${modelNames}`));
+          process.send(`made action constants for ${modelNames}`);
         }
       );
     }
@@ -56,7 +54,7 @@ module.exports = (Models, Thunks, Logging, Update) => {
         `./store/actions/selectors_for_${modelName}.js`,
         '',
         () => {
-          console.log(chalk.yellow(`made selector file for ${modelName}`));
+          process.send(`made selector file for ${modelName}`);
         }
       );
 
@@ -64,7 +62,7 @@ module.exports = (Models, Thunks, Logging, Update) => {
         `./store/actions/actions_for_${modelName}.js`,
         action_boiler_Rails_model(modelName, model, Thunks),
         () => {
-          console.log(chalk.yellow(`made action types for ${modelName}`));
+          process.send(`made action types for ${modelName}`);
         }
       );
 
@@ -73,7 +71,7 @@ module.exports = (Models, Thunks, Logging, Update) => {
           `./store/actions/thunks_for_${modelName}.js`,
           thunks_Rails_model(modelName, model, Thunks),
           () => {
-            console.log(chalk.yellow(`made thunks for ${modelName}`));
+            process.send(`made thunks for ${modelName}`);
           }
         );
       }
@@ -87,7 +85,7 @@ module.exports = (Models, Thunks, Logging, Update) => {
         "./store/reducers/combine_reducers.js",
         combine_reducers(modelNames),
         () => {
-          console.log(chalk.yellow("made combine_reducers.js file"));
+          process.send("made combine_reducers.js file");
         }
       );
     }
@@ -99,7 +97,7 @@ module.exports = (Models, Thunks, Logging, Update) => {
         "./store/store.js",
         store_reducer(Logging),
         () => {
-          console.log(chalk.yellow("made store_reducer.js file"));
+          process.send("made store_reducer.js file");
         }
       );
     }
@@ -115,7 +113,7 @@ module.exports = (Models, Thunks, Logging, Update) => {
           `./store/reducers/reducer_for_${modelName}.js`,
           reducer_creator(model, modelName),
           () => {
-            console.log(chalk.yellow(`made reducer_creator for ${modelName}`));
+            process.send(`made reducer_creator for ${modelName}`);
           }
 
         );
@@ -124,6 +122,6 @@ module.exports = (Models, Thunks, Logging, Update) => {
 
   } catch (err) {
     
-    console.log(err);
+    process.error(err);
   }
 };

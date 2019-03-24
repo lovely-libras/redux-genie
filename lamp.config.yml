@@ -1,8 +1,8 @@
-#prettier-ignore
-Structure: Rails
+Structure: Rails 
 
 Models:
-  - Dux:
+
+  - dux:
 
     Slice:
       - Name: string
@@ -17,8 +17,17 @@ Models:
 
     Thunks:
       - getAll:
-          - "/api/Dux"
-          - getAllCampus
-      - getOne:
-          - "/api/Dux/${payload}"
-          - getCampus
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+  - terminator:
+
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+
+        

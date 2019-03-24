@@ -22,7 +22,7 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import combinedReducers from './reducers/combine_reducers'
 
 const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware))
+  applyMiddleware(thunkMiddleware)
 )
 
 export default createStore(combinedReducers, middleware)`

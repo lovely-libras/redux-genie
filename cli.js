@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const minimist = require('minimist')
+const chalk = require('chalk')
 const { spawn } = require('child_process')
 const currentDirectory = require('path').dirname
 let input = minimist(process.argv)
@@ -10,26 +11,70 @@ const { makeLock, diffLock } = require('./lock')
 const simulation = require('./test_simulation')
 const simulation_dev = require('./test_simulation.dev')
 
+// const shell = (command) => {
+
+// 	let thisCommand	= spawn(command, {shell: true, 
+// 						stdio: [ 'pipe', 'pipe', 'pipe', 'ipc' ]
+// 								}
+// 						)
+
+// 	return thisCommand
+// }
+
 const shell = (command) => {
 
-	spawn(command, {shell: true, 
-					stdio: 'inherit' 
-				}
-		)
+	let thisCommand	= spawn(command, {shell: true, 
+						stdio: 'inherit'
+								}
+						)
+
+	return thisCommand
 }
+
 
 if(command === 'generate') {
 		
-	let generateCall = `node ${__dirname}/generator_code_root.js`
+	let gencommand = `node ${__dirname}/generator_code_root.js`
 
-	shell(generateCall)	
+	let generateCall = shell(gencommand)
+
+	generateCall.on('message', (message) =>{
+		
+		if(process.send){
+		
+			process.send(chalk.yellow(message))
+		}
+		else{
+
+			console.log(chalk.yellow(message))
+		}
+
+	})
+
+	generateCall.on('error', (error)=>{
+	
+		console.log(error)
+	})	
 }
 
 if(command === 'update'){
 
-	let updateCall = `node ${__dirname}/updateCodeRoot.js`
+	let updateCommand = `node ${__dirname}/updateCodeRoot.js`
 
-	shell(updateCall)
+	let updateCall = shell(updateCommand)
+
+	updateCall.on('message', (message) =>{
+		
+		if(process.send){
+		
+			process.send(chalk.yellow(message))
+		}
+		else{
+
+			console.log(chalk.yellow(message))
+		}
+
+	})
 }
 
 // these will only be for development 

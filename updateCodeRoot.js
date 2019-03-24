@@ -1,28 +1,43 @@
 let { makeLock, diffLock } = require('./lock')
 const chalk = require("chalk");
 const inquirer = require('inquirer')
-const update_actions = require('./generator_code_files/rails_style/update/update_actions')
+const update_actions_rails = require('./generator_code_files/rails_style/update/update_actions')
 let rails = require("./generator_code_files/rails_style/rails_index");
 
 // diffing is returned as an array:
 // [ currentYaml, previousYaml, diff of current against previous ]
+process.send('performing update call')
 
 let diffing = diffLock()
 
 // logic for adding a model
 
-diffing[2].addedModels.forEach( (diff, i) => {
+if(diffing[2].addedModels.length){
 
-	console.log('You added a model: ', Object.keys(diff)[0])
+	let { Structure, Thunks, Logging } = diffing[1] // maintain original config answer
 
-	let { Structure, Thunks, Logging } = diffing[1] // always maintain original config answer
+	// certain parts of the store can be 
+	// added mechanically- they are independent
+	// of the previous operations
+	diffing[2].addedModels.forEach( (diff, i) => {
 
-	if(Structure === 'Rails'){
-									// call with Update as true
-		rails([ diff ], Thunks, Logging, true);
-	}	
-})
+		process.send('We detected a Model added to lamp.config.yml: ', Object.keys(diff)[0])
 
+		if(Structure === 'Rails'){
+										// call with Update as true
+			rails([ diff ], Thunks, Logging, true);
+			
+		}	
+	})
+
+	// to update actions- need to read 
+	// the current action constants and update
+	update_actions_rails()
+
+	// to update the combine reducers, same
+
+
+}
 
 
 
@@ -59,11 +74,11 @@ diffing[2].modelUpdates.forEach( (diff, i) => {
 
 	let added = typeof diff[2][1] === 'string' ? diff[2][1] : Object.keys(diff[2][1]) ; 
 
-	console.log(chalk.yellow(`You updated the model ${modelName} by ${operation} ${diff[1]}: ${ added } `))
+	process.send(chalk.yellow(`You updated the model ${modelName} by ${operation} ${diff[1]}: ${ added } `))
 	
 	if(operation === 'deleting'){
 	
-		console.log(chalk.red('FYI- we will never delete anything based on a genie update call.'))
+		process.send(chalk.red('FYI- we will never delete anything based on a genie update call.'))
 	}
 	else if(operation === 'adding'){
 		
@@ -90,14 +105,14 @@ if(updates.length && !deletingOnly){
 
 		if(answer === "Yes" || answer === "yes"){
 
-		  console.log(`Confirmed`)
+		  process.send(`Confirmed`)
 
 		  // initialize add operations
 		  update_actions(updates)
 
 		}
 		else{
-			console.log('Updates not confirmed, exiting process.')
+			process.send('Updates not confirmed, exiting process.')
 			process.exit()
 		}
 
@@ -105,7 +120,7 @@ if(updates.length && !deletingOnly){
 }
 else if(updates.length && deletingOnly){
 
-	console.log(chalk.red('\nOnly delete operations detected, exiting process'))
+	process.send(chalk.red('\nOnly delete operations detected, exiting process'))
 
 	// call yam validation to reverse their deletions
 
@@ -113,7 +128,7 @@ else if(updates.length && deletingOnly){
 else{
 	setTimeout(()=>{
 
-		console.log(chalk.red("No updates to current models detected in lamp.config.yml"))
+		process.send(chalk.red("No updates to current models detected in lamp.config.yml"))
 	}, 1000)
 	
 }

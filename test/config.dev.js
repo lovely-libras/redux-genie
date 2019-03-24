@@ -4,7 +4,56 @@
 
 const testZeroYaml = () => {
 
-  return `Structure: Rails 
+  return `Structure: Rails
+
+Logging: false 
+
+Models:
+  - campus:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+  - terminator:
+
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+
+    Actions:
+      - killJohnConnor
+      - backInTime
+
+    Thunks:
+      - getAll: 
+        - "api/terminator"
+        - killJohnConnor
+      - getOne: 
+        - "api/terminator/:terminator"
+        - backInTime`
+}
+
+const testOneYaml = () => {
+
+  return `Structure: Ducks
+
+Logging: false 
 
 Models:
   - campus:
@@ -26,36 +75,26 @@ Models:
         - countDux
       - getOne: 
         - "/api/Dux/:dux"
-        - migrateDux`
-}
+        - migrateDux
 
-const testOneYaml = () => {
-
-  return `Structure: Rails 
-
-Thunks: included
-
-Models:
-  - Dux:
+  - terminator:
 
     Slice:
-      - Name: string
-      - Quacking: Boolean
-      - Ducklings: Object
-      - Fly2Gether: Boolean
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
 
     Actions:
-      - countDux
-      - migrateDux
-      - quackOne
+      - killJohnConnor
+      - backInTime
 
     Thunks:
-      - getAll:
-        - "/api/Dux" 
-        - countDux
+      - getAll: 
+        - "api/terminator"
+        - killJohnConnor
       - getOne: 
-        - "/api/Dux/:dux"
-        - migrateDux`
+        - "api/terminator/:terminator"
+        - backInTime`
 }
 
 const testTwoYaml = () => {
@@ -230,20 +269,7 @@ Models:
         - migrateDux`
 }
 
-module.exports = {
-  testZeroYaml, 
-  testOneYaml, 
-  testTwoYaml,
-  testThreeYaml,
-  testFourYaml,
-  testFiveYaml,
-  testSixYaml,
-  testSevenYaml
-}
-
-/*
-
-const zeroBaseConfig = () => {
+const testEightBaseYaml = () => {
 
 return `Structure: Rails 
 
@@ -263,10 +289,15 @@ Models:
       - quackOne
 
     Thunks:
-      - getAll: "/api/Dux"`
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux`
 }
 
-const zeroAddedModel = () => {
+const testEightAddYaml = () => {
 
 return `Structure: Rails 
 
@@ -286,7 +317,12 @@ Models:
       - quackOne
 
     Thunks:
-      - getAll: "/api/Dux"
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
 
   - terminator:
 
@@ -295,14 +331,27 @@ Models:
       - OneLiners: Array
       - Sequels: Number
 
-    Actions:
-      - killJohnConnor
-      - backInTime
-
-    Thunks:
-      - getAll: "api/terminator"
-      - getOne: "api/terminator/:terminator"`
+        `
 }
+
+module.exports = {
+
+  // generate yamls
+  testZeroYaml, 
+  testOneYaml, 
+  testTwoYaml,
+  testThreeYaml,
+  testFourYaml,
+  testFiveYaml,
+  testSixYaml,
+  testSevenYaml,
+
+  // update yamls
+  testEightBaseYaml,
+  testEightAddYaml
+}
+
+/*
 
 const oneBaseConfig = () => {
 
@@ -362,7 +411,8 @@ Models:
 
     Thunks:
       - getAll: "api/terminator"
-      - getOne: "api/terminator/:terminator"`
+      - getOne: "api/terminator/:terminator"
+      `
 }
 
 module.exports = {
