@@ -2,6 +2,7 @@
 // integration tests
 // for test simulations, use test-simulation.js 
 
+
 /* 
 
 this file contains simulated method calls
@@ -13,7 +14,7 @@ see the cli.js file under "genie sim"
 */
 
 const config = require('./test/config.dev') // these are dummy lamp.config.yml files
-const fs = require('fs').promises
+const fs = require('fs')
 const chalk = require('chalk')
 const { spawn } = require('child_process')
 const util = require('util')
@@ -21,7 +22,7 @@ const util = require('util')
 const shell = (command) => {
 
 	let thisCommand	= spawn(command, {shell: true, 
-						stdio: [ 'pipe', 'pipe', 'pipe', 'ipc' ]
+						stdio: 'inherit'
 								}
 						)
 
@@ -56,26 +57,29 @@ async function genTest(yamlFunc){
 
 	let deleteCall = shell('genie delete all')
 
-	deleteCall.on('exit', async () =>{
+	let genCall
+
+	return deleteCall.on('exit', () =>{
 
 		// print config file
 
-		await fs.writeFile(
+		fs.writeFile(
 	      "./lamp.config.yml",
 	      yamlFunc(),
 	      () => { });
 		
 		// run genie generate (after deleting and rewriting config)
 
-		let genCall = shell('genie generate')
+		genCall = shell('genie generate')
+		
+		// console.log(genCall)
 
-		genCall.on('message', (message)=>{
-
-			console.log(chalk.yellow(message))
-
-		})
+		return genCall
 
 	})
+
+
+	// return genCall
 }
 
 /*
@@ -90,7 +94,8 @@ generate store
 
 
 const testZero = () => {
-	genTest(config.testZeroYaml)
+
+	return genTest(config.testZeroYaml)
 }
 
 /*
@@ -208,49 +213,42 @@ SIMS FOR THE ADD/UPDATE FEATURES
 
 async function updateTest(yam1, yam2){
 
-	// delete current store
+	// print new config file with new model added
 
 	let deleteCall = shell('genie delete all')
 
-	deleteCall.on('exit', async () =>{
+	let genCall
 
-		// print base config file- first circle of hell
+	deleteCall.on('exit', () =>{
 
-		await fs.writeFile(
+		// print config file
+
+		fs.writeFile(
 	      "./lamp.config.yml",
 	      yam1(),
-	      () => {}
-	    );
-
+	      () => { });
+		
 		// run genie generate (after deleting and rewriting config)
 
-		let genCall = shell('genie generate')
+		genCall = shell('genie generate')
+		
+		// console.log(genCall)
 
+		genCall.on('exit', ()=>{
 
-		genCall.on('message', (message)=>{
-
-			console.log(chalk.yellow(message))
-		})
-
-		genCall.on('exit', async () =>{
-
-			// print new config file with new model added
-
-			await fs.writeFile(
+			fs.writeFile(
 		      "./lamp.config.yml",
 		      yam2(),
 		      () => {}
 		    )
 
 			let updateCall = shell('genie update')
-			console.log('update call firing')
-			updateCall.on('message', (message)=>{
-
-				console.log(chalk.yellow(message))
-			})	
-
+		
+			updateCall.on('exit', ()=>{
+			
+				process.exit()
+			})
 		})
-
 	})
 }
 
@@ -323,10 +321,9 @@ Rails model
 */
 
 let testEight = () => {
-	console.log('running test 8')
+
 	updateTest(config.testEightBaseYaml, config.testEightAddYaml)
 }
-
 
 /* 
 
@@ -334,6 +331,9 @@ update creates multiple new models with no thunks or actions- CRUD true
 Rails model
 
 */
+
+
+
 
 /*
 
@@ -367,7 +367,7 @@ testFour,
 testFive,
 testSix,
 testSeven,
-testEight
+testEight,
 ]
 
 /*

@@ -2,6 +2,7 @@
 // integration tests
 // for config files for test simulations, use config.js 
 
+
 const testZeroYaml = () => {
 
   return `Structure: Rails
@@ -51,7 +52,7 @@ Models:
 
 const testOneYaml = () => {
 
-  return `Structure: Ducks
+  return `Structure: Rails
 
 Logging: false 
 

@@ -11,15 +11,9 @@ const { makeLock, diffLock } = require('./lock')
 const simulation = require('./test_simulation')
 const simulation_dev = require('./test_simulation.dev')
 
-// const shell = (command) => {
-
-// 	let thisCommand	= spawn(command, {shell: true, 
-// 						stdio: [ 'pipe', 'pipe', 'pipe', 'ipc' ]
-// 								}
-// 						)
-
-// 	return thisCommand
-// }
+if(process.env.mode === 'testing'){
+	console.log = ()=>{}
+}
 
 const shell = (command) => {
 
@@ -27,54 +21,27 @@ const shell = (command) => {
 						stdio: 'inherit'
 								}
 						)
-
 	return thisCommand
 }
 
-
 if(command === 'generate') {
+
+	console.log(chalk.red('genie generate'))
 		
 	let gencommand = `node ${__dirname}/generator_code_root.js`
 
 	let generateCall = shell(gencommand)
 
-	generateCall.on('message', (message) =>{
-		
-		if(process.send){
-		
-			process.send(chalk.yellow(message))
-		}
-		else{
-
-			console.log(chalk.yellow(message))
-		}
-
-	})
-
-	generateCall.on('error', (error)=>{
-	
-		console.log(error)
-	})	
 }
 
 if(command === 'update'){
 
+	console.log(chalk.red('genie update'))
+
 	let updateCommand = `node ${__dirname}/updateCodeRoot.js`
 
 	let updateCall = shell(updateCommand)
-
-	updateCall.on('message', (message) =>{
-		
-		if(process.send){
-		
-			process.send(chalk.yellow(message))
-		}
-		else{
-
-			console.log(chalk.yellow(message))
-		}
-
-	})
+	
 }
 
 // these will only be for development 

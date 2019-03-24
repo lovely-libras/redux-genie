@@ -9,6 +9,7 @@ const create_store = require("./generator_code_files/ducks_style/create_store");
 const create_combine_reducers = require("./generator_code_files/ducks_style/create_combine_reducers");
 const { makeLock } = require('./lock')
 
+
 if (fs.existsSync('./.lamp-lock.json')) {
   
   // lamp-lock already exists
@@ -49,7 +50,7 @@ else{
   let rootStore = spawn("mkdir store", { shell: true });
 
   if (Structure === "Rails") {
-    process.send('Generating Rails file structure')
+    console.log(chalk.red('Generating Rails file structure'))
     let makeDir = spawn("mkdir store/actions store/constants store/reducers", {
       shell: true
     });
@@ -61,7 +62,7 @@ else{
   }
 
   if (Structure === "Ducks") {
-    process.send('Generating Ducks file structure')
+    console.log(chalk.red('Generating Ducks file structure'))
 
     // create action types, action creators, and reducer
 
@@ -94,15 +95,15 @@ else{
           "./store/combine_reducers.js",
           create_combine_reducers(modelNames),
           (err) => {
-            if(err) process.send(err)
-            process.send(chalk.yellow(`made the combine_reducers.js file`));
+            if(err) console.log(err)
+           console.log(chalk.yellow(`made the combine_reducers.js file`)) 
           }
         );
 
         // create store
         fs.writeFile("./store/store.js", create_store(Logging), (err) => {
-          if(err) process.send(err)
-          process.send(chalk.yellow(`made the store.js file`));
+          if(err) console.log(err)
+          console.log(chalk.yellow(`made the store.js file`)) 
         });
     })
 

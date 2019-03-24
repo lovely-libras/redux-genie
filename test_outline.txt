@@ -8,8 +8,6 @@ generic expect blocks- these may or may not be appropriate for each test, its a 
 4. action constant- returns the expected string
 5. dispatch an individual action updates or returns state 
 
-
-
 FINAL STRATEGY
 
 1. store.spec.js
@@ -49,6 +47,7 @@ TEST LANDSCAPE:
 4. thunks "thunk.spec.js"
 
 	- populates as expected when user wants to include in action file, and when they choose to have them defined in a separate file
+	
 	- populates correctly based on the way they should be listed on the yaml file: with endpoint and the action that should be fired in thunk's final dispatch method
 
 6. defined actions "actions.spec.js"
@@ -60,3 +59,6 @@ TEST LANDSCAPE:
 		- reducer
 
 total of 12 test "set" - 6 for Rails, 6 for Ducks
+
+
+

@@ -1,11 +1,5 @@
 module.exports = (crudedModelNames, userDefinedActions) => {
 
-	// create separate conditional branch if crud == true
-	// model names can still exist if crud is false, because
-	// user could declare separate action names
-
-	// is CRUD true and are there named actions
-
   let crudMaker = modelName => {
 
   	modelName = Object.keys(modelName)[0].toUpperCase()

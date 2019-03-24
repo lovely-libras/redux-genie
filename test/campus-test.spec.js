@@ -43,34 +43,42 @@ describe("campuses", () => {
     await store.dispatch(createOne(newCampus));
 
     const campusAdded = store.getState().Campus_state.CampusList;
+
     expect(campusAdded).to.deep.equal(campuses.concat(newCampus));
   });
 
   it("get a single campus", async () => {
+
     await store.dispatch(getOne(oneCampus));
 
     const singleCampus = store.getState().Campus_state.CampusList;
+
     expect(singleCampus).to.deep.equal(singleCampus);
+
   });
 
   it("update campus", async () => {
     await store.dispatch(updateOne(oneUpdatedCampus));
 
     const singleCampus = store.getState().Campus_state.CampusList;
+
     expect(singleCampus).to.deep.equal([
       { name: "campus1", address: "something" },
       { name: "campus2" },
       { name: "campusNew" }
     ]);
+
   });
 
   it("delete newCampus campus", async () => {
     await store.dispatch(deleteOne(oneUpdatedCampus));
 
     const deleteOneCampus = store.getState().Campus_state.CampusList;
+
     expect(deleteOneCampus).to.deep.equal([
       { name: "campus2" },
       { name: "campusNew" }
     ]);
+    
   });
 });
