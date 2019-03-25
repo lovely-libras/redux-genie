@@ -34,4 +34,12 @@ const ls = (dir, fileList = []) => {
 // }
 
 const tree = ls(dir);
-console.log(tree);
+console.log('Tree: ', tree);
+
+const printFileStructure = tree => {
+  for (let i = 0; i < tree.length; i++) {
+    console.log(archy(tree[i]));
+  }
+};
+
+printFileStructure(tree);
