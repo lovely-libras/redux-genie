@@ -1,5 +1,6 @@
 // this file updates the action constants for an existing store
 // for the Rails model
+
 const fs = require("fs");
 const chalk = require('chalk')
 
@@ -17,9 +18,7 @@ module.exports = async (modelNames, newModels, Thunks)=> {
 		using the genie
 	*/
 
-	modelNames = modelNames.reduce((a,b)=> a + b, '')
-
-	// this is repeated code that is low hanging fruit for refactoring --->
+	// refactor --->
 
 	let crudedModelNames = newModels.filter(model => !(model.CRUD === false))
 
@@ -29,11 +28,6 @@ module.exports = async (modelNames, newModels, Thunks)=> {
 	
 	// <---
 
-	if(!newConstants.indexOf('}')){
-
-		console.log('unable to complete update- genie cannot process current action constants file')
-		process.exit()
-	}
 
 	newConstants = "\t" + newConstants.slice(newConstants.indexOf('{') + 1, newConstants.indexOf('}')).trim()
 
@@ -44,6 +38,12 @@ module.exports = async (modelNames, newModels, Thunks)=> {
 	    if (err) {
 	        throw err;
 	    }
+		
+		if(!data.indexOf('}')){
+
+			console.log('Unable to complete update- genie cannot process current action constants file. Check that the file ends with a "}" bracket.')
+			process.exit()
+		}
 	  	
 	    let updatedFile = data.toString().slice(0, data.indexOf('}')) + newConstants + '\n}'
 
@@ -54,7 +54,7 @@ module.exports = async (modelNames, newModels, Thunks)=> {
 			updatedFile,
 
 			() => {
-			  console.log(chalk.yellow(`updated the action creator file to add ${modelNames}`));
+			  console.log(chalk.yellow(`updated the action creator file to add ${modelNames.reduce((a,b)=> a + b + ' ', '')}`));
 			}
 		);	    
 	});

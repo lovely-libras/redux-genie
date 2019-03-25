@@ -3,13 +3,13 @@ const fs = require("fs");
 const yaml = require("js-yaml");
 const { diff } = require('json-diff')
 
-const makeLock = (current, previous) => {
+const makeLock = (currentYam, previousYam, diffedModels, diffedAdditions) => {
 
-	if(!previous){
+	if(!previousYam){
 
 		fs.writeFile(
 		    "./.lamp-lock.json",
-		    JSON.stringify(current, null, "\t"),
+		    JSON.stringify(currentYam, null, "\t"),
 		    () => {
 		    }
 		);
@@ -19,24 +19,26 @@ const makeLock = (current, previous) => {
 		// so they can't change the structure choice
 		// this would make it impossible to resolve the 
 		// file locations after the fact
+
+		// combine diffedAdditions into previousYam.Models-
+		// we don't want any deletions written to the next lamp lock
 	
+		let combinedModels = [...previousYam.Models, ...diffedModels]
+
 		let nextLock = {
 
-			Structure: previous.Structure,
-			Models: current.Models 
-		
+			Structure: previousYam.Structure,
+			Models: combinedModels 
 		} 
 
-		previous.Thunks ? nextLock.Thunks = 'included' : '' ;
+		previousYam.Thunks ? nextLock.Thunks = 'included' : '' ;
 
-		console.log(nextLock)
-
-		// fs.writeFile(
-		//     "./.lamp-lock.json",
-		//     JSON.stringify(nextLock, null, "\t"),
-		//     () => {
-		//     }
-		// );
+		fs.writeFile(
+		    "./.lamp-lock.json",
+		    JSON.stringify(nextLock, null, "\t"),
+		    () => {
+		    }
+		);
 	}
 }
 
@@ -80,12 +82,13 @@ const diffLock = () => {
 
 		current.Models.forEach( (model, i) =>{
 			
-			if(lastYaml[Object.entries(model)[0]]){ // not a completely new Model
+			if( lastYaml[Object.entries(model)[0]] ){ // not a completely new Model
+
+				
 											
 				for(let part in model){
 
 					let storeParts = part === 'Thunks' || part === "Slice" || part === "Actions"
-
 
 					// if the user didn't previously define a part in the yaml
 					
@@ -124,7 +127,6 @@ const diffLock = () => {
 		})
 
 		return { addedModels, modelUpdates:  modelUpdates  }
-
 	}
 
 	return [currentYam, previousYam, diffify(currentYam, previousYam)]
