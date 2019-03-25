@@ -4,9 +4,11 @@ const create_action_types = require("./create_action_types");
 const create_action_creators = require("./create_action_creators")
 const create_reducer = require("./create_reducer")
 const thunk_creator = require("./create_thunks_ducks")
+if(process.env.mode === 'testing'){
+  console.log = ()=>{}
+}
 
 module.exports = (model, modelName, Thunks, Logging) => {
-
 
   modelName = modelName[0].toUpperCase()
                             .concat(modelName.slice(1))
@@ -24,7 +26,7 @@ module.exports = (model, modelName, Thunks, Logging) => {
       // create_action_types(modelName.toUpperCase()),
       create_action_types(crudedModel, userDefinedActions, modelName),
       () => {
-        console.log(chalk.yellow(`made action types for ${modelName}`));
+        console.log(chalk.yellow(`made action types for ${modelName}`)) 
       }
     );
 
@@ -32,7 +34,7 @@ module.exports = (model, modelName, Thunks, Logging) => {
         `./store/${modelName}/selectors_for_${modelName}.js`,
         '',
         () => {
-          console.log(chalk.yellow(`made selector file for ${modelName}`));
+          console.log(chalk.yellow(`made selector file for ${modelName}`)) 
         }
       );
 
@@ -42,7 +44,7 @@ module.exports = (model, modelName, Thunks, Logging) => {
       `./store/${modelName}/actions_for_${modelName}.js`,
       create_action_creators(modelName, model, Thunks),
       () => {
-        console.log(chalk.yellow(`made action creators for ${modelName}`));
+        console.log(chalk.yellow(`made action creators for ${modelName}`)) 
       }
     );
 
@@ -54,7 +56,7 @@ module.exports = (model, modelName, Thunks, Logging) => {
           `./store/${modelName}/thunks_for_${modelName}.js`,
           thunk_creator(modelName, model),
           () => {
-            console.log(chalk.yellow(`made thunks for ${modelName}`));
+            console.log(chalk.yellow(`made thunks for ${modelName}`)) 
           }
         );
       
@@ -66,7 +68,7 @@ module.exports = (model, modelName, Thunks, Logging) => {
       `./store/${modelName}/reducer_for_${modelName}.js`,
       create_reducer(model, modelName),
       () => {
-        console.log(chalk.yellow(`made reducer for ${modelName}`));
+        console.log(chalk.yellow(`made reducer for ${modelName}`))
       }
     )
 

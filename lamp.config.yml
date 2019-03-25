@@ -1,16 +1,14 @@
-#prettier-ignore
-Structure: Rails
+Structure: Rails 
 
 Models:
-  - campus:
+
+  - dux:
 
     Slice:
       - Name: string
       - Quacking: Boolean
       - Ducklings: Object
       - Fly2Gether: Boolean
-
-    CRUD: true;
 
     Actions:
       - countDux
@@ -19,8 +17,17 @@ Models:
 
     Thunks:
       - getAll:
-          - "/api/Dux"
-          - getAllCampus
-      - getOne:
-          - "/api/Dux/${payload}"
-          - getCampus
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+  - terminator:
+
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+
+        

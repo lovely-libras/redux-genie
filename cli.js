@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const minimist = require('minimist');
+const chalk = require('chalk');
 const { spawn } = require('child_process');
 const currentDirectory = require('path').dirname;
 let input = minimist(process.argv);
@@ -8,28 +9,36 @@ let command = input._[2];
 let arg1 = input._[3];
 const { makeLock, diffLock } = require('./lock');
 const simulation = require('./test_simulation');
+const simulation_dev = require('./test_simulation.dev');
 
-const generateCall = `node ${__dirname}/generator_code_root.js`;
-const updateCall = `node ${__dirname}/updateCodeRoot.js`;
-const ls = `node ${__dirname}/ls.js`;
+if (process.env.mode === 'testing') {
+  console.log = () => {};
+}
 
 const shell = command => {
-  spawn(command, { shell: true, stdio: 'inherit' });
+  let thisCommand = spawn(command, { shell: true, stdio: 'inherit' });
+  return thisCommand;
 };
 
-switch (command) {
-  default:
-    break;
-  case 'generate':
-    shell(generateCall);
-    break;
-  case 'update':
-    shell(updateCall);
-    break;
-  case 'ls':
-    shell(ls);
-    break;
+if (command === 'generate') {
+  console.log(chalk.red('genie generate'));
+  let gencommand = `node ${__dirname}/generator_code_root.js`;
+  let generateCall = shell(gencommand);
 }
+
+if (command === 'update') {
+  console.log(chalk.red('genie update'));
+  let updateCommand = `node ${__dirname}/updateCodeRoot.js`;
+  let updateCall = shell(updateCommand);
+}
+
+if (command === 'ls') {
+  console.log(chalk.red('genie ls'));
+  let lsCommand = `node ${__dirname}/ls.js`;
+  let lsCall = shell(lsCommand);
+}
+
+// these will only be for development
 
 if (command === 'delete' && arg1 === 'all') {
   let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`;
@@ -39,7 +48,15 @@ if (command === 'delete' && arg1 === 'all') {
 if (command === 'sim') {
   if (arg1 === 'last') {
     simulation[simulation.length - 1]();
-  } else {
+  } else if (typeof arg1 === 'number') {
     simulation[Number(arg1)]();
+  }
+}
+
+if (command === 'simdev') {
+  if (arg1 === 'last') {
+    simulation_dev[simulation_dev.length - 1]();
+  } else if (typeof arg1 === 'number') {
+    simulation_dev[Number(arg1)]();
   }
 }
