@@ -7,69 +7,13 @@ import fetchMock from "fetch-mock";
 import store from "../../store/store";
 import assert from "assert";
 import mockStore from "redux-mock-store";
+import { logger } from "../../store/store";
 
 import nock from "../nockSetup";
 
-/*
-describe("Rails model", () => {
-  // beforeEach(done => {
-  //   let storeGenerate = shell("genie sim 0");
-
-  //   storeGenerate.on("exit", async () => {
-  //     done();
-  //   });
-  // });
-
-  it("generates a valid store", async () => {
-    const store = require("./../../store/store.js").default; // this is a wonky node -> front end issue
-
-    try {
-      //    const campusSlice = {
-      // 		    Name: '',
-      // 		      Quacking: true,
-      // 		      Ducklings: {},
-      // 		      Fly2Gether: true,
-      // 		  }
-
-      // const URL = "/api/Dux";
-
-      // fetchMock.mock(URL, { data: campusSlice, status: 200 });
-
-      const {
-        countDux
-      } = require("./../../store/actions/actions_for_Campus").default;
-      // const { getAll } = require("./../../store/Campus/thunks_for_Campus");
-
-      // const campusList = await store.getState().Campus_state.SingleCampus;
-
-      expect(store.dispatch(countDux("blank"))).to.deep.equal({
-        type: "COUNTDUX",
-        payload: "blank"
-      });
-
-      expect();
-    } catch (err) {
-      console.log(err);
-    }
-
-    // store.dispatch(actions.getAllCampus(campuses));
-
-    // const data = await fetch(URL).then(res => res.json());
-    // console.log(data, "data!!!!!!!!");
-  });
-
-  /*
-
-
-		it dispatches actions to update the store
-		it 
-
-  	*/
-// });
-
 //action creators
-// import actions from "../../store/actions/actions_for_Campus"; //rails
 import actions from "../../store/Campus/actions_for_Campus"; //ducks
+// import actions from "../../store/actions/actions_for_Campus"; //rails
 
 //action constants
 import action_constants from "../../store/Campus/action_constants_for_Campus"; //for ducks
@@ -96,6 +40,7 @@ import {
 // } from "../../store/actions/actions_for_Campus"; //for rails
 import {
   GET_ALL_CAMPUS,
+  GET_CAMPUS,
   ADD_CAMPUS
 } from "../../store/Campus/action_constants_for_Campus"; //for ducks
 // } from "../../store/constants/action_constants_for_Campus"; //for rails
@@ -124,7 +69,7 @@ fetchMock.mock(URL, { data: campuses, status: 200 });
 const getOneURL = `/api/Dux/${oneCampus.Name}`;
 fetchMock.mock(getOneURL, { data: oneCampus, status: 201 });
 
-const updateOneURL = `/api/Dux/campus1`;
+const updateOneURL = `/api/Dux/${oneCampus.Name}`;
 fetchMock.put(
   updateOneURL,
   { data: "notCampus", status: 203 },
@@ -210,65 +155,5 @@ describe("tests action creators", () => {
       payload
     };
     expect(actions.createCampus(payload)).to.deep.equal(expectedAction);
-  });
-});
-
-describe("reducer unit tests", () => {
-  describe("tests reducers. A reducer should return the new state after applying the action to the previous state, and that's the behavior tested below.", () => {
-    it("should return the initial state", () => {
-      expect(reducer(undefined, {})).to.deep.equal({
-        CampusList: [],
-        isLoading: false,
-        SingleCampus: {
-          Name: "",
-          Quacking: true,
-          Ducklings: {},
-          Fly2Gether: true
-        }
-      });
-    });
-
-    it("should handle GET_ALL_CAMPUS", () => {
-      expect(
-        reducer(
-          [
-            {
-              CampusList: [{ name: "campus1" }, { name: "campus2" }],
-              isLoading: false,
-              SingleCampus: {
-                Name: "",
-                Quacking: true,
-                Ducklings: {},
-                Fly2Gether: true
-              }
-            }
-          ],
-          {
-            type: actions.GET_ALL_CAMPUS
-          }
-        )
-      ).to.deep.equal([
-        {
-          CampusList: [{ name: "campus1" }, { name: "campus2" }],
-          isLoading: false,
-          SingleCampus: {
-            Name: "",
-            Quacking: true,
-            Ducklings: {},
-            Fly2Gether: true
-          }
-        }
-      ]);
-    });
-
-    it("should handle ADD_CAMPUS", () => {
-      const beforeState = { CampusList: [{ name: "campus1" }] };
-      const action = { type: ADD_CAMPUS, payload: { name: "campus2" } };
-      const afterState = reducer(beforeState, action);
-
-      expect(afterState).to.deep.equal({
-        CampusList: [{ name: "campus1" }, { name: "campus2" }]
-      });
-    });
   });
 });

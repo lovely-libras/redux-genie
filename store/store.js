@@ -6,7 +6,10 @@ import combinedReducers from "./combine_reducers";
 export const logger = createLogger({ collapse: true });
 
 const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, logger)
+  applyMiddleware(
+    thunkMiddleware
+    // logger
+  )
 );
 
 export default createStore(combinedReducers, middleware);

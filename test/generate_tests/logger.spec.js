@@ -7,11 +7,12 @@ import store from "../../store/store";
 import { getAll } from "../../store/Campus/thunks_for_Campus"; //ducks
 chai.use(sinonChai);
 
-const spy = sinon.spy(logger);
+const spy = sinon.spy();
+spy(logger);
 
 describe("logger testing", () => {
-  it("should call the logger", () => {
-    store.dispatch(getAll());
+  it("should call the logger", async () => {
+    await store.dispatch(getAll());
     expect(spy).to.have.been.called;
   });
 });
