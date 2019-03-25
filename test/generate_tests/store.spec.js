@@ -68,11 +68,12 @@ describe("Rails model", () => {
 // });
 
 //action creators
-import actions from "../../store/actions/actions_for_Campus"; //rails
-// import actions from "../../store/Campus/actions_for_Campus" //ducks
+// import actions from "../../store/actions/actions_for_Campus"; //rails
+import actions from "../../store/Campus/actions_for_Campus"; //ducks
 
 //action constants
-import action_constants from "../../store/constants/action_constants_for_Campus";
+import action_constants from "../../store/Campus/action_constants_for_Campus"; //for ducks
+// import action_constants from "../../store/constants/action_constants_for_Campus"; //for rails
 
 //thunks
 import {
@@ -81,39 +82,52 @@ import {
   getOne,
   updateOne,
   deleteOne
-  //} from "../../store/Campus/thunks_for_Campus";// for ducks
-} from "../../store/actions/thunks_for_Campus"; //for rails
+} from "../../store/Campus/thunks_for_Campus"; // for ducks
+// } from "../../store/actions/thunks_for_Campus"; //for rails
 
 //reducers
-import reducer from "../../store/reducers/reducer_for_Campus"; //for rails
+import reducer from "../../store/Campus/reducer_for_Campus"; //for ducks
+// import reducer from "../../store/reducers/reducer_for_Campus"; //for rails
 
 import {
   getAllCampus,
   createCampus
-} from "../../store/actions/actions_for_Campus"; //rails
+} from "../../store/Campus/actions_for_Campus"; //for ducks
+// } from "../../store/actions/actions_for_Campus"; //for rails
 import {
   GET_ALL_CAMPUS,
   ADD_CAMPUS
-} from "../../store/constants/action_constants_for_Campus";
+} from "../../store/Campus/action_constants_for_Campus"; //for ducks
+// } from "../../store/constants/action_constants_for_Campus"; //for rails
+
+//////////////////////////////////////////////////////////////////////
 
 const campuses = [
-  { name: "campus1", address: "not here yet" },
-  { name: "campus2" }
+  { Name: "campus1", address: "not here yet" },
+  { Name: "campus2" }
 ];
-const newCampus = { name: "campusNew" };
-const oneCampus = { name: "campus1" };
-const oneUpdatedCampus = { name: "campus1", address: "something" };
 
+const newCampus = { Name: "campusNew" };
+const oneCampus = {
+  Name: "campus1",
+  Quacking: true,
+  Ducklings: {},
+  Fly2Gether: true
+};
+
+const oneUpdatedCampus = { Name: "campus1", address: "something" };
+
+//////////////////////////////////////////////////////////////////////
 const URL = "/api/Dux";
 fetchMock.mock(URL, { data: campuses, status: 200 });
 
-const getOneURL = `/api/Dux/${oneCampus}`;
-fetchMock.mock(getOneURL, { data: campuses, status: 201 });
+const getOneURL = `/api/Dux/${oneCampus.Name}`;
+fetchMock.mock(getOneURL, { data: oneCampus, status: 201 });
 
-const updateOneURL = `/api/Dux/${oneUpdatedCampus}`;
-fetchMock.mock(
+const updateOneURL = `/api/Dux/campus1`;
+fetchMock.put(
   updateOneURL,
-  { data: campuses, status: 203 },
+  { data: "notCampus", status: 203 },
   { overwriteRoutes: false }
 );
 const { spawn } = require("child_process");
@@ -124,11 +138,12 @@ const shell = command => {
   return thisProc;
 };
 
+///////////////////////////////////////////////////////////////////////
+
 describe("overall integration test using thunks", () => {
   it("should get all campus in the store", async () => {
     await store.dispatch(getAll());
     const campusList = store.getState().Campus_state.CampusList;
-    console.log(campusList, "campusList!!!!!");
     expect(campusList).to.deep.equal(campuses);
   });
 
@@ -140,32 +155,33 @@ describe("overall integration test using thunks", () => {
   });
 
   it("get a single campus", async () => {
-    await store.dispatch(getOne(oneCampus));
+    await store.dispatch(getOne("campus1"));
 
-    const singleCampus = store.getState().Campus_state.CampusList;
-    expect(singleCampus).to.deep.equal(singleCampus);
+    const singleCampus = store.getState().Campus_state.SingleCampus;
+    expect(singleCampus).to.deep.equal("campus1");
   });
 
-  it("update campus", async () => {
-    await store.dispatch(updateOne(oneUpdatedCampus));
+  /////////////////////////////////////////////////////////////////////////
+  // it("update campus", async () => {
+  //   await store.dispatch(updateOne({ name: "campus1", address: "something" }));
 
-    const singleCampus = store.getState().Campus_state.CampusList;
-    expect(singleCampus).to.deep.equal([
-      { name: "campus1", address: "something" },
-      { name: "campus2" },
-      { name: "campusNew" }
-    ]);
-  });
+  //   const singleCampus = store.getState().Campus_state.CampusList;
+  //   expect(singleCampus).to.deep.equal([
+  //     { name: "campus1", address: "something" },
+  //     { name: "campus2" },
+  //     { name: "campusNew" }
+  //   ]);
+  // });
 
-  it("delete newCampus campus", async () => {
-    await store.dispatch(deleteOne(oneUpdatedCampus));
+  // it("delete newCampus campus", async () => {
+  //   await store.dispatch(deleteOne(oneUpdatedCampus));
 
-    const deleteOneCampus = store.getState().Campus_state.CampusList;
-    expect(deleteOneCampus).to.deep.equal([
-      { name: "campus2" },
-      { name: "campusNew" }
-    ]);
-  });
+  //   const deleteOneCampus = store.getState().Campus_state.CampusList;
+  //   expect(deleteOneCampus).to.deep.equal([
+  //     { name: "campus2" },
+  //     { name: "campusNew" }
+  //   ]);
+  // });
 });
 
 describe("tests action creators", () => {
