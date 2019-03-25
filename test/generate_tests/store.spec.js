@@ -1,11 +1,11 @@
 /*use strict*/
 import { expect, should, equal } from "chai";
-import { createSpy, spyOn, isSpy } from "expect";
+// import { createSpy, spyOn, isSpy } from "expect";
 import sinon from "sinon";
 import sinonchai from "sinon-chai";
 import fetchMock from "fetch-mock";
 import store from "../../store/store";
-import assert from "assert";
+// import assert from "assert";
 import mockStore from "redux-mock-store";
 import { logger } from "../../store/store";
 
@@ -105,28 +105,6 @@ describe("overall integration test using thunks", () => {
     const singleCampus = store.getState().Campus_state.SingleCampus;
     expect(singleCampus).to.deep.equal("campus1");
   });
-
-  /////////////////////////////////////////////////////////////////////////
-  // it("update campus", async () => {
-  //   await store.dispatch(updateOne({ name: "campus1", address: "something" }));
-
-  //   const singleCampus = store.getState().Campus_state.CampusList;
-  //   expect(singleCampus).to.deep.equal([
-  //     { name: "campus1", address: "something" },
-  //     { name: "campus2" },
-  //     { name: "campusNew" }
-  //   ]);
-  // });
-
-  // it("delete newCampus campus", async () => {
-  //   await store.dispatch(deleteOne(oneUpdatedCampus));
-
-  //   const deleteOneCampus = store.getState().Campus_state.CampusList;
-  //   expect(deleteOneCampus).to.deep.equal([
-  //     { name: "campus2" },
-  //     { name: "campusNew" }
-  //   ]);
-  // });
 });
 
 describe("tests action creators", () => {

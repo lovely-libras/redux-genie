@@ -1,4 +1,4 @@
-import actions from "./action_constants_for_CAMPUS";
+import actions from "./action_constants_for_Campus";
 
 const initialState = {
   CampusList: [],
@@ -12,14 +12,18 @@ const initialState = {
 };
 
 export default function Campus_reducer(state = initialState, action) {
+  console.log("this is the whole action", action);
   switch (action.type) {
     case actions.GET_CAMPUS: {
       console.log("HITTING GET CAMPUS", action.payload);
-      return { ...state, SingleCampus: action.payload };
+      return {
+        ...state,
+        SingleCampus: action.payload
+      };
     }
 
     case actions.GET_ALL_CAMPUS: {
-      return { ...state, CampusList: [...action.payload] };
+      return { ...state, CampusList: action.payload };
     }
 
     case actions.ADD_CAMPUS: {

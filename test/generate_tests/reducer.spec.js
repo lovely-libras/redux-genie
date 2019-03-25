@@ -20,11 +20,12 @@ import {
   createCampus
 } from "../../store/Campus/actions_for_Campus"; //for ducks
 // } from "../../store/actions/actions_for_Campus"; //for rails
-import {
+const {
   GET_ALL_CAMPUS,
   GET_CAMPUS,
   ADD_CAMPUS
-} from "../../store/Campus/action_constants_for_Campus"; //for ducks
+} = require("../../store/Campus/action_constants_for_Campus").default; //for ducks
+console.log("This is from the import", GET_CAMPUS);
 
 // } from "../../store/constants/action_constants_for_Campus"; //for rails
 
@@ -44,12 +45,12 @@ describe("tests reducers. A reducer should return the new state after applying t
 
   it("should handle GET_ALL_CAMPUS", () => {
     const beforeState = {
-      CampusList: [{ name: "campus1" }, { name: "campus2" }]
+      CampusList: []
     };
-    const action = { type: GET_ALL_CAMPUS };
+    const action = { type: GET_ALL_CAMPUS, payload: [{ name: "campus1" }] };
     const afterState = reducer(beforeState, action);
     expect(afterState).to.deep.equal({
-      CampusList: [{ name: "campus1" }, { name: "campus2" }]
+      CampusList: [{ name: "campus1" }]
     });
   });
 
@@ -58,10 +59,8 @@ describe("tests reducers. A reducer should return the new state after applying t
       CampusList: [{ name: "campus1!" }, { name: "campus2" }],
       SingleCampus: {}
     };
-    const action = { type: GET_CAMPUS, payload: { name: "campus1!" } };
-    const afterState = reducer(beforeState, action);
-    console.log("REDUCERRRR", reducer);
-    console.log("AFTERSTATE", afterState);
+    const actionTwo = { type: GET_CAMPUS, payload: { name: "campus1!" } };
+    const afterState = reducer(beforeState, actionTwo);
     expect(afterState).to.deep.equal({
       CampusList: [{ name: "campus1!" }, { name: "campus2" }],
       SingleCampus: { name: "campus1!" }
