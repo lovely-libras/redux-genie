@@ -16,9 +16,21 @@ export const getOne = payload => dispatch => {
     .then(function({ data }) {
       dispatch(actions.createCampus(payload));
     });
-};
+  }
+
+
+export const createOne = payload => dispatch => {
+      console.log("add new campus is called");
+      return fetch("/api/Dux", { method: "POST", body: payload })
+        .then(resp => resp.json())
+        .then(function({ data }) {
+          dispatch(actions.createCampus(payload));
+        });
+    };
+
 
 export default {
   getAll,
-  getOne
+  getOne,
+  createOne
 };

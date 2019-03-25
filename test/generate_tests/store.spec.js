@@ -85,7 +85,16 @@ import {
 } from "../../store/actions/thunks_for_Campus"; //for rails
 
 //reducers
-import reducer from '../../store/reducers/reducer_for_Campus'//for rails
+import reducer from "../../store/reducers/reducer_for_Campus"; //for rails
+
+import {
+  getAllCampus,
+  createCampus
+} from "../../store/actions/actions_for_Campus"; //rails
+import {
+  GET_ALL_CAMPUS,
+  ADD_CAMPUS
+} from "../../store/constants/action_constants_for_Campus";
 
 const campuses = [
   { name: "campus1", address: "not here yet" },
@@ -159,15 +168,6 @@ describe("overall integration test using thunks", () => {
   });
 });
 
-import {
-  getAllCampus,
-  createCampus
-} from "../../store/actions/actions_for_Campus"; //rails
-import {
-  GET_ALL_CAMPUS,
-  ADD_CAMPUS
-} from "../../store/constants/action_constants_for_Campus";
-
 describe("tests action creators", () => {
   it("should create an action to get a campus", () => {
     let payload = "other thing";
@@ -196,35 +196,12 @@ describe("tests action creators", () => {
     expect(actions.createCampus(payload)).to.deep.equal(expectedAction);
   });
 });
-describe("thunk unit tests", () => {
-  function practice(){
-    return 'something'
-  }
-  it("thunk returns a function", () => {
-    expect(typeof(getAll)).to.deep.equal('function');
 
-  });
-
-});
-
-describe("tests reducers. A reducer should return the new state after applying the action to the previous state, and that's the behavior tested below.", () => {  
-  it('should return the initial state', ()=>{
-    expect(reducer(undefined, {})).to.deep.equal({
-      CampusList: [],
-      isLoading: false,
-      SingleCampus: {
-        Name: "",
-        Quacking: true,
-        Ducklings: {},
-        Fly2Gether: true
-      }
-    })
-  })
-
-  it('should handle GET_ALL_CAMPUS', () => {
-    expect(
-      reducer([{
-        CampusList: [{name: 'campus1'},{name: 'campus2'}],
+describe("reducer unit tests", () => {
+  describe("tests reducers. A reducer should return the new state after applying the action to the previous state, and that's the behavior tested below.", () => {
+    it("should return the initial state", () => {
+      expect(reducer(undefined, {})).to.deep.equal({
+        CampusList: [],
         isLoading: false,
         SingleCampus: {
           Name: "",
@@ -232,11 +209,31 @@ describe("tests reducers. A reducer should return the new state after applying t
           Ducklings: {},
           Fly2Gether: true
         }
-      }], {
-        type: actions.GET_ALL_CAMPUS
-      })
-    ).to.deep.equal([
-      {   CampusList: [{name: 'campus1'},{name: 'campus2'}],
+      });
+    });
+
+    it("should handle GET_ALL_CAMPUS", () => {
+      expect(
+        reducer(
+          [
+            {
+              CampusList: [{ name: "campus1" }, { name: "campus2" }],
+              isLoading: false,
+              SingleCampus: {
+                Name: "",
+                Quacking: true,
+                Ducklings: {},
+                Fly2Gether: true
+              }
+            }
+          ],
+          {
+            type: actions.GET_ALL_CAMPUS
+          }
+        )
+      ).to.deep.equal([
+        {
+          CampusList: [{ name: "campus1" }, { name: "campus2" }],
           isLoading: false,
           SingleCampus: {
             Name: "",
@@ -244,14 +241,18 @@ describe("tests reducers. A reducer should return the new state after applying t
             Ducklings: {},
             Fly2Gether: true
           }
-        
-      }
-    ])
+        }
+      ]);
+    });
 
-  })
-})
+    it("should handle ADD_CAMPUS", () => {
+      const beforeState = { CampusList: [{ name: "campus1" }] };
+      const action = { type: ADD_CAMPUS, payload: { name: "campus2" } };
+      const afterState = reducer(beforeState, action);
 
-
-
-
-describe("tests logging middleware", () => {});
+      expect(afterState).to.deep.equal({
+        CampusList: [{ name: "campus1" }, { name: "campus2" }]
+      });
+    });
+  });
+});

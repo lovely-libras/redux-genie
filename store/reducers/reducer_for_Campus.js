@@ -3,7 +3,7 @@ import {
   ADD_CAMPUS
 } from "../constants/action_constants_for_Campus";
 
-const initialState = {
+export const initialState = {
   CampusList: [],
   isLoading: false,
   SingleCampus: {
@@ -21,9 +21,9 @@ export default function Campus_reducer(state = initialState, action) {
       return { ...state, CampusList: action.payload };
     }
 
-    // case ADD_CAMPUS:
-    //   console.log("hitting add_campus reducer");
-    //   return { ...state, CampusList: [...state.CampusList, action.payload] };
+    case ADD_CAMPUS:
+      console.log("hitting add_campus reducer");
+      return { ...state, CampusList: [...state.CampusList, action.payload] };
 
     // case actions.countDux: {
     //   return { ...state };
