@@ -6,7 +6,7 @@ module.exports = (modelName, model, Thunks) => {
   modelName = modelName[0].toUpperCase().concat(modelName.slice(1))
   let modelNameCaps = modelName.toUpperCase();
 
-  let returnStatement = `import actions from "../constants/action_constants_for_${modelName}"\n`;
+  let returnStatement = `import actions from "../constants/action_constants"\n`;
 
   let exportStatement = `\nexport default {`;
 

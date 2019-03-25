@@ -71,7 +71,7 @@ cases += `
 		`
 	})}
 
-	return `import actions from "./../constants/action_constants_for_${name}"
+	return `import actions from "./../constants/action_constants"
 
 const initialState = {
 	${name}List : [],
