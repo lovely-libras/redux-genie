@@ -1,12 +1,12 @@
 {
   "name": "redux_genie",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "the cheat codes for redux. let redux genie generate and handle your redux boilerplate",
   "main": "generate_code_root.js",
   "scripts": {
     "build": "npm install -g ./",
-    "test": "mocha",
-    "integration": "jest ./test/generate_tests/store2.js"
+
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -30,7 +30,6 @@
     "chai": "^4.2.0",
     "chai-things": "^0.2.0",
     "clear": "^0.1.0",
-    "directory-tree": "^2.2.1",
     "eslint-plugin-jest": "^22.4.1",
     "expect": "^24.5.0",
     "fancy-test": "^1.4.3",
@@ -45,6 +44,7 @@
     "nock": "^10.0.6",
     "path": "^0.12.7",
     "pify": "^4.0.1",
+    "read-file-tree": "^1.1.1",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
@@ -64,6 +64,8 @@
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.2",
     "@babel/register": "^7.4.0",
+    "archy": "^1.0.0",
+    "directory-tree": "^2.2.1",
     "fetch-mock": "^7.3.1",
     "node-fetch": "^2.3.0"
   }
