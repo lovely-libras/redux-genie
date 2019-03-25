@@ -5,7 +5,8 @@
   "main": "generate_code_root.js",
   "scripts": {
     "build": "npm install -g ./",
-    "test": "mocha",
+    "test": "mode=testing mocha --timeout 20000",
+    "test-full": "mocha --timeout 20000",
     "integration": "jest ./test/integration_testing/domain_style_integration.test.spec.js"
   },
   "repository": {

@@ -2,17 +2,21 @@ module.exports = (modelName, model) => {
 
   let modelNameCaps = modelName.toUpperCase();
 
-  let returnStatement = `import actions from "../constants/action_constants"\n`;
+  let returnStatement = `import actions from "../actions/actions_for_${modelName}"\n`;
 
   let exportStatement = `\nexport default {`;
 
   model.Thunks.forEach(thunk => {
-  
-    returnStatement += `\nexport const ${Object.entries(thunk)[0][0]} = () => dispatch => {
-  fetch('${Object.entries(thunk)[0][1]}')
+
+    thisThunk = Object.entries(thunk)[0];
+
+    returnStatement += `\nexport const ${thisThunk[0]} = () => dispatch => {
+ 
+  return fetch('${thisThunk[1][0]}')
       .then((resp) => resp.json()) 
-      .then(function(data) {
-          dispatch(data)
+      .then(function( {data} ) {
+ 
+          dispatch(actions.${thisThunk[1][1]}(data))
   });
 };\n`;
 

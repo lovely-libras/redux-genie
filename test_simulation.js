@@ -9,7 +9,7 @@ see the cli.js file under "genie sim"
 */
 
 const config = require("./test/config"); // these are dummy lamp.config.yml files
-const fs = require("fs").promises;
+const fs = require("fs");
 const chalk = require("chalk");
 const { spawn } = require("child_process");
 const util = require("util");
