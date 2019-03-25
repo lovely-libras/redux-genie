@@ -1,5 +1,6 @@
 const fs = require('fs')
 const chalk = require('chalk')
+const esprima = require('esprima')
 
 let warning = 'Unable to complete update- genie cannot process current action constants file. Check that the file ends with a "}" bracket.'
 
@@ -11,7 +12,7 @@ module.exports = (updates, Thunks) => {
 		
 		// this is admittedly bad naming: low hanging fruit for refactoring
 		// needs to be changing these to something like "newActions" and "newThunks"
-		// upperCase Thunks refers to 
+		// upperCase Thunks refers to the "Thunks included" option on the base yaml
 
 		let actions = []
 		let thunks = []
@@ -75,9 +76,13 @@ module.exports = (updates, Thunks) => {
 			// no named actions yet- very unlikely scenario, CRUD no and no actions defined
 			// just call the writeFile method with the same object
 
-
-
-
+			fs.writeFile(
+	        `./store/actions/actions_for_${modelName}.js`,
+	        require('./../action_boiler_Rails_model')(modelName, { Actions: actions }, Thunks),
+	        () => {
+	          console.log(chalk.yellow(`made action types for ${modelName}`)) 
+	        }
+	      );
 		}
 
 		// update action constants - add actions
@@ -97,6 +102,8 @@ module.exports = (updates, Thunks) => {
 				process.exit()
 			}
 
+			// write validator code to regex out double keys
+
 			let newConstants = actions.reduce((a,b)=> (a += `\t${b.toUpperCase()} : '${b.toUpperCase()}',\n`), "")
 		  
 		    let updatedConstants = data.toString().slice(0, data.lastIndexOf('}')) + newConstants + '\n}'
@@ -108,13 +115,14 @@ module.exports = (updates, Thunks) => {
 				updatedConstants,
 
 				() => {
-				  console.log(chalk.yellow(`updated the action creator file to add new actions constants for ${modelName}`));
+
+					console.log(chalk.yellow(`updated the action creator file to add new actions constants for ${modelName}`));
 				}
-			);	    
+			);	
 		});
 
 		// update reducer - add actions
-		// there will always be a reducer file
+		// there will always be a reducer file even in weird edge cases
 
 		let reducerFile = `${process.cwd()}/store/reducers/reducer_for_${modelName}.js`
 
@@ -157,26 +165,62 @@ module.exports = (updates, Thunks) => {
 		// update external thunks file
 		// thunks included would be taken care of above when the thunks are passed
 		// into the action generate function  
-		
-		/*
-		let thunksFile = `${process.cwd()}/store/actions/thunks_for_${modelName}.js`
+
+		let originalthunksFile = `${process.cwd()}/store/actions/thunks_for_${modelName}.js`
 
 		// thunks were already defined on the yaml- 
-		if (!Thunks && thunks.length && fs.existsSync(thunksFile)){
+		if (!Thunks && thunks.length && fs.existsSync(originalthunksFile) ){
 
 			// function expects an object with "Thunks" key and list of thunk objects
-			let updatedthunks = thunks_Rails_model(modelName, { Thunks : thunks}, Thunks)
+			let updatedthunks = require('./../thunks_Rails_model')(modelName, { Thunks : thunks}, Thunks)
+								
+			// console.log(updatedthunks)
 
-			console.log(updatedthunks)
+			fs.readFile(originalthunksFile, (err, data) => {
+
+				data = data.toString()
+
+			    if (err) {
+			        throw err;
+			    }
+
+			    // read the file and splice in the new thunks
+
+			    let top = data.slice(0, data.indexOf('export default'))
+			    let body = updatedthunks.slice(updatedthunks.indexOf('export const'), updatedthunks.indexOf('export default'))
+			    let bottom = data.slice(data.indexOf('export default')) 
+			    bottom = bottom.slice(0, bottom.indexOf('}')) + thunks.reduce((a, b)=> a + "\t" + Object.keys(b)[0] + ',' , '') + '\n}'
+
+			    let newFile = top + body + bottom
+
+			    fs.writeFile(
+
+					originalthunksFile,
+					newFile,
+
+					() => {
+					  console.log(chalk.yellow(`updated the reducer file to add new actions for ${modelName}`));
+					}
+				);	
 
 
+			})
 
-		} // they added thunks, which don't have their own file
-		else if(!Thunks && thunks.length && !fs.existsSync(thunksFile)){
+		} 
 
-			// actually just call the generate write method
+		// they added thunks, which don't have their own file
+		if(!Thunks && thunks.length && !fs.existsSync(originalthunksFile) ){
 
+			// call the generate write method with the thunks array
+
+			fs.writeFile(
+	          `./store/actions/thunks_for_${modelName}.js`,
+	          require('./../thunks_Rails_model')(modelName, { Thunks : thunks}, Thunks),
+	          () => {
+	            console.log(chalk.yellow(`updated ${modelName} with a new thunks file`)) 
+	          }
+	        );
 		}
-		*/
+		
 	})
 }

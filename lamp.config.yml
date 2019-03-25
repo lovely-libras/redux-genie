@@ -1,4 +1,4 @@
-Structure: Rails 
+Structure: Ducks 
 
 Models:
 
@@ -9,11 +9,10 @@ Models:
       - Quacking: Boolean
       - Ducklings: Object
       - Fly2Gether: Boolean
-
+  	
     Actions:
       - countDux
       - migrateDux
-      - quackOne
 
     Thunks:
       - getAll:
@@ -28,8 +27,6 @@ Models:
     Slice:
       - Name: string
     
-    CRUD: false
-
     Actions:
       - countDucklings
       - migrateDucklings

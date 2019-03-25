@@ -11,8 +11,6 @@ const shell = command => {
 };
 
 
-
-
 describe("ZERO generate method- Rails", () => {
 
   // this is the way the "it" block is structured
@@ -443,7 +441,7 @@ describe(" 13 update creates muliple subsequent new models in Ducks structure", 
   }); 
 });
 
-describe(" 14 update adds actions to existing model Rails - multiple model", () => {
+describe(" 14 update adds actions and to existing model, actions and thunks not yet defined on model -  Rails", () => {
 
   it('update call for this test- Rails', (done)=>{
 
@@ -469,11 +467,12 @@ describe(" 14 update adds actions to existing model Rails - multiple model", () 
   }); 
 });
 
-describe(" 15 update adds actions to existing model Rails - multiple models", () => {
+describe(" 15 update adds actions and to existing model, actions and thunks not yet defined on model -  Rails", () => {
 
-  it('update call for this test- Rails', (done)=>{
 
-    let storeGenerate = shell(`genie simdev 14`);
+  it('update simulation call for this test- Rails', (done)=>{
+
+    let storeGenerate = shell(`genie simdev 15`);
 
     storeGenerate.on("exit", () => {
 
@@ -495,3 +494,51 @@ describe(" 15 update adds actions to existing model Rails - multiple models", ()
   }); 
 });
 
+describe(" 16 update creates muliple subsequent models updates in Rails structure", () => {
+
+  it('update call for this test- Ducks', (done)=>{
+
+    let storeGenerate = shell(`genie simdev 16`);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+
+  })
+
+  it(" ", (done) => {
+
+
+      // const store = require("./../../store/store.js").default; 
+
+      console.log(typeof require('./../../store/constants/action_constants').default)
+
+        // complete "it" block
+  
+        // expect( ).to.deep.equal({});
+
+      done()
+      
+  }); 
+});
+
+describe(" 17 update creates new models in Ducks structure", () => {
+
+  it('update call for this test- Ducks', (done)=>{
+
+    let storeGenerate = shell(`genie simdev 17`);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+
+  })
+
+  it(" ", (done) => {
+
+      done()
+      
+  }); 
+});

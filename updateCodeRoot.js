@@ -64,13 +64,12 @@ if(diffing[2].addedModels.length){
 
 // logic for adding to an existing model
 
-let additions 
+const updatesArr = []
 
 if(diffing[2].modelUpdates.length){
 
 	let deletingOnly = true
 
-	updates = []
 
 	diffing[2].modelUpdates.forEach( (diff) => {
 
@@ -101,26 +100,26 @@ if(diffing[2].modelUpdates.length){
 		}
 		else if(operation === 'adding'){
 			
-			if(!updates[index]){
-				updates[index] = []
+			if(!updatesArr[index]){
+				updatesArr[index] = []
 			}
 
-			updates[index].push(diff)
+			updatesArr[index].push(diff)
 
-			// updates.push(`\n${operation} ${diff[1]}: ${ added } to model ${modelName}\n`)
+			// updatesArr.push(`\n${operation} ${diff[1]}: ${ added } to model ${modelName}\n`)
 		}	
 	
 	})
 
-	if(updates.length && !deletingOnly){
+	if(updatesArr.length && !deletingOnly){
 
 		if(Structure === 'Rails'){
 
-			rails_edit(updates, Thunks)
+			rails_edit(updatesArr, Thunks)
 		}  
 
 	}
-	else if(updates.length && deletingOnly){
+	else if(updatesArr.length && deletingOnly){
 
 		console.log(chalk.red('\nOnly delete operations detected, exiting process'))
 	}
@@ -133,7 +132,7 @@ if(diffing[2].modelUpdates.length){
 	}
 }
 
-makeLock(null, diffing[1], diffing[2].addedModels)
+makeLock(null, diffing[1], diffing[2].addedModels, updatesArr)
 
 
 

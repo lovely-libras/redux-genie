@@ -51,6 +51,15 @@ SIMS FOR THE GENERATE FEATURE
 
 */
 
+/* 
+
+note- it would have been cleaner to export these as an 
+object or class with each function as a method, rather
+than defining each function and then exporting them 
+explicitly at the bottom
+
+*/
+
 async function genTest(yamlFunc){
 
 	// delete current store
@@ -432,12 +441,13 @@ because the lamp updater will ignore subsequent structure choices :)
 */
 
 const testThirteen = () => {
+
 	multiUpdate(config.testTwelveBaseYaml, config.testEightAddYaml, config.testNineAddYaml)
 }
 
 /*
 generate store with a model that doesn't have actions
-and then add the action section using the 'update' method
+or thunks and then add the action section using the 'update' method
 Rails model- thunks not included on action files
 */
 
@@ -447,13 +457,238 @@ const testFourteen = () => {
 }
 
 /*
-generate store with a model that doesn't have actions
-and then add the action section using the 'update' method
-Rails model- thunks included in action files
+generate store with a model that has actions and thunks defined
+and then add to each section using the 'update' method
+Rails model- thunks included in separate files
+*/
+
+const testFifteen = () => {
+
+	updateTest(config.testFifteenBaseYaml, config.testFifteenAddYaml)
+}
+
+/*
+
+update creates actions for an existing model, then creates another set
+of actions for the same model new model
+Rails model
+
 */
 
 
+const testSixteen = () => {
 
+	const configOne = () => {return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+ 
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    Actions:
+      - countDucklings 
+        `}
+
+
+	const configTwo = () => {return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+  	
+    Actions:
+      - countDux
+      - migrateDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    Actions:
+      - countDucklings
+      - migrateDucklings
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDucklings
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDucklings
+        `}
+
+	const configThree = () => {return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    Actions:
+      - countDucklings
+      - migrateDucklings
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDucklings
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDucklings
+        `}
+
+	multiUpdate(configOne, configTwo, configThree)
+}
+
+
+
+
+/*
+generate store with a model that has actions
+and then add actions using the 'update' method
+Rails model
+*/
+
+
+const testSeventeen = () => {
+
+	const configOne = () => {return `Structure: Ducks 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+ 
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    Actions:
+      - countDucklings 
+        `}
+
+
+	const configTwo = () => {return `Structure: Ducks 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+  	
+    Actions:
+      - countDux
+      - migrateDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    Actions:
+      - countDucklings
+      - migrateDucklings
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDucklings
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDucklings
+        `}
+
+	updateTest(configOne, configTwo)
+}
 
 module.exports = [ 
 testZero, 
@@ -470,16 +705,11 @@ testTen,
 testEleven,
 testTwelve,
 testThirteen,
-testFourteen
+testFourteen,
+testFifteen,
+testSixteen,
+testSeventeen
 ]
-
-
-/*
-generate store with a model that has actions
-and then add actions using the 'update' method
-Rails model
-*/
-
 
 
 /*

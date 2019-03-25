@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const fs = require('fs')
+const chalkAnimation = require('chalk-animation');
 const minimist = require('minimist')
 const chalk = require('chalk')
 const { spawn } = require('child_process')
@@ -24,10 +26,10 @@ const shell = (command) => {
 	return thisCommand
 }
 
-if(command === 'generate') {
+if(command === 'generate' || command === 'gen') {
 
 	console.log(chalk.red('genie generate'))
-		
+
 	let gencommand = `node ${__dirname}/generator_code_root.js`
 
 	let generateCall = shell(gencommand)
@@ -46,7 +48,7 @@ if(command === 'update'){
 
 // these will only be for development 
 
-if(command === 'delete' && arg1 === 'all') {
+if(command === 'delete' || command === 'del') {
 
 	let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`
 
@@ -76,5 +78,18 @@ if(command === 'simdev'){
 		
 		simulation_dev[ Number(arg1) ]()
 	}
+}
+
+
+if(command === 'print'){
+
+	const key = Object.keys(require('./test/config.dev'))[arg1]
+
+	fs.writeFile(
+      "./lamp.config.yml",
+      require('./test/config.dev')[key](),
+      () => {}
+    )
+
 }
 

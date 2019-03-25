@@ -2,6 +2,14 @@
 // integration tests
 // for config files for test simulations, use config.js 
 
+/* 
+
+note- it would have been cleaner to export these as an 
+object or class with each function as a method, rather
+than defining each function and then exporting them 
+explicitly at the bottom
+
+*/
 
 const testZeroYaml = () => {
 
@@ -641,6 +649,97 @@ Models:
         `
 }
 
+
+const testFifteenBaseYaml = () => {
+
+return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+
+    Actions:
+      - countDucklings
+      - migrateDucklings
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDucklings
+    
+
+        `
+}
+
+const testFifteenAddYaml = () => {
+
+return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    CRUD: false
+
+    Actions:
+      - countDucklings
+      - migrateDucklings
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDucklings
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDucklings
+        `
+}
+
+
 module.exports = {
 
   // generate yamls
@@ -663,7 +762,9 @@ module.exports = {
   testTwelveBaseYaml,
   testTwelveAddYaml,
   testFourteenBaseYaml,
-  testFourteenAddYaml
+  testFourteenAddYaml,
+  testFifteenBaseYaml,
+  testFifteenAddYaml
 }
 
 /*
