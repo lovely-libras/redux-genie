@@ -1,13 +1,12 @@
 {
   "name": "redux_genie",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "the cheat codes for redux. let redux genie generate and handle your redux boilerplate",
   "main": "generate_code_root.js",
   "scripts": {
     "build": "npm install -g ./",
-    "test": "mode=testing mocha --timeout 20000",
-    "test-full": "mocha --timeout 20000",
-    "integration": "jest ./test/integration_testing/domain_style_integration.test.spec.js"
+
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -26,15 +25,19 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.0",
     "@types/jest": "^24.0.11",
+    "axios": "^0.18.0",
     "blog": "^1.0.0",
     "chai": "^4.2.0",
     "chai-things": "^0.2.0",
     "chalk-animation": "^1.6.0",
     "clear": "^0.1.0",
-    "directory-tree": "^2.2.1",
     "eslint-plugin-jest": "^22.4.1",
+<<<<<<< HEAD
     "esprima": "^4.0.1",
     "express": "^4.16.4",
+=======
+    "expect": "^24.5.0",
+>>>>>>> master
     "fancy-test": "^1.4.3",
     "fs": "0.0.1-security",
     "inquirer": "^6.2.2",
@@ -43,13 +46,19 @@
     "json-diff": "^0.5.4",
     "minimist": "^1.2.0",
     "mocha": "^6.0.2",
+    "moxios": "^0.4.0",
+    "nock": "^10.0.6",
     "path": "^0.12.7",
     "pify": "^4.0.1",
+    "read-file-tree": "^1.1.1",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
+    "redux-mock-store": "^1.5.3",
     "redux-thunk": "^2.3.0",
     "shelljs": "^0.8.3",
+    "sinon": "^7.3.0",
+    "sinon-chai": "^3.3.0",
     "spawn-command": "0.0.2-1",
     "strip-ansi": "^5.1.0",
     "yargs": "^13.2.2",
@@ -61,8 +70,9 @@
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.2",
     "@babel/register": "^7.4.0",
+    "archy": "^1.0.0",
+    "directory-tree": "^2.2.1",
     "fetch-mock": "^7.3.1",
-    "jest": "^24.5.0",
     "node-fetch": "^2.3.0"
   }
 }
