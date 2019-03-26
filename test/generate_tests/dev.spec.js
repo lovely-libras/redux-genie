@@ -3,7 +3,7 @@
 import { expect } from "chai";
 import fetchMock from "fetch-mock";
 const { spawn } = require("child_process");
-const config = require('./../config.dev')
+const config = require('./config.dev')
 const fs = require('fs')
 
 const shell = command => {
@@ -11,21 +11,6 @@ const shell = command => {
 
   return thisProc;
 };
-
-
-describe("generate method- Rails", () => {
-  // this is the way the "xit" block is structured
-  // to guarantee the store will generate before
-  // the store's tests are run- the key is mocha's "done" method-
-
-  // "done" is mocha's
-  // way of handling async
-  xit("Rails folder structure generates", done => {
-    // this is the corresponding
-    // test simulation- this kills the
-    // previous store and generates
-    // the corresponding yaml defined
-    // in "config.dev.js"
 
 // async function genTest(yamlFunc, nextCall){
 
@@ -79,16 +64,7 @@ describe("ZERO generate method- Rails", () => {
 
     // this method is called when the shell process exits
     storeGenerate.on("exit", () => {
-      // the done method instructs mocha to proceed
-      // to the next "xit" block
-      done();
-    });
-  });
 
-  // this is this store's suite of tests-
-
-  xit("Generated Rails folder structure is a valid Redux store", done => {
-    const store = require("./../../store/store.js").default; // this is a wonky node -> front end issue
       // the done method instructs mocha to proceed 
       // to the next "it" block 
       done() 
@@ -102,24 +78,16 @@ describe("ZERO generate method- Rails", () => {
     
       const store = require("./../../store/store.js").default; // this is a wonky node -> front end issue
 
-    let {
-      countDux
-    } = require("./../../store/actions/actions_for_Campus").default;
+      let {
+        countDux
+      } = require("./../../store/actions/actions_for_Campus").default;
+      
+      expect( store.dispatch(countDux("blank"))).to.deep.equal({
+        type: "COUNTDUX",
+        payload: "blank"
+      });
 
-    expect(store.dispatch(countDux("blank"))).to.deep.equal({
-      type: "COUNTDUX",
-      payload: "blank"
-    });
 
-    // this guarantees that this "xit" block will execute before
-    // moving on to the next describe block- if this isn't here,
-    // there may be async issues with the next simulated store
-    done();
-  });
-});
-
-describe("generate method- Ducks", () => {
-  xit("Ducks store generates", done => {
       // this guarantees that this "it" block will execute before 
       // moving on to the next describe block- if this isn't here,
       // there may be async issues with the next simulated store
@@ -138,9 +106,6 @@ describe("ONE generate method- Ducks", () => {
     let storeGenerate = shell(`genie simdev 1`);
 
     storeGenerate.on("exit", () => {
-      done();
-    });
-  });
 
       done()
     })
@@ -155,17 +120,15 @@ describe("ONE generate method- Ducks", () => {
           quackOne
         } = require("./../../store/Campus/actions_for_Campus").default;
 
-    let {
-      quackOne
-    } = require("./../../store/Campus/actions_for_Campus").default;
+        expect( store.dispatch(quackOne("blank"))).to.deep.equal({
+          type: "QUACKONE",
+          payload: "blank"
+        });
 
-    expect(store.dispatch(quackOne("blank"))).to.deep.equal({
-      type: "QUACKONE",
-      payload: "blank"
-    });
+      done()
+      
+  }); 
 
-    done();
-  });
 });
 
 
@@ -177,14 +140,7 @@ describe("TWO generate method- Rails - no logging", () => {
     let storeGenerate = shell(`genie simdev 2`);
 
     storeGenerate.on("exit", () => {
-      done();
-    });
-  });
 
-  xit(" ", done => {
-    const store = require("./../../store/store.js").default;
-
-    // complete "xit" block
       done()
     })
 
@@ -198,10 +154,10 @@ describe("TWO generate method- Rails - no logging", () => {
         
         // expect( ).to.deep.equal({});
 
-    // expect( ).to.deep.equal({});
+      done()
+      
+  }); 
 
-    done();
-  });
 });
 
 describe("THREE generate method- Ducks - thunks separated", () => {
@@ -211,14 +167,7 @@ describe("THREE generate method- Ducks - thunks separated", () => {
     let storeGenerate = shell(`genie simdev 3`);
 
     storeGenerate.on("exit", () => {
-      done();
-    });
-  });
 
-  xit(" ", done => {
-    const store = require("./../../store/store.js").default;
-
-    // complete "xit" block
       done()
     })
 
@@ -232,10 +181,10 @@ describe("THREE generate method- Ducks - thunks separated", () => {
         
         // expect( ).to.deep.equal({});
 
-    // expect( ).to.deep.equal({});
+      done()
+      
+  }); 
 
-    done();
-  });
 });
 
 describe("FOUR generate method- Ducks - thunks not separted", () => {
@@ -245,14 +194,7 @@ describe("FOUR generate method- Ducks - thunks not separted", () => {
     let storeGenerate = shell(`genie simdev 4`);
 
     storeGenerate.on("exit", () => {
-      done();
-    });
-  });
 
-  xit(" ", done => {
-    const store = require("./../../store/store.js").default;
-
-    // complete "xit" block
       done()
     })
 
@@ -266,28 +208,19 @@ describe("FOUR generate method- Ducks - thunks not separted", () => {
         
         // expect( ).to.deep.equal({});
 
-    // expect( ).to.deep.equal({});
+      done()
+      
+  }); 
 
-    done();
-  });
 });
-
 
 describe("FIVE generate method- Ducks - thunks not separted", () => {
 
   it('Ducks store generates with thunks not separated', (done)=>{
 
-
     let storeGenerate = shell(`genie simdev 5`);
 
     storeGenerate.on("exit", () => {
-      done();
-    });
-  });
-
-
-  xit(" ", done => {
-    const store = require("./../../store/store.js").default;
 
       done()
     })
@@ -296,17 +229,15 @@ describe("FIVE generate method- Ducks - thunks not separted", () => {
 
   it(" ", (done) => {
 
-
-    // complete "xit" block
-
+      const store = require("./../../store/store.js").default; 
 
         // complete "it" block
         
         // expect( ).to.deep.equal({});
 
-
-    done();
-  });
+      done()
+      
+  }); 
 });
 
 
@@ -373,12 +304,7 @@ describe(" EIGHT update creates one new model in Rails structure with thunks and
     let storeGenerate = shell(`genie simdev 8`);
 
     storeGenerate.on("exit", () => {
-      done();
-    });
-  });
 
-  xit(" ", done => {
-    const store = require("./../../store/store.js").default;
       done()
     })
 
@@ -386,7 +312,7 @@ describe(" EIGHT update creates one new model in Rails structure with thunks and
 
   it(" ", (done) => {
 
-    // complete "xit" block
+      const store = require("./../../store/store.js").default; 
 
         // complete "it" block
         
@@ -626,8 +552,9 @@ describe(" 16 update creates muliple subsequent models updates in Rails structur
   
         // expect( ).to.deep.equal({});
 
-    done();
-  });
+      done()
+      
+  }); 
 });
 
 describe(" 17 update creates new models in Ducks structure", () => {
@@ -721,6 +648,4 @@ describe(" 19 add new model in Rails structure throws error if model is already 
       done()
       
   }); 
-
 });
-

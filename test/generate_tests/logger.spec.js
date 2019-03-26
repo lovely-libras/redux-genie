@@ -11,14 +11,18 @@ import store from "../../store/store";
 import { getAll } from "../../store/actions/thunks_for_Campus"; //rails
 /////RAILS/////////////////////////////////////////////////////////////////
 
-chai.use(sinonChai);
-
-const spy = sinon.spy();
-spy(logger);
 
 describe("logger testing", () => {
+
   it("should call the logger", async () => {
+
+	chai.use(sinonChai);
+
+	const spy = sinon.spy();
+	spy(logger);
+  	
     await store.dispatch(getAll());
     expect(spy).to.have.been.called;
   });
+
 });

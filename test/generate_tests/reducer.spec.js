@@ -40,6 +40,7 @@ const {
 //////////////////////////////////////////////////////////////////////////////////
 
 describe("tests reducers. A reducer should return the new state after applying the action to the previous state, and that's the behavior tested below.", () => {
+  
   it("should return the initial state", async () => {
     await expect(reducer(undefined, {})).to.deep.equal({
       CampusList: [],
@@ -54,17 +55,23 @@ describe("tests reducers. A reducer should return the new state after applying t
   });
 
   it("should handle GET_ALL_CAMPUS", () => {
+    
     const beforeState = {
       CampusList: []
     };
+
     const action = { type: GET_ALL_CAMPUS, payload: [{ name: "campus1" }] };
+
     const afterState = reducer(beforeState, action);
+    
     expect(afterState).to.deep.equal({
       CampusList: [{ name: "campus1" }]
     });
+  
   });
 
   it("should handle GET_CAMPUS", () => {
+
     const beforeState = {
       CampusList: [{ name: "campus1!" }, { name: "campus2" }],
       SingleCampus: {}
@@ -76,4 +83,5 @@ describe("tests reducers. A reducer should return the new state after applying t
       SingleCampus: { name: "campus1!" }
     });
   });
+
 });

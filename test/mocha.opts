@@ -1,2 +1,2 @@
-./test/generate_tests/*.spec.js
+
 --require test/setup.js

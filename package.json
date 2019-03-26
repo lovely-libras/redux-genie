@@ -5,7 +5,9 @@
   "main": "generate_code_root.js",
   "scripts": {
     "build": "npm install -g ./",
-    "test": "mocha"
+    "test": "node test-root.js",
+    "rails-test": "mode=testing mocha ./test/generate_tests/rails.spec.js --timeout 4000",
+    "ducks-test" : "mode=testing mocha ./test/generate_tests/ducks.spec.js --timeout 4000"
   },
   "repository": {
     "type": "git",
@@ -31,12 +33,9 @@
     "chalk-animation": "^1.6.0",
     "clear": "^0.1.0",
     "eslint-plugin-jest": "^22.4.1",
-<<<<<<< HEAD
     "esprima": "^4.0.1",
-    "express": "^4.16.4",
-=======
     "expect": "^24.5.0",
->>>>>>> master
+    "express": "^4.16.4",
     "fancy-test": "^1.4.3",
     "fs": "0.0.1-security",
     "inquirer": "^6.2.2",
