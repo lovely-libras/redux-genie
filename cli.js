@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-<<<<<<< HEAD
 const fs = require('fs')
 const chalkAnimation = require('chalk-animation');
 const minimist = require('minimist')
@@ -16,21 +15,6 @@ const simulation_dev = require('./test_simulation.dev')
 
 if(process.env.mode === 'testing'){
 	console.log = ()=>{}
-=======
-const minimist = require('minimist');
-const chalk = require('chalk');
-const { spawn } = require('child_process');
-const currentDirectory = require('path').dirname;
-let input = minimist(process.argv);
-let command = input._[2];
-let arg1 = input._[3];
-const { makeLock, diffLock } = require('./lock');
-const simulation = require('./test_simulation');
-const simulation_dev = require('./test_simulation.dev');
-
-if (process.env.mode === 'testing') {
-  console.log = () => {};
->>>>>>> master
 }
 
 const shell = command => {
@@ -44,7 +28,6 @@ if (command === 'generate') {
   let generateCall = shell(gencommand);
 }
 
-<<<<<<< HEAD
 if(command === 'generate' || command === 'gen') {
 
 	console.log(chalk.red('genie generate'))
@@ -53,12 +36,10 @@ if(command === 'generate' || command === 'gen') {
 
 	let generateCall = shell(gencommand)
 
-=======
 if (command === 'update') {
   console.log(chalk.red('genie update'));
   let updateCommand = `node ${__dirname}/updateCodeRoot.js`;
   let updateCall = shell(updateCommand);
->>>>>>> master
 }
 
 if (command === 'ls') {
@@ -67,7 +48,6 @@ if (command === 'ls') {
   let lsCall = shell(lsCommand);
 }
 
-<<<<<<< HEAD
 // these will only be for development 
 
 if(command === 'delete' || command === 'del') {
@@ -75,9 +55,7 @@ if(command === 'delete' || command === 'del') {
 	let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`
 
 	shell(genieDeleteCall)
-=======
 // these will only be for development
->>>>>>> master
 
 if (command === 'delete' && arg1 === 'all') {
   let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`;
@@ -99,7 +77,6 @@ if (command === 'simdev') {
     simulation_dev[Number(arg1)]();
   }
 }
-<<<<<<< HEAD
 
 
 if(command === 'print'){
@@ -113,6 +90,5 @@ if(command === 'print'){
     )
 
 }
-
-=======
->>>>>>> master
+}
+}
