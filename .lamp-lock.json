@@ -1,8 +1,8 @@
 {
-	"Structure": "Ducks",
+	"Structure": "Rails",
 	"Models": [
 		{
-			"campus": null,
+			"Campus": null,
 			"Slice": [
 				{
 					"Name": "string"
@@ -17,7 +17,7 @@
 					"Fly2Gether": "Boolean"
 				}
 			],
-			"CRUD": "true;",
+			"CRUD": true,
 			"Actions": [
 				"countDux",
 				"migrateDux",
@@ -32,9 +32,23 @@
 				},
 				{
 					"getOne": [
-						"/api/Dux/${payload}",
+						"/api/Dux/:dux",
 						"getCampus"
 					]
+				}
+			]
+		},
+		{
+			"terminator": null,
+			"Slice": [
+				{
+					"WillBeBack": "Boolean"
+				},
+				{
+					"OneLiners": "Array"
+				},
+				{
+					"Sequels": "Number"
 				}
 			]
 		}

@@ -1,8 +1,7 @@
-Structure: Ducks 
+Structure: Rails
 
 Models:
-
-  - dux:
+  - Campus:
 
     Slice:
       - Name: string

@@ -1,9 +1,8 @@
 module.exports = (Model, name) => {
-
-  let vals = Object.values(Model.Slice)
+  let vals = Object.values(Model.Slice);
 
   const inputConversion = arg => {
-  arg = arg.toLowerCase();
+    arg = arg.toLowerCase();
     if (arg === "string") {
       return `''`;
     } else if (arg === "boolean") {
@@ -14,23 +13,23 @@ module.exports = (Model, name) => {
       return `{}`;
     } else if (arg === "number") {
       return `0`;
-  }
+    }
   };
 
-  const stateValues = vals.map(trait => {
+  const stateValues = vals
+    .map(trait => {
       const key = Object.keys(trait)[0];
       let value = Object.values(trait)[0];
       value = inputConversion(value);
       return `${key}: ${value}, \n      `;
     })
     .join("")
-    .trim()
+    .trim();
 
-    let cases = ''
+  let cases = "";
 
-if(!(Model.CRUD === false)){
-
-cases += `
+  if (!(Model.CRUD === false || Model.CRUD === undefined)) {
+    cases += `
     case actions.GET_${name.toUpperCase()}: {
       
       return { ...state, Single${name}: action.payload }
@@ -57,19 +56,19 @@ cases += `
 
       return {...state, Single${name}: updated${name}}
     }
-    `
-}
+    `;
+  }
 
   if (Model.Actions) {
-      Model.Actions.forEach(action => {
-
-cases += `
+    Model.Actions.forEach(action => {
+      cases += `
     case actions.${action}: {
 
       return { ...state }
     }
-    `
-  })}
+    `;
+    });
+  }
 
   return `import actions from "./action_constants_for_${name.toUpperCase()}"
 

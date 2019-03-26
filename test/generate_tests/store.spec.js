@@ -8,43 +8,53 @@ import store from "../../store/store";
 // import assert from "assert";
 import mockStore from "redux-mock-store";
 import { logger } from "../../store/store";
-
 import nock from "../nockSetup";
 
-//action creators
+
+
+
+if(true){
+//DUCKS////////////////////////////////////////////////////////////////
 import actions from "../../store/Campus/actions_for_Campus"; //ducks
-// import actions from "../../store/actions/actions_for_Campus"; //rails
-
-//action constants
 import action_constants from "../../store/Campus/action_constants_for_Campus"; //for ducks
-// import action_constants from "../../store/constants/action_constants_for_Campus"; //for rails
-
-//thunks
 import {
   getAll,
   createOne,
-  getOne,
-  updateOne,
-  deleteOne
+  getOne
 } from "../../store/Campus/thunks_for_Campus"; // for ducks
-// } from "../../store/actions/thunks_for_Campus"; //for rails
-
-//reducers
 import reducer from "../../store/Campus/reducer_for_Campus"; //for ducks
-// import reducer from "../../store/reducers/reducer_for_Campus"; //for rails
-
 import {
   getAllCampus,
   createCampus
 } from "../../store/Campus/actions_for_Campus"; //for ducks
-// } from "../../store/actions/actions_for_Campus"; //for rails
 import {
   GET_ALL_CAMPUS,
   GET_CAMPUS,
   ADD_CAMPUS
 } from "../../store/Campus/action_constants_for_Campus"; //for ducks
-// } from "../../store/constants/action_constants_for_Campus"; //for rails
 
+//RAILS////////////////////////////////////////////////////////////////
+}else{
+import actions from "../../store/actions/actions_for_Campus"; //rails
+import action_constants from "../../store/constants/action_constants"; //for rails
+
+import {
+  getAll,
+  createOne,
+  getOne
+} from "../../store/actions/thunks_for_Campus"; //for rails
+import reducer from "../../store/reducers/reducer_for_Campus"; //for rails
+import {
+  getAllCampus,
+  createCampus
+} from "../../store/actions/actions_for_Campus"; //for rails
+
+import {
+  GET_ALL_CAMPUS,
+  GET_CAMPUS,
+  ADD_CAMPUS
+} from "../../store/constants/action_constants"; //for rails
+}
 //////////////////////////////////////////////////////////////////////
 
 const campuses = [
@@ -62,7 +72,6 @@ const oneCampus = {
 
 const oneUpdatedCampus = { Name: "campus1", address: "something" };
 
-//////////////////////////////////////////////////////////////////////
 const URL = "/api/Dux";
 fetchMock.mock(URL, { data: campuses, status: 200 });
 
@@ -92,14 +101,14 @@ describe("overall integration test using thunks", () => {
     expect(campusList).to.deep.equal(campuses);
   });
 
-  it("add a campus", async () => {
+  xit("add a campus", async () => {
     await store.dispatch(createOne(newCampus));
 
     const campusAdded = store.getState().Campus_state.CampusList;
     expect(campusAdded).to.deep.equal(campuses.concat(newCampus));
   });
 
-  it("get a single campus", async () => {
+  xit("get a single campus", async () => {
     await store.dispatch(getOne("campus1"));
 
     const singleCampus = store.getState().Campus_state.SingleCampus;
