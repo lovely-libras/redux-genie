@@ -3,7 +3,7 @@
 import { expect } from "chai";
 import fetchMock from "fetch-mock";
 const { spawn } = require("child_process");
-const config = require('./../config.dev')
+const config = require('./config.dev')
 const fs = require('fs')
 
 const shell = command => {

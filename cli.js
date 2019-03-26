@@ -10,8 +10,7 @@ let input = minimist(process.argv)
 let command = input._[2]
 let arg1 = input._[3]
 const { makeLock, diffLock } = require('./lock')
-const simulation = require('./test_simulation')
-const simulation_dev = require('./test_simulation.dev')
+const simulation_dev = require('./test/generate_tests/test_simulation.dev')
 
 if(process.env.mode === 'testing'){
 	console.log = ()=>{}
@@ -74,13 +73,19 @@ if(command === 'delete' || command === 'del') {
 
 }
 
-
-
 if (command === 'simdev') {
+
   if (arg1 === 'last') {
+    
     simulation_dev[simulation_dev.length - 1]();
   } else if (typeof arg1 === 'number') {
+    
     simulation_dev[Number(arg1)]();
   }
+}
+
+if (command === 'sim') {
+
+    require('./simulationstwo')[Number(arg1)]();
 }
 

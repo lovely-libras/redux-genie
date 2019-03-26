@@ -1,2 +1,0 @@
-
-// capitalize model

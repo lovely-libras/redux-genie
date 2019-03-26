@@ -11,8 +11,6 @@ import { logger } from "../../store/store";
 import nock from "../nockSetup";
 
 
-
-
 if(true){
 //DUCKS////////////////////////////////////////////////////////////////
 import actions from "../../store/Campus/actions_for_Campus"; //ducks
@@ -55,6 +53,7 @@ import {
   GET_CAMPUS,
   ADD_CAMPUS
 } from "../../store/constants/action_constants"; //for rails
+
 }
 //////////////////////////////////////////////////////////////////////
 
@@ -85,6 +84,9 @@ fetchMock.put(
   { data: "notCampus", status: 203 },
   { overwriteRoutes: false }
 );
+
+
+
 const { spawn } = require("child_process");
 
 const shell = command => {
@@ -119,6 +121,7 @@ describe("overall integration test using thunks", () => {
 });
 
 describe("tests action creators", () => {
+
   it("should create an action to get a campus", () => {
     let payload = "other thing";
     const expectedAction = {
@@ -145,4 +148,5 @@ describe("tests action creators", () => {
     };
     expect(actions.createCampus(payload)).to.deep.equal(expectedAction);
   });
+  
 });

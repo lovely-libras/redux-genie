@@ -13,7 +13,7 @@ see the cli.js file under "genie sim"
 
 */
 
-const config = require('./test/config.dev') // these are dummy lamp.config.yml files
+const config = require('./config.dev') // these are dummy lamp.config.yml files
 const fs = require('fs')
 const chalk = require('chalk')
 const { spawn } = require('child_process')
@@ -802,6 +802,7 @@ Models:
 }
 
 module.exports = [ 
+
 testZero, 
 testOne, 
 testTwo, 
@@ -822,6 +823,7 @@ testSixteen,
 testSeventeen,
 testEighteen,
 testNineteen
+
 ]
 
 

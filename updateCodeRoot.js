@@ -7,7 +7,9 @@ const minimist = require('minimist')
 console.deep = (input) => {
 	console.log(require('util').inspect(input, { showHidden: true, depth: null }))
 }
-
+if(process.env.mode === 'testing'){
+	console.log = ()=>{}
+}
 // diffing is returned as an array:
 // [ currentYaml, previousYaml, diff of current against previous ]
 
