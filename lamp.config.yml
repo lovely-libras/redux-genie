@@ -1,4 +1,4 @@
-Structure: Rails 
+Structure: Ducks 
 
 Models:
 
@@ -12,22 +12,21 @@ Models:
 
     Actions:
       - countDux
-      - migrateDux
-      - quackOne
+
 
     Thunks:
       - getAll:
         - "/api/Dux" 
         - countDux
-      - getOne: 
-        - "/api/Dux/:dux"
-        - migrateDux
-
-  - terminator:
+      - getSome:
+        - "/api/Dux" 
+        - countDux
+     
+  - Ducklings:
 
     Slice:
-      - WillBeBack: Boolean
-      - OneLiners: Array
-      - Sequels: Number
-
+      - Name: string
+    
+    Actions:
+      - countDucklings 
         

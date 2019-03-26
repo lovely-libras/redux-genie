@@ -3,66 +3,88 @@ const fs = require("fs");
 const yaml = require("js-yaml");
 const { diff } = require('json-diff')
 
-const makeLock = (current, previous) => {
+const makeLock = (currentYam, previousYam, diffedModels, diffedAdditions) => {
 
-	if(!previous){
+	if(!previousYam){
 
 		fs.writeFile(
 		    "./.lamp-lock.json",
-		    JSON.stringify(current, null, "\t"),
+		    JSON.stringify(currentYam, null, "\t"),
 		    () => {
 		    }
 		);
 	}
 	else{
 
-		// so they can't change the structure choice
-		// this would make it impossible to resolve the 
-		// file locations after the fact
-	
+		// we don't want any deletions written to the next lamp lock
+		// so we're going to merge the additions into the previous
+		// version of each model, so the next models only contain
+		// the user's additions
+
+		diffedAdditions.forEach((model, modelIndex) => {
+
+			model.forEach( diff => {
+
+				const previousModel = previousYam.Models[modelIndex]
+				const diffType = diff[1]
+				const newEntry = diff[2][1]
+
+				if(previousModel[diffType]){
+					previousModel[diffType].push(newEntry)
+				}
+				else if(!previousModel[diffType]){
+					previousModel[diffType] = []
+					previousModel[diffType].push(newEntry)
+				}
+			})
+		})
+		
+		let combinedModels = [...previousYam.Models, ...diffedModels]
+
 		let nextLock = {
 
-			Structure: previous.Structure,
-			Models: current.Models 
-		
+			// so they can't change the structure choice
+			// this would make it impossible to resolve the 
+			// file locations after the fact
+			Structure: previousYam.Structure,
+			Models: combinedModels 
 		} 
 
-		previous.Thunks ? nextLock.Thunks = 'included' : '' ;
+		// same for this
+		previousYam.Thunks ? nextLock.Thunks = 'included' : '' ;
 
-		console.log(nextLock)
-
-		// fs.writeFile(
-		//     "./.lamp-lock.json",
-		//     JSON.stringify(nextLock, null, "\t"),
-		//     () => {
-		//     }
-		// );
+		fs.writeFile(
+		    "./.lamp-lock.json",
+		    JSON.stringify(nextLock, null, "\t"),
+		    () => {
+		    }
+		);
 	}
 }
 
-const diffLock = () => {
+const diffLock = (definedCurrent) => {
 
 	let currentYam
-	let previousYam 
+	let previousYam = returnPrevious()
 
-	try {
+	// during an add call, we define this variable by the CLI input
+	if(definedCurrent){
 
-	  currentYam = yaml.safeLoad(fs.readFileSync("./lamp.config.yml", "utf8"));
-	  currentYam = JSON.parse(JSON.stringify(currentYam, null, '\t'))
-	} catch (e) {
-	  console.log(e.message);
-	  process.exit();
+		currentYam = definedCurrent
 	}
+	else{ // during an update call, its read from the yml
 
-	try {
+		try {
 
-	  previousYam = fs.readFileSync("./.lamp-lock.json", "utf8");
-	  previousYam = JSON.parse(previousYam)
-	} catch (e) {
-	  console.log(e.message);
-	  process.exit();
+		  currentYam = yaml.safeLoad(fs.readFileSync("./lamp.config.yml", "utf8"));
+		  currentYam = JSON.parse(JSON.stringify(currentYam, null, '\t'))
+		} catch (e) {
+		  console.log(e.message);
+		  process.exit();
+		}
+	
 	}
-
+	
 	const diffify = (current, previous) => {
 
 		// check if the user added any models
@@ -78,22 +100,21 @@ const diffLock = () => {
 
 		let modelUpdates = []
 
-		current.Models.forEach( (model, i) =>{
+		current.Models.forEach( (model, modelIndex) =>{
 			
-			if(lastYaml[Object.entries(model)[0]]){ // not a completely new Model
-											
+			if( lastYaml[Object.entries(model)[0]] ){ // not a completely new Model
+					
 				for(let part in model){
 
 					let storeParts = part === 'Thunks' || part === "Slice" || part === "Actions"
 
-
 					// if the user didn't previously define a part in the yaml
 					
-					if(!previous.Models[i][part] && storeParts && model[part]){
+					if(!previous.Models[modelIndex][part] && storeParts && model[part]){
 
 						model[part].forEach( newEntry => {
 
-							modelUpdates.push( [ i, part, [ '+' , newEntry ] ]  )
+							modelUpdates.push( [ modelIndex, part, [ '+' , newEntry ] ]  )
 
 						})
 
@@ -102,7 +123,7 @@ const diffLock = () => {
 
 						// else, lets see if they added anything to each part
 
-						let thisDiff = diff( previous.Models[i][part], model[part] )
+						let thisDiff = diff( previous.Models[modelIndex][part], model[part] )
 
 						if(thisDiff && !(part === 'CRUD')){
 
@@ -111,11 +132,16 @@ const diffLock = () => {
 								process.exit()
 							}
 
-							thisDiff = thisDiff.filter((diff, i) => diff[0] === "+" || diff[0] === '-')
+							thisDiff = thisDiff.filter((diff) => diff[0] === "+" || diff[0] === '-')
 
 							thisDiff.forEach(diff => {
 
-								modelUpdates.push( [ i, part, diff ] )
+												// this means the diffed updates
+												// will always have the same
+												// index in their array
+												// as the previous model array they
+												// came from 
+								modelUpdates.push( [ modelIndex, part, diff ] )
 							})
 						}
 					}
@@ -124,13 +150,26 @@ const diffLock = () => {
 		})
 
 		return { addedModels, modelUpdates:  modelUpdates  }
-
 	}
 
 	return [currentYam, previousYam, diffify(currentYam, previousYam)]
 }
 
+const returnPrevious = () => {
+
+	try {
+
+		return JSON.parse(fs.readFileSync("./.lamp-lock.json", "utf8"))
+
+	} catch (e) {
+	  console.log(e.message);
+	  process.exit();
+	}
+
+}
+
 module.exports = {
 	makeLock,
-	diffLock
+	diffLock,
+	returnPrevious
 }

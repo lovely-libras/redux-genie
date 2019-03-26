@@ -51,6 +51,15 @@ SIMS FOR THE GENERATE FEATURE
 
 */
 
+/* 
+
+note- it would have been cleaner to export these as an 
+object or class with each function as a method, rather
+than defining each function and then exporting them 
+explicitly at the bottom
+
+*/
+
 async function genTest(yamlFunc){
 
 	// delete current store
@@ -307,8 +316,8 @@ FOR UPDATE THAT ADDS TO AN EXISTING MODEL
 
 /*
 
-update creates one new model with no thunks or actions- CRUD true
-Rails model
+update creates one new model with thunks and actions
+- CRUD true Rails model
 
 	- expect - 
 		- reducer file for new model
@@ -332,8 +341,10 @@ Rails model
 
 */
 
+let testNine = () => {
 
-
+	updateTest(config.testNineBaseYaml, config.testNineAddYaml)
+}
 
 /*
 
@@ -343,20 +354,452 @@ Rails model
 	- expect - 
 		- reducer file for new model
 		- selector file for new model
+		- no CRUD
+*/
+
+
+let testTen = () => {
+
+	updateTest(config.testTenBaseYaml, config.testTenAddYaml)
+}
+
+/*
+
+update creates new model, then creates another new model
+Rails model
 
 */
+
+async function multiUpdate(yam1, yam2, yam3){
+
+	let deleteCall = shell('genie delete all')
+
+	let genCall
+
+	deleteCall.on('exit', () =>{
+
+		fs.writeFile(
+	      "./lamp.config.yml",
+	      yam1(),
+	      () => { });
+		
+		genCall = shell('genie generate')
+		
+		genCall.on('exit', ()=>{
+
+			fs.writeFile(
+		      "./lamp.config.yml",
+		      yam2(),
+		      () => {}
+		    )
+
+			let updateCall = shell('genie update')
+			
+			updateCall.on('exit', ()=>{
+			
+				fs.writeFile(
+			      "./lamp.config.yml",
+			      yam3(),
+			      () => {}
+			    )
+
+				let updateCall2 = shell('genie update')
+
+				updateCall2.on('exit', ()=>{
+
+					process.exit()
+				})
+			})
+		})
+	})
+}
+
+const testEleven = () => {
+	multiUpdate(config.testEightBaseYaml, config.testEightAddYaml, config.testNineAddYaml)
+}
+
+/*
+
+generate store and then add a completely new model 
+using the 'update' method
+Ducks model
+
+*/
+
+let testTwelve = () => {
+
+	updateTest(config.testTwelveBaseYaml, config.testTwelveAddYaml)
+}
+
+/*
+
+update creates new model, then creates another new model
+Ducks model
+- shouldn't matter if the next file structures are Rails
+because the lamp updater will ignore subsequent structure choices :)
+
+*/
+
+const testThirteen = () => {
+
+	multiUpdate(config.testTwelveBaseYaml, config.testEightAddYaml, config.testNineAddYaml)
+}
+
+/*
+generate store with a model that doesn't have actions
+or thunks and then add the action section using the 'update' method
+Rails model- thunks not included on action files
+*/
+
+const testFourteen = () => {
+
+	updateTest(config.testFourteenBaseYaml, config.testFourteenAddYaml)
+}
+
+/*
+generate store with a model that has actions and thunks defined
+and then add to each section using the 'update' method
+Rails model- thunks included in separate files
+*/
+
+const testFifteen = () => {
+
+	updateTest(config.testFifteenBaseYaml, config.testFifteenAddYaml)
+}
+
+/*
+
+update creates actions for an existing model, then creates another set
+of actions for the same model new model
+Rails model
+
+*/
+
+
+const testSixteen = () => {
+
+	const configOne = () => {return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+ 
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    Actions:
+      - countDucklings 
+        `}
+
+
+	const configTwo = () => {return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+  	
+    Actions:
+      - countDux
+      - migrateDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    Actions:
+      - countDucklings
+      - migrateDucklings
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDucklings
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDucklings
+        `}
+
+	const configThree = () => {return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    Actions:
+      - countDucklings
+      - migrateDucklings
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDucklings
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDucklings
+        `}
+
+	multiUpdate(configOne, configTwo, configThree)
+}
+
+
 
 
 /*
-update creates new model with separate thunks and added actions- CRUD true
+generate store with a model that has actions
+and then add actions using the 'update' method
 Rails model
+*/
 
-	- expect - 
-		- reducer file for new model
-		- selector file for new model
+
+const testSeventeen = () => {
+
+	const configOne = () => {return `Structure: Ducks 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+ 
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    Actions:
+      - countDucklings 
+        `}
+
+
+	const configTwo = () => {return `Structure: Ducks 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+  	
+    Actions:
+      - countDux
+      - migrateDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    Actions:
+      - countDucklings
+      - migrateDucklings
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDucklings
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDucklings
+        `}
+
+	updateTest(configOne, configTwo)
+}
+
+
+/*
+
+genie add - " 18 add creates new models in Rails structure"
 
 */
 
+const addTest = (yam1, command) => {
+
+	// print new config file with new model added
+
+	let deleteCall = shell('genie delete all')
+
+	let genCall
+
+	deleteCall.on('exit', () =>{
+
+		// print config file
+
+		fs.writeFile(
+	      "./lamp.config.yml",
+	      yam1(),
+	      () => { });
+		
+		// run genie generate (after deleting and rewriting config)
+
+		genCall = shell('genie generate')
+		
+		// console.log(genCall)
+
+		genCall.on('exit', ()=>{
+
+			let addCall = shell(command)
+		
+			addCall.on('exit', ()=>{
+			
+				process.exit()
+			})
+		})
+	})
+
+}
+
+const testEighteen = () => {
+
+	const configOne = () => {return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+        `}
+
+    const command = 'genie add --newModel Duckling -a getAllDucks -a quackOne -t addQuack -t quackRemote --noCRUD'
+
+	addTest(configOne, command)
+}
+
+const testNineteen = () => {
+
+	const configOne = () => {return `Structure: Ducks 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getSome:
+        - "/api/Dux" 
+        - countDux
+     
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    Actions:
+      - countDucklings 
+        `}
+
+    const command = 'genie add --model Dux -a getAllDucks -a quackOne -t addQuack -t getAll --noCRUD'
+
+	addTest(configOne, command)
+}
 
 module.exports = [ 
 testZero, 
@@ -368,31 +811,18 @@ testFive,
 testSix,
 testSeven,
 testEight,
+testNine,
+testTen,
+testEleven,
+testTwelve,
+testThirteen,
+testFourteen,
+testFifteen,
+testSixteen,
+testSeventeen,
+testEighteen,
+testNineteen
 ]
-
-/*
-generate store and then add a completely new model 
-using the 'update' method
-Ducks model
-
-*/
-
-
-/*
-generate store with a model that doesn't have actions
-and then add the action section using the 'update' method
-Rails model
-*/
-
-
-
-
-/*
-generate store with a model that has actions
-and then add actions using the 'update' method
-Rails model
-*/
-
 
 
 /*
