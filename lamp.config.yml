@@ -9,34 +9,24 @@ Models:
       - Quacking: Boolean
       - Ducklings: Object
       - Fly2Gether: Boolean
-  	
+
     Actions:
       - countDux
-      - migrateDux
+
 
     Thunks:
       - getAll:
         - "/api/Dux" 
         - countDux
-      - getOne: 
-        - "/api/Dux/:dux"
-        - migrateDux
-
+      - getSome:
+        - "/api/Dux" 
+        - countDux
+     
   - Ducklings:
 
     Slice:
       - Name: string
     
     Actions:
-      - countDucklings
-      - migrateDucklings
-      - quackOne
-
-    Thunks:
-      - getAll:
-        - "/api/Dux" 
-        - countDucklings
-      - getOne: 
-        - "/api/Dux/:dux"
-        - migrateDucklings
+      - countDucklings 
         

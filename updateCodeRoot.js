@@ -2,16 +2,28 @@ let { makeLock, diffLock } = require('./lock')
 const { spawn } = require('child_process')
 const chalk = require("chalk");
 const inquirer = require('inquirer')
-const update_actions = require('./generator_code_files/rails_style/update/update_actions')
 const update_combiner = require('./generator_code_files/rails_style/update/update_combine_reducer')
-let rails = require("./generator_code_files/rails_style/rails_index");
-let ducks = require('./generator_code_files/ducks_style/index')
-let rails_edit = require('./generator_code_files/rails_style/update/edit_model')
+const minimist = require('minimist')
+console.deep = (input) => {
+	console.log(require('util').inspect(input, { showHidden: true, depth: null }))
+}
 
 // diffing is returned as an array:
 // [ currentYaml, previousYaml, diff of current against previous ]
 
-let diffing = diffLock()
+let diffing 
+
+// this is an update call
+if(!process.env.add){
+
+	diffing = diffLock()
+}
+else if (process.env.add){
+
+	// this is an add call
+
+	diffing = require('./addCodeRoot')(process.env.add.split(','))
+}
 
 // logic for adding a model
 
@@ -27,12 +39,12 @@ if(diffing[2].addedModels.length){
 
 			console.log(chalk.red('We detected a Model added to lamp.config.yml: ', Object.keys(diff)[0]))
 											// call with Update as true
-			rails([ diff ], Thunks, Logging, true);
+			require("./generator_code_files/rails_style/rails_index")([ diff ], Thunks, Logging, true);
 		})
 	
 		// to update actions- need to read 
 		// the current action constants and update
-		update_actions(modelNames, diffing[2].addedModels, Thunks)
+		require('./generator_code_files/rails_style/update/update_actions')(modelNames, diffing[2].addedModels, Thunks)
 
 		// to update the combine reducers, same
 		update_combiner(modelNames, 'Rails')
@@ -52,7 +64,7 @@ if(diffing[2].addedModels.length){
 
 			makeDir.on("exit", () => {
 
-			  ducks(diff, modelName, Thunks);
+			  require('./generator_code_files/ducks_style/index')(diff, modelName, Thunks);
 			});
     	});
 
@@ -115,9 +127,13 @@ if(diffing[2].modelUpdates.length){
 
 		if(Structure === 'Rails'){
 
-			rails_edit(updatesArr, Thunks)
-		}  
+			require('./generator_code_files/rails_style/update/edit_model')(updatesArr, Thunks)
+		}
 
+		if(Structure === 'Ducks'){
+
+			require('./generator_code_files/ducks_style/edit_model')(updatesArr, Thunks)
+		}
 	}
 	else if(updatesArr.length && deletingOnly){
 
@@ -134,37 +150,32 @@ if(diffing[2].modelUpdates.length){
 
 makeLock(null, diffing[1], diffing[2].addedModels, updatesArr)
 
+/*
 
+this is a prompt thing to put in after testing phase
 
+var questions = [{
+	  type: 'input',
+	  name: 'answer',
+	  message: `Please confirm that all files are saved.\nPlease confirm that we can proceed with the following updates: ${updates.join('')}\n\n "Yes" or "No"`,
+	}]
 
+inquirer.prompt(questions).then( result => {
 
+	const { answer } = result
 
+	if(answer === "Yes" || answer === "yes"){
 
+	  console.log(`Confirmed`)
 
+	  initialize add operations
 
+	}
+	else{
+		console.log('Updates not confirmed, exiting process.')
+		process.exit()
+	}
 
-// this is a prompt thing to put in after testing phase
+})		
 
-// var questions = [{
-// 	  type: 'input',
-// 	  name: 'answer',
-// 	  message: `Please confirm that all files are saved.\nPlease confirm that we can proceed with the following updates: ${updates.join('')}\n\n "Yes" or "No"`,
-// 	}]
-
-// inquirer.prompt(questions).then( result => {
-
-// 	const { answer } = result
-
-// 	if(answer === "Yes" || answer === "yes"){
-
-// 	  console.log(`Confirmed`)
-
-	  // initialize add operations
-
-// 	}
-// 	else{
-// 		console.log('Updates not confirmed, exiting process.')
-// 		process.exit()
-// 	}
-
-// })		
+*/

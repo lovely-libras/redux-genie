@@ -32,15 +32,61 @@ if(command === 'generate' || command === 'gen') {
 
 	console.log(chalk.red('genie generate'))
 
+	// if theres a lamp config
+
 	let gencommand = `node ${__dirname}/generator_code_root.js`
 
 	let generateCall = shell(gencommand)
 
+<<<<<<< HEAD
 if (command === 'update') {
   console.log(chalk.red('genie update'));
   let updateCommand = `node ${__dirname}/updateCodeRoot.js`;
   let updateCall = shell(updateCommand);
+=======
+
+	/* 
+		else if there isn't, make one for them
+	   	and add anything they put in the command call
+		this is the minimum to complete the call:
+
+		should require a -m switch
+
+		Structure: Rails
+			Models:
+			  - campus:
+
+			    Slice:
+			      - Blank: Boolean
+
+	*/
+>>>>>>> feat_genie_add
 }
+
+
+
+
+
+if(command === 'update'){
+
+	console.log(chalk.red('genie update'))
+
+	let updateCommand = `node ${__dirname}/updateCodeRoot.js`
+
+	let updateCall = shell(updateCommand)
+	
+}
+
+if(command === 'add'){
+
+	console.log(chalk.red('genie add'))
+
+	let updateCommand = `add=${process.argv.slice(2)} node ${__dirname}/updateCodeRoot.js`
+
+	let addCall = shell(updateCommand)
+}
+
+
 
 if (command === 'ls') {
   console.log(chalk.red('genie ls'));
@@ -48,6 +94,10 @@ if (command === 'ls') {
   let lsCall = shell(lsCommand);
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> feat_genie_add
 // these will only be for development 
 
 if(command === 'delete' || command === 'del') {
@@ -55,7 +105,13 @@ if(command === 'delete' || command === 'del') {
 	let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`
 
 	shell(genieDeleteCall)
+<<<<<<< HEAD
 // these will only be for development
+=======
+
+// these will only be for development
+
+>>>>>>> feat_genie_add
 
 if (command === 'delete' && arg1 === 'all') {
   let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`;
@@ -91,4 +147,7 @@ if(command === 'print'){
 
 }
 }
+<<<<<<< HEAD
 }
+=======
+>>>>>>> feat_genie_add

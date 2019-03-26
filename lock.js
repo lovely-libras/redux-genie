@@ -62,29 +62,29 @@ const makeLock = (currentYam, previousYam, diffedModels, diffedAdditions) => {
 	}
 }
 
-const diffLock = () => {
+const diffLock = (definedCurrent) => {
 
 	let currentYam
-	let previousYam 
+	let previousYam = returnPrevious()
 
-	try {
+	// during an add call, we define this variable by the CLI input
+	if(definedCurrent){
 
-	  currentYam = yaml.safeLoad(fs.readFileSync("./lamp.config.yml", "utf8"));
-	  currentYam = JSON.parse(JSON.stringify(currentYam, null, '\t'))
-	} catch (e) {
-	  console.log(e.message);
-	  process.exit();
+		currentYam = definedCurrent
 	}
+	else{ // during an update call, its read from the yml
 
-	try {
+		try {
 
-	  previousYam = fs.readFileSync("./.lamp-lock.json", "utf8");
-	  previousYam = JSON.parse(previousYam)
-	} catch (e) {
-	  console.log(e.message);
-	  process.exit();
+		  currentYam = yaml.safeLoad(fs.readFileSync("./lamp.config.yml", "utf8"));
+		  currentYam = JSON.parse(JSON.stringify(currentYam, null, '\t'))
+		} catch (e) {
+		  console.log(e.message);
+		  process.exit();
+		}
+	
 	}
-
+	
 	const diffify = (current, previous) => {
 
 		// check if the user added any models
@@ -155,7 +155,21 @@ const diffLock = () => {
 	return [currentYam, previousYam, diffify(currentYam, previousYam)]
 }
 
+const returnPrevious = () => {
+
+	try {
+
+		return JSON.parse(fs.readFileSync("./.lamp-lock.json", "utf8"))
+
+	} catch (e) {
+	  console.log(e.message);
+	  process.exit();
+	}
+
+}
+
 module.exports = {
 	makeLock,
-	diffLock
+	diffLock,
+	returnPrevious
 }
