@@ -28,7 +28,7 @@ module.exports = (updates, Thunks) => {
 
 		// update action types - if already exit, if don't already exit
 
-		let actionFile = `${process.cwd()}/store/actions/actions_for_${modelName}.js`
+		let actionFile = `${process.cwd()}/store/${modelName}/actions_for_${modelName}.js`
 
 		if( fs.existsSync(actionFile) ){
 
@@ -47,8 +47,8 @@ module.exports = (updates, Thunks) => {
 				}
 
 				// plug into the generate file
-				let newActions = require('./../action_boiler_Rails_model')(modelName, { CRUD: false, Actions: actions, Thunks: thunks}, Thunks)
-									.replace('import actions from "../constants/action_constants"', '')
+				let newActions = require('./create_action_creators')(modelName, { CRUD: false, Actions: actions, Thunks: thunks}, Thunks)
+									.replace(`import actions from "./action_constants_for_${modelName}"`, '')
 
 				let newConstants = newActions.slice(newActions.indexOf('export default {')).replace('export default {', '').replace('}', '').trim()
 
@@ -76,7 +76,7 @@ module.exports = (updates, Thunks) => {
 			// just call the writeFile method with the same object
 
 			fs.writeFile(
-	        `./store/actions/actions_for_${modelName}.js`,
+	        `./store/${modelName}/actions_for_${modelName}.js`,
 	        require('./../action_boiler_Rails_model')(modelName, { Actions: actions }, Thunks),
 	        () => {
 	          console.log(chalk.yellow(`made action types for ${modelName}`)) 
@@ -87,7 +87,7 @@ module.exports = (updates, Thunks) => {
 		// update action constants - add actions
 		// there will always be an action constants file
 
-		let constantsFile = `${process.cwd()}/store/constants/action_constants.js`
+		let constantsFile = `${process.cwd()}/store/${modelName}/action_constants_for_${modelName}.js`
 
 		fs.readFile(constantsFile, (err, data) => {
 
@@ -105,7 +105,7 @@ module.exports = (updates, Thunks) => {
 
 			let newConstants = actions.reduce((a,b)=> (a += `\n\t${b.toUpperCase()} : '${b.toUpperCase()}',`), "")
 		  
-		    let updatedConstants = data.toString().slice(0, data.lastIndexOf('}')) + newConstants + '\n}'
+		    let updatedConstants = data.toString().slice(0, data.lastIndexOf('}')).trim() + newConstants + '\n}'
 
 			fs.writeFile(
 
@@ -115,7 +115,7 @@ module.exports = (updates, Thunks) => {
 
 				() => {
 
-					console.log(chalk.yellow(`updated the action creator file to add new actions constants for ${modelName}`));
+					console.log(chalk.yellow(`updated the action constants file to add new actions constants for ${modelName}`));
 				}
 			);	
 		});
@@ -123,7 +123,7 @@ module.exports = (updates, Thunks) => {
 		// update reducer - add actions
 		// there will always be a reducer file even in weird edge cases
 
-		let reducerFile = `${process.cwd()}/store/reducers/reducer_for_${modelName}.js`
+		let reducerFile = `${process.cwd()}/store/${modelName}/reducer_for_${modelName}.js`
 
 		fs.readFile(reducerFile, (err, data) => {
 
@@ -140,7 +140,7 @@ module.exports = (updates, Thunks) => {
 			}
 
 			// plug back into the generate file
-			let newCases = require('./../reducer_creator')({ CRUD: false, Actions: actions.map((action)=>action.toUpperCase()), Slice: { } })
+			let newCases = require('./create_reducer')({ CRUD: false, Actions: actions.map((action)=>action.toUpperCase()), Slice: { } }, modelName)
 
 			newCases = newCases.slice(0, newCases.lastIndexOf('default:') ).slice(newCases.indexOf('case')) 
 
@@ -155,7 +155,7 @@ module.exports = (updates, Thunks) => {
 				top + newCases + bottom,
 
 				() => {
-				  console.log(chalk.yellow(`updated the reducer file to add new actions for ${modelName}`));
+				  console.log(chalk.yellow(`updated the reducer file for ${modelName}`));
 				}
 			);	    
 		
@@ -165,13 +165,13 @@ module.exports = (updates, Thunks) => {
 		// thunks included would be taken care of above when the thunks are passed
 		// into the action generate function  
 
-		let originalthunksFile = `${process.cwd()}/store/actions/thunks_for_${modelName}.js`
+		let originalthunksFile = `${process.cwd()}/store/${modelName}/thunks_for_${modelName}.js`
 
 		// thunks were already defined on the yaml- 
 		if (!Thunks && thunks.length && fs.existsSync(originalthunksFile) ){
 
 			// function expects an object with "Thunks" key and list of thunk objects
-			let updatedthunks = require('./../thunks_Rails_model')(modelName, { Thunks : thunks}, Thunks)
+			let updatedthunks = require('./create_thunks_ducks')(modelName, { Thunks : thunks})
 								
 			// console.log(updatedthunks)
 
@@ -198,7 +198,7 @@ module.exports = (updates, Thunks) => {
 					newFile,
 
 					() => {
-					  console.log(chalk.yellow(`updated the reducer file to add new actions for ${modelName}`));
+					  console.log(chalk.yellow(`updated the thunks file for ${modelName}`));
 					}
 				);	
 
@@ -207,19 +207,26 @@ module.exports = (updates, Thunks) => {
 
 		} 
 
-		// they added thunks, which don't have their own file
-		if(!Thunks && thunks.length && !fs.existsSync(originalthunksFile) ){
 
-			// call the generate write method with the thunks array
+		// they added thunks, which don't have their own file yet
+		// actually, I think the method above would create the file if it doesn't exist yet- 
+		// leaving this code in, in case its needed later
+		
+		// if(!Thunks && thunks.length && !fs.existsSync(originalthunksFile) ){
 
-			fs.writeFile(
-	          `./store/actions/thunks_for_${modelName}.js`,
-	          require('./../thunks_Rails_model')(modelName, { Thunks : thunks}, Thunks),
-	          () => {
-	            console.log(chalk.yellow(`updated ${modelName} with a new thunks file`)) 
-	          }
-	        );
-		}
+		// 	// call the generate write method with the thunks array
+
+		// 	fs.writeFile(
+	 //          `./store/${modelName}/thunks_for_${modelName}.js`,
+	 //          require('./create_thunks_ducks')(modelName, { Thunks : thunks}),
+	 //          () => {
+	 //            console.log(chalk.yellow(`updated ${modelName} with a new thunks file`)) 
+	 //          }
+	 //        );
+		// }
+	
 		
 	})
+	
+
 }

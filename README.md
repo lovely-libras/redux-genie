@@ -337,6 +337,10 @@ genie delete domain <domain>
 genie generate connected NavBar slice User Consumer 
 ```
 
+genie test
+
+prints a test suite for your specifc lamp configuration
+
 <!-- ### Linking the genie to an Existing Store
 
 To link an exisitng store, declare the store's file structure and additional models. Afterwards, you can generate new models by adding to the lamp.config.yml and calling "genie update." 

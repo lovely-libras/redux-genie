@@ -3,6 +3,8 @@
 import { expect } from "chai";
 import fetchMock from "fetch-mock";
 const { spawn } = require("child_process");
+const config = require('./../config.dev')
+const fs = require('fs')
 
 const shell = command => {
   let thisProc = spawn(command, { shell: true, stdio: "inherit" });
@@ -10,6 +12,38 @@ const shell = command => {
   return thisProc;
 };
 
+// async function genTest(yamlFunc, nextCall){
+
+//   // delete current store
+
+//   const firstCall = shell('genie delete all')
+
+//   firstCall.on('exit', () =>{
+
+//     // print config file
+
+//     fs.writeFile(
+//         "./lamp.config.yml",
+//         yamlFunc(),
+//         () => { });
+    
+//     // run genie generate (after deleting and rewriting config)
+
+//     const genCall = shell('genie generate')
+    
+//     genCall.on('exit', ()=>{
+
+//         // run the next call passed in
+//         return nextCall()
+
+//     })
+
+//     return genCall
+
+//   })
+
+//   return firstCall
+// }
 
 describe("ZERO generate method- Rails", () => {
 
@@ -528,6 +562,79 @@ describe(" 17 update creates new models in Ducks structure", () => {
   it('update call for this test- Ducks', (done)=>{
 
     let storeGenerate = shell(`genie simdev 17`);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+
+  })
+
+  it(" ", (done) => {
+
+      done()
+      
+  }); 
+});
+
+// describe(" 18 add creates new model in Rails structure", () => {
+
+//   it('add call for this test- Rails', async (done)=>{
+
+//     let addCall = () => {
+      
+//       return shell(`genie add --newModel Dux -a getAllDucks -a quackOne -t addQuack -t quackRemote`);
+//     }
+
+//     // let thisTest = await 
+
+//     genTest(config.testZeroYaml, addCall).then(()=>{
+
+
+//       thisTest.on("exit", () => {
+
+//         done()
+
+//       })
+
+//     })
+    
+
+//   })
+
+//   it(" ", (done) => {
+
+//       done()
+      
+//   }); 
+// });
+
+describe(" 18 add creates new models in Rails structure", () => {
+
+  it('update call for this test- Rails', (done)=>{
+
+    let storeGenerate = shell(`genie simdev 18`);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+
+  })
+
+  it(" ", (done) => {
+
+      done()
+      
+  }); 
+});
+
+
+describe(" 19 add new model in Rails structure throws error if model is already defined", () => {
+
+  it('add call for this test- Rails', (done)=>{
+
+    let storeGenerate = shell(`genie simdev 19`);
 
     storeGenerate.on("exit", () => {
 
