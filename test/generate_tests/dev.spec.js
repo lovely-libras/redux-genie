@@ -12,6 +12,7 @@ const shell = command => {
   return thisProc;
 };
 
+
 describe("generate method- Rails", () => {
   // this is the way the "xit" block is structured
   // to guarantee the store will generate before
@@ -25,6 +26,7 @@ describe("generate method- Rails", () => {
     // previous store and generates
     // the corresponding yaml defined
     // in "config.dev.js"
+
 // async function genTest(yamlFunc, nextCall){
 
 //   // delete current store
@@ -270,15 +272,12 @@ describe("FOUR generate method- Ducks - thunks not separted", () => {
   });
 });
 
-<<<<<<< HEAD
-describe("generate method- Ducks - thunks not separted", () => {
-  xit("Ducks store generates with thunks not separated", done => {
-=======
+
 describe("FIVE generate method- Ducks - thunks not separted", () => {
 
   it('Ducks store generates with thunks not separated', (done)=>{
 
->>>>>>> master
+
     let storeGenerate = shell(`genie simdev 5`);
 
     storeGenerate.on("exit", () => {
@@ -286,27 +285,25 @@ describe("FIVE generate method- Ducks - thunks not separted", () => {
     });
   });
 
-<<<<<<< HEAD
+
   xit(" ", done => {
     const store = require("./../../store/store.js").default;
-=======
+
       done()
     })
 
   })
 
   it(" ", (done) => {
->>>>>>> master
+
 
     // complete "xit" block
 
-<<<<<<< HEAD
-    // expect( ).to.deep.equal({});
-=======
+
         // complete "it" block
         
         // expect( ).to.deep.equal({});
->>>>>>> master
+
 
     done();
   });
@@ -724,4 +721,6 @@ describe(" 19 add new model in Rails structure throws error if model is already 
       done()
       
   }); 
+
 });
+

@@ -9,23 +9,23 @@ Models:
       - Ducklings: Object
       - Fly2Gether: Boolean
 
-    CRUD: true
-
     Actions:
       - countDux
 
 
     Thunks:
       - getAll:
-          - "/api/Dux"
-          - getAllCampus
-      - getOne:
-          - "/api/Dux/:dux"
-          - getCampus
-
-  - terminator:
+        - "/api/Dux" 
+        - countDux
+      - getSome:
+        - "/api/Dux" 
+        - countDux
+     
+  - Ducklings:
 
     Slice:
-      - WillBeBack: Boolean
-      - OneLiners: Array
-      - Sequels: Number
+      - Name: string
+    
+    Actions:
+      - countDucklings 
+        
