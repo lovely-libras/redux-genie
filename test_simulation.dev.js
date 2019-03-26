@@ -690,6 +690,117 @@ Models:
 	updateTest(configOne, configTwo)
 }
 
+
+/*
+
+genie add - " 18 add creates new models in Rails structure"
+
+*/
+
+const addTest = (yam1, command) => {
+
+	// print new config file with new model added
+
+	let deleteCall = shell('genie delete all')
+
+	let genCall
+
+	deleteCall.on('exit', () =>{
+
+		// print config file
+
+		fs.writeFile(
+	      "./lamp.config.yml",
+	      yam1(),
+	      () => { });
+		
+		// run genie generate (after deleting and rewriting config)
+
+		genCall = shell('genie generate')
+		
+		// console.log(genCall)
+
+		genCall.on('exit', ()=>{
+
+			let addCall = shell(command)
+		
+			addCall.on('exit', ()=>{
+			
+				process.exit()
+			})
+		})
+	})
+
+}
+
+const testEighteen = () => {
+
+	const configOne = () => {return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+        `}
+
+    const command = 'genie add --newModel Duckling -a getAllDucks -a quackOne -t addQuack -t quackRemote --noCRUD'
+
+	addTest(configOne, command)
+}
+
+const testNineteen = () => {
+
+	const configOne = () => {return `Structure: Ducks 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getSome:
+        - "/api/Dux" 
+        - countDux
+     
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    Actions:
+      - countDucklings 
+        `}
+
+    const command = 'genie add --model Dux -a getAllDucks -a quackOne -t addQuack -t getAll --noCRUD'
+
+	addTest(configOne, command)
+}
+
 module.exports = [ 
 testZero, 
 testOne, 
@@ -708,7 +819,9 @@ testThirteen,
 testFourteen,
 testFifteen,
 testSixteen,
-testSeventeen
+testSeventeen,
+testEighteen,
+testNineteen
 ]
 
 
