@@ -24,13 +24,11 @@ module.exports = (crudedModel, userDefinedActions, modelName) => {
 
   	modelName = modelName.toUpperCase()
 
-    return `
-
-	GET_${modelName} : 'GET_${modelName}',
+    return `\n\tGET_${modelName} : 'GET_${modelName}',
 	GET_ALL_${modelName} : 'GET_ALL_${modelName}',
 	ADD_${modelName} : 'ADD_${modelName}',
 	UPDATE_${modelName} : 'UPDATE_${modelName}',
-	DELETE_${modelName} : 'DELETE_${modelName}',`;
+	DELETE_${modelName} : 'DELETE_${modelName}',\n`;
   
   };
 
@@ -52,7 +50,7 @@ module.exports = (crudedModel, userDefinedActions, modelName) => {
   	returnStatement += userDefinedActions.reduce((a,b)=> (a += actionMaker(b)), "")
   }
 
-	return "export default {" + returnStatement + "}"
+	return "export default {" + returnStatement + "\n}"
 			
 };
 

@@ -1,78 +1,104 @@
 let { makeLock, diffLock } = require('./lock')
+const { spawn } = require('child_process')
 const chalk = require("chalk");
 const inquirer = require('inquirer')
-const update_actions_rails = require('./generator_code_files/rails_style/update/update_actions')
-const update_combiner_rails = require('./generator_code_files/rails_style/update/update_combine_reducer')
-let rails = require("./generator_code_files/rails_style/rails_index");
+const update_combiner = require('./generator_code_files/rails_style/update/update_combine_reducer')
+const minimist = require('minimist')
+console.deep = (input) => {
+	console.log(require('util').inspect(input, { showHidden: true, depth: null }))
+}
 
 // diffing is returned as an array:
 // [ currentYaml, previousYaml, diff of current against previous ]
 
-let diffing = diffLock()
+let diffing 
+
+// this is an update call
+if(!process.env.add){
+
+	diffing = diffLock()
+}
+else if (process.env.add){
+
+	// this is an add call
+
+	diffing = require('./addCodeRoot')(process.env.add.split(','))
+}
 
 // logic for adding a model
 
+let { Structure, Thunks, Logging } = diffing[1] // maintain original config answer
+
 if(diffing[2].addedModels.length){
-
-	let { Structure, Thunks, Logging } = diffing[1] // maintain original config answer
-
-	// certain parts of the store can be 
-	// added mechanically- they are independent
-	// of the previous operations
+	
+	let modelNames = diffing[2].addedModels.map(model => Object.keys(model)[0])
 
 	if(Structure === 'Rails'){
 
-		diffing[2].addedModels.forEach( (diff, i) => {
+		diffing[2].addedModels.forEach( (diff) => {
 
 			console.log(chalk.red('We detected a Model added to lamp.config.yml: ', Object.keys(diff)[0]))
-
 											// call with Update as true
-				rails([ diff ], Thunks, Logging, true);
-				
+			require("./generator_code_files/rails_style/rails_index")([ diff ], Thunks, Logging, true);
 		})
 	
-		modelNames = diffing[2].addedModels.map(model => Object.keys(model)[0])
-
 		// to update actions- need to read 
 		// the current action constants and update
-		update_actions_rails(modelNames, diffing[2].addedModels, Thunks)
+		require('./generator_code_files/rails_style/update/update_actions')(modelNames, diffing[2].addedModels, Thunks)
 
 		// to update the combine reducers, same
-		update_combiner_rails(modelNames)
-	}	
+		update_combiner(modelNames, 'Rails')
+	}
+
+	else if(Structure === 'Ducks'){
+
+		diffing[2].addedModels.forEach((diff) => {
+
+			let modelName = Object.keys(diff)[0][0]
+			                              .toUpperCase()
+			                                 .concat(Object.keys(diff)[0].slice(1))
+
+			console.log(chalk.red('We detected a Model added to lamp.config.yml: ', modelName ))
+
+			let makeDir = spawn(`mkdir store/${modelName}`, { shell: true });
+
+			makeDir.on("exit", () => {
+
+			  require('./generator_code_files/ducks_style/index')(diff, modelName, Thunks);
+			});
+    	});
+
+		update_combiner(modelNames, 'Ducks')
+	}
 }
-
-
-
-
-
-
-
-
-
 
 
 
 // logic for adding to an existing model
 
-if(diffing[2].modelUpdates.length){
+const updatesArr = []
 
-	let updateActions = []
-	let updateThunks = []
-	updates = []
+if(diffing[2].modelUpdates.length){
 
 	let deletingOnly = true
 
-	diffing[2].modelUpdates.forEach( (diff, i) => {
+
+	diffing[2].modelUpdates.forEach( (diff) => {
 
 									// figuring out which model got
 									// edited based on the index
 									// we grabbed further upstream
+
 		let modelName = Object.keys( diffing[0].Models[diff[0]] )[0]
+
+		let index = diff[0]
+
+		diff[0] = modelName[0].toUpperCase().concat(modelName.slice(1))
 
 		let operation = diff[2][0] === '+' ? 'adding' : 'deleting'
 
 		if(operation === 'adding'){
+
 			deletingOnly = false
 		}
 
@@ -86,46 +112,32 @@ if(diffing[2].modelUpdates.length){
 		}
 		else if(operation === 'adding'){
 			
-			// need to separate these out based on whether
-			// they're actions or thunks
+			if(!updatesArr[index]){
+				updatesArr[index] = []
+			}
 
-			updates.push(`\n${operation} ${diff[1]}: ${ added } to model ${modelName}\n`)
+			updatesArr[index].push(diff)
+
+			// updatesArr.push(`\n${operation} ${diff[1]}: ${ added } to model ${modelName}\n`)
 		}	
+	
 	})
 
-	if(updates.length && !deletingOnly){
+	if(updatesArr.length && !deletingOnly){
 
-		var questions = [{
-			  type: 'input',
-			  name: 'answer',
-			  message: `Please confirm that all files are saved.\nPlease confirm that we can proceed with the following updates: ${updates.join('')}\n\n "Yes" or "No"`,
-			}]
+		if(Structure === 'Rails'){
 
-		inquirer.prompt(questions).then( result => {
+			require('./generator_code_files/rails_style/update/edit_model')(updatesArr, Thunks)
+		}
 
-			const { answer } = result
+		if(Structure === 'Ducks'){
 
-			if(answer === "Yes" || answer === "yes"){
-
-			  console.log(`Confirmed`)
-
-			  // initialize add operations
-			  update_actions(updates)
-
-			}
-			else{
-				console.log('Updates not confirmed, exiting process.')
-				process.exit()
-			}
-
-		})
+			require('./generator_code_files/ducks_style/edit_model')(updatesArr, Thunks)
+		}
 	}
-	else if(updates.length && deletingOnly){
+	else if(updatesArr.length && deletingOnly){
 
 		console.log(chalk.red('\nOnly delete operations detected, exiting process'))
-
-		// call yam validation to reverse their deletions
-
 	}
 	else{
 		setTimeout(()=>{
@@ -135,3 +147,35 @@ if(diffing[2].modelUpdates.length){
 		
 	}
 }
+
+makeLock(null, diffing[1], diffing[2].addedModels, updatesArr)
+
+/*
+
+this is a prompt thing to put in after testing phase
+
+var questions = [{
+	  type: 'input',
+	  name: 'answer',
+	  message: `Please confirm that all files are saved.\nPlease confirm that we can proceed with the following updates: ${updates.join('')}\n\n "Yes" or "No"`,
+	}]
+
+inquirer.prompt(questions).then( result => {
+
+	const { answer } = result
+
+	if(answer === "Yes" || answer === "yes"){
+
+	  console.log(`Confirmed`)
+
+	  initialize add operations
+
+	}
+	else{
+		console.log('Updates not confirmed, exiting process.')
+		process.exit()
+	}
+
+})		
+
+*/

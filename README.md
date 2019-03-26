@@ -8,6 +8,10 @@ Redux Genie isn't a "starter kit" or a library of helper methods. It actually wr
 
 The genie can be comprehensive- generating the whole Redux store from the outset of a project- or granular- creating or operating on a specific slice of state for an existing project.
 
+```bash
+npm install -g redux-genie
+```
+
 ## Store Declaration at the beginning of a project
 
 To generate a store, Redux Genie's configuration file- lamp.config.yml - will need define the total store structure. 
@@ -332,6 +336,10 @@ genie delete domain <domain>
 ```bash
 genie generate connected NavBar slice User Consumer 
 ```
+
+genie test
+
+prints a test suite for your specifc lamp configuration
 
 <!-- ### Linking the genie to an Existing Store
 

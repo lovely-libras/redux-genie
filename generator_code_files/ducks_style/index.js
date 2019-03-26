@@ -13,7 +13,7 @@ module.exports = (model, modelName, Thunks, Logging) => {
   modelName = modelName[0].toUpperCase()
                             .concat(modelName.slice(1))
 
-  let crudedModel = !!model.CRUD
+  let crudedModel = model.CRUD === undefined || model.CRUD 
 
   let userDefinedActions = model.Actions;
 

@@ -10,7 +10,10 @@ import mockStore from "redux-mock-store";
 import { logger } from "../../store/store";
 import nock from "../nockSetup";
 
-if(){
+
+
+
+if(true){
 //DUCKS////////////////////////////////////////////////////////////////
 import actions from "../../store/Campus/actions_for_Campus"; //ducks
 import action_constants from "../../store/Campus/action_constants_for_Campus"; //for ducks

@@ -13,8 +13,7 @@ Models:
 
     Actions:
       - countDux
-      - migrateDux
-      - quackOne
+
 
     Thunks:
       - getAll:

@@ -2,6 +2,14 @@
 // integration tests
 // for config files for test simulations, use config.js 
 
+/* 
+
+note- it would have been cleaner to export these as an 
+object or class with each function as a method, rather
+than defining each function and then exporting them 
+explicitly at the bottom
+
+*/
 
 const testZeroYaml = () => {
 
@@ -52,7 +60,7 @@ Models:
 
 const testOneYaml = () => {
 
-  return `Structure: Rails
+  return `Structure: Ducks
 
 Logging: false 
 
@@ -247,20 +255,16 @@ const testSevenYaml = () => {
 
 Models:
   - Dux:
-
+    CRUD: false
     Slice:
       - Name: string
       - Quacking: Boolean
       - Ducklings: Object
       - Fly2Gether: Boolean
-
-    CRUD: false
-
     Actions:
       - countDux
       - migrateDux
       - quackOne
-
     Thunks:
       - getAll:
         - "/api/Dux" 
@@ -335,6 +339,407 @@ Models:
         `
 }
 
+const testNineBaseYaml = () => {
+
+return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux`
+}
+
+const testNineAddYaml = () => {
+
+return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+  - terminator:
+
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+        `
+}
+
+const testTenBaseYaml = () => {
+
+return `Structure: Rails 
+
+Models:
+  - dux:
+    CRUD: false
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux`
+}
+
+const testTenAddYaml = () => {
+
+return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+    
+    CRUD: false
+
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+  - Terminator:
+
+    CRUD: false
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+    
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    CRUD: false
+
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+        `
+}
+
+// 11 was the multi update test
+
+const testTwelveBaseYaml = () => {
+
+return `Structure: Ducks 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux`
+}
+
+const testTwelveAddYaml = () => {
+
+return `Structure: Ducks 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+  - terminator:
+
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+
+        `
+}
+
+const testFourteenBaseYaml = () => {
+
+return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+
+        `
+}
+
+const testFourteenAddYaml = () => {
+
+return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    CRUD: false
+
+    Actions:
+      - countDucklings
+      - migrateDucklings
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDucklings
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDucklings
+        `
+}
+
+
+const testFifteenBaseYaml = () => {
+
+return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+
+    Actions:
+      - countDucklings
+      - migrateDucklings
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDucklings
+    
+
+        `
+}
+
+const testFifteenAddYaml = () => {
+
+return `Structure: Rails 
+
+Models:
+
+  - dux:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
+
+  - Ducklings:
+
+    Slice:
+      - Name: string
+    
+    CRUD: false
+
+    Actions:
+      - countDucklings
+      - migrateDucklings
+      - quackOne
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDucklings
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDucklings
+        `
+}
+
+
 module.exports = {
 
   // generate yamls
@@ -349,7 +754,17 @@ module.exports = {
 
   // update yamls
   testEightBaseYaml,
-  testEightAddYaml
+  testEightAddYaml,
+  testNineBaseYaml,
+  testNineAddYaml,
+  testTenBaseYaml,
+  testTenAddYaml,
+  testTwelveBaseYaml,
+  testTwelveAddYaml,
+  testFourteenBaseYaml,
+  testFourteenAddYaml,
+  testFifteenBaseYaml,
+  testFifteenAddYaml
 }
 
 /*
