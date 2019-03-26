@@ -5,7 +5,6 @@
   "main": "generate_code_root.js",
   "scripts": {
     "build": "npm install -g ./",
-
     "test": "mocha"
   },
   "repository": {

@@ -11,23 +11,33 @@ import { logger } from "../../store/store";
 
 import nock from "../nockSetup";
 
-//reducers
-import reducer from "../../store/Campus/reducer_for_Campus"; //for ducks
-// import reducer from "../../store/reducers/reducer_for_Campus"; //for rails
+///DUCKS////////////////////////////////////////////////////////////////////////
+// import reducer from "../../store/Campus/reducer_for_Campus"; //for ducks
+// import {
+//   getAllCampus,
+//   createCampus
+// } from "../../store/Campus/actions_for_Campus"; //for ducks
+// const {
+//   GET_ALL_CAMPUS,
+//   GET_CAMPUS,
+//   ADD_CAMPUS
+// } = require("../../store/Campus/action_constants_for_Campus").default; //for ducks
+
+///RAILS//////////////////////////////////////////////////////////////////////////
+
+import reducer from "../../store/reducers/reducer_for_Campus"; //for rails
 
 import {
   getAllCampus,
   createCampus
-} from "../../store/Campus/actions_for_Campus"; //for ducks
-// } from "../../store/actions/actions_for_Campus"; //for rails
+} from "../../store/actions/actions_for_Campus"; //for rails
 const {
   GET_ALL_CAMPUS,
   GET_CAMPUS,
   ADD_CAMPUS
-} = require("../../store/Campus/action_constants_for_Campus").default; //for ducks
-console.log("This is from the import", GET_CAMPUS);
+} = require("../../store/constants/action_constants").default; //for rails
 
-// } from "../../store/constants/action_constants_for_Campus"; //for rails
+//////////////////////////////////////////////////////////////////////////////////
 
 describe("tests reducers. A reducer should return the new state after applying the action to the previous state, and that's the behavior tested below.", () => {
   it("should return the initial state", async () => {

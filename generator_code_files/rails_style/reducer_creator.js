@@ -1,36 +1,35 @@
 module.exports = (Model, name) => {
+  let vals = Object.values(Model.Slice);
 
-	let vals = Object.values(Model.Slice)
+  const inputConversion = arg => {
+    arg = arg.toLowerCase();
+    if (arg === "string") {
+      return `''`;
+    } else if (arg === "boolean") {
+      return true;
+    } else if (arg === "array") {
+      return `[]`;
+    } else if (arg === "object") {
+      return `{}`;
+    } else if (arg === "number") {
+      return `0`;
+    }
+  };
 
-	const inputConversion = arg => {
-	arg = arg.toLowerCase();
-		if (arg === "string") {
-		  return `''`;
-		} else if (arg === "boolean") {
-		  return true;
-		} else if (arg === "array") {
-		  return `[]`;
-		} else if (arg === "object") {
-		  return `{}`;
-		} else if (arg === "number") {
-		  return `0`;
-	}
-	};
+  const stateValues = vals
+    .map(trait => {
+      const key = Object.keys(trait)[0];
+      let value = Object.values(trait)[0];
+      value = inputConversion(value);
+      return `${key}: ${value}, \n      `;
+    })
+    .join("")
+    .trim();
 
-	const stateValues = vals.map(trait => {
-	    const key = Object.keys(trait)[0];
-	    let value = Object.values(trait)[0];
-	    value = inputConversion(value);
-	    return `${key}: ${value}, \n      `;
-	  })
-	  .join("")
-	  .trim()
+  let cases = "";
 
-	  let cases = ''
-
-if(Model.CRUD === undefined){
-
-cases += `
+  if (Model.CRUD === undefined || Model.CRUD === false) {
+    cases += `
 		case actions.GET_${name.toUpperCase()}: {
 			
 			return { ...state, Single${name}: action.payload }
@@ -57,21 +56,21 @@ cases += `
 
 			return {...state, Single${name}: updated${name}}
 		}
-		`
-}
+		`;
+  }
 
-	if (Model.Actions) {
-	    Model.Actions.forEach(action => {
-
-cases += `
+  if (Model.Actions) {
+    Model.Actions.forEach(action => {
+      cases += `
 		case actions.${action}: {
 
 			return { ...state }
 		}
-		`
-	})}
+		`;
+    });
+  }
 
-	return `import actions from "./../constants/action_constants"
+  return `import actions from "./../constants/action_constants"
 
 const initialState = {
 	${name}List : [],
@@ -89,7 +88,4 @@ ${cases}
 		  return state
 	}
 }`;
-
-
-
 };

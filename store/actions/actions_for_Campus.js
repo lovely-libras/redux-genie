@@ -1,4 +1,4 @@
-import actions from "./action_constants_for_Campus"
+import actions from "../constants/action_constants"
 
 const getCampus = ( payload ) => {
 
