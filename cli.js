@@ -22,12 +22,6 @@ const shell = command => {
   return thisCommand;
 };
 
-if (command === 'generate') {
-  console.log(chalk.red('genie generate'));
-  let gencommand = `node ${__dirname}/generator_code_root.js`;
-  let generateCall = shell(gencommand);
-}
-
 if(command === 'generate' || command === 'gen') {
 
 	console.log(chalk.red('genie generate'))
@@ -38,54 +32,7 @@ if(command === 'generate' || command === 'gen') {
 
 	let generateCall = shell(gencommand)
 
-if (command === 'update') {
-  console.log(chalk.red('genie update'));
-  let updateCommand = `node ${__dirname}/updateCodeRoot.js`;
-  let updateCall = shell(updateCommand);
-
-	/* 
-		else if there isn't, make one for them
-	   	and add anything they put in the command call
-		this is the minimum to complete the call:
-
-		should require a -m switch
-
-		Structure: Rails
-			Models:
-			  - campus:
-
-			    Slice:
-			      - Blank: Boolean
-
-	*/
-
 }
-
-
-
-
-
-if(command === 'update'){
-
-	console.log(chalk.red('genie update'))
-
-	let updateCommand = `node ${__dirname}/updateCodeRoot.js`
-
-	let updateCall = shell(updateCommand)
-	
-}
-
-if(command === 'add'){
-
-	console.log(chalk.red('genie add'))
-
-	let updateCommand = `add=${process.argv.slice(2)} node ${__dirname}/updateCodeRoot.js`
-
-	let addCall = shell(updateCommand)
-}
-
-
-
 
 
 
@@ -125,19 +72,9 @@ if(command === 'delete' || command === 'del') {
 
 	shell(genieDeleteCall)
 
-if (command === 'delete' && arg1 === 'all') {
-  let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`;
-  shell(genieDeleteCall);
-
 }
 
-if (command === 'sim') {
-  if (arg1 === 'last') {
-    simulation[simulation.length - 1]();
-  } else if (typeof arg1 === 'number') {
-    simulation[Number(arg1)]();
-  }
-}
+
 
 if (command === 'simdev') {
   if (arg1 === 'last') {
@@ -147,16 +84,3 @@ if (command === 'simdev') {
   }
 }
 
-
-
-if(command === 'print'){
-
-	const key = Object.keys(require('./test/config.dev'))[arg1]
-
-	fs.writeFile(
-      "./lamp.config.yml",
-      require('./test/config.dev')[key](),
-      () => {}
-    )
-
-}

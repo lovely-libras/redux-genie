@@ -35,6 +35,7 @@ import {
 
 //RAILS////////////////////////////////////////////////////////////////
 }else{
+
 import actions from "../../store/actions/actions_for_Campus"; //rails
 import action_constants from "../../store/constants/action_constants"; //for rails
 
@@ -95,6 +96,7 @@ const shell = command => {
 ///////////////////////////////////////////////////////////////////////
 
 describe("overall integration test using thunks", () => {
+  
   it("should get all campus in the store", async () => {
     await store.dispatch(getAll());
     const campusList = store.getState().Campus_state.CampusList;
