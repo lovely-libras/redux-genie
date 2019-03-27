@@ -28,13 +28,97 @@ generate
 
 
 update
-	- create new model - thunks included
 
-	- create new model - thunks separated
+	edge cases: if someone changes a property between update calls,
+	action constants break
 
-	- update defined actions from update
+	- update to new model no actions or thunks defined- Crud True 
+		- rails xx 
+		- ducks xx 
 
-	- update 
+	- update to new model no actions or thunks defined- Crud false 
+		- rails xx 
+		- ducks xx
+
+	- update to new model with actions and thunks defined - CRUD true
+		- rails xx
+		- ducks xx
+	
+	- update to new model with actions and thunks defined - CRUD false
+		- rails - xx
+		- ducks - xx
+
+	- update new actions on existing model with actions already defined 
+		CRUD true
+		- ducks  xx single xx multiple
+		- rails  xx single  xx multiple
+
+	- update new actions to model with actions not yet defined 
+		- ducks  xx single  xx multiple
+		- rails  xx single  xx multiple
+
+	
+	- update to new thunks to model with thunks already defined
+		- ducks  xx single xx multiple
+		- rails  xx single xx multiple
+
+	- update to new thunks to model with thunks not yet defined
+		- ducks  xx single xx multiple
+		- rails  xx single xx multiple 
+
+	- prevents adding duplicate models
+		- ducks  single  multiple
+		- rails  single  multiple
+
+	- prevents adding duplicate actions
+		- ducks single  multiple
+		- rails  single  multiple 
+
+	- prevents adding duplicate thunks
+		- ducks single  multiple
+		- rails single  multiple 
+
+	- update to add subsequent new models
+		- ducks single  multiple
+		- rails single  multiple
+
+
+    Thunks:
+      - getAll:
+          - "/api/Dux"
+          - getAllCampus
+      - getOne:
+          - "/api/Dux/:dux"
+          - getCampus
+
+ - terminator:
+
+    CRUD: false
+    
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+
+    Actions:
+      - getJohnConnor
+      - hastaLaVista
+
+    Thunks:
+      - getAll:
+          - "/api/terminator"
+          - getJohnConnor
+      - getOne:
+          - "/api/terminator/:terminator"
+          - getJohnConnor
+
+
+issues:
+
+1. RESOLVED adding thunks changes action files
+2. RESOLVED multiple action constants 
+3. RESOLVED adding actions to model with no actions at all 
+4. RESOLVED adding thunks to model wtih no thunks yet (Ducks only)
 
 
 add
@@ -69,7 +153,6 @@ add
 	- prevents adding duplicate models
 		- ducks 
 		- rails xx
-
 
 	- prevents adding duplicate actions
 		- ducks
@@ -306,7 +389,7 @@ SIMS FOR THE ADD/UPDATE FEATURES
 
 */
 
-async function updateTest(yam1, yam2){
+function updateTest(yam1, yam2){
 
 	// print new config file with new model added
 

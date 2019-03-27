@@ -56,7 +56,7 @@ if(command === 'add'){
 
 
 
-if (command === 'ls') {
+if (command === 'ls' || command === 'list') {
   console.log(chalk.red('genie ls'));
   let lsCommand = `node ${__dirname}/ls.js`;
   let lsCall = shell(lsCommand);

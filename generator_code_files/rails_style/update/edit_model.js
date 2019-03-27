@@ -103,7 +103,7 @@ module.exports = (updates, Thunks) => {
 
 			// write validator code to regex out double keys
 
-			let newConstants = actions.reduce((a,b)=> (a += `\n\t${b.toUpperCase()} : '${b.toUpperCase()}',`), "")
+			let newConstants = actions.reduce((a,b)=> (a += `\t${b.toUpperCase()} : '${b.toUpperCase()}',\n`), "")
 		  
 		    let updatedConstants = data.toString().slice(0, data.lastIndexOf('}')) + newConstants + '\n}'
 

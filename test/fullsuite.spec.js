@@ -622,18 +622,23 @@ describe("Ducks model generates properly when CRUD false selected on model", () 
 
 
 
-if(sim === 8){
+if(sim === 9){
 
 describe("DUMMY DESCRIBE TO TEST ADD FUNCTIONALITY", () => {
 
-	it('', (done)=>{
+	it('dummy store generated', (done)=>{
 
-		let storeGenerate = shell(`mode=testing genie sim 8`);
+		let storeGenerate = shell(`genie sim 9`);
 
 		storeGenerate.on("exit", () => {
 
 		  done()
 		})
+	})
+
+	it('heres some tests we can use here', (done)=>{
+
+		done()
 	})
 })
 
