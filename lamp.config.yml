@@ -1,26 +1,22 @@
-Structure: Ducks
-
-Logging: false
+Structure: Rails
 
 Models:
-  - Campus:
+  - campus:
+
     Slice:
       - Name: string
       - Quacking: Boolean
       - Ducklings: Object
       - Fly2Gether: Boolean
-    CRUD: true
+
     Actions:
       - countDux
+     # - migrateDux
+
     Thunks:
       - getAll:
-          - "/api/Dux"
-          - getAllCampus
-      - getOne:
-          - "/api/Dux/:dux"
-          - getCampus
-  - terminator:
-    Slice:
-      - WillBeBack: Boolean
-      - OneLiners: Array
-      - Sequels: Number
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux

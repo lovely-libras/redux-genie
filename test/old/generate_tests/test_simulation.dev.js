@@ -2,6 +2,83 @@
 // integration tests
 // for test simulations, use test-simulation.js 
 
+/*
+
+
+what could go wrong
+
+generate
+	- Rails: generates with mulitple models
+	- Ducks: generates with mulitple models 
+
+	- Rails: generates without defined actions
+	- Ducks: generates without defined actions
+	
+	- Rails: generates without defined thunks
+	- Ducks: generates without defined thunks
+	
+	- Rails: generates with defined actions
+	- Ducks: generates with defined actions
+
+	- Rails: generates with defined thunks
+	- Ducks: generates with defined thunks
+
+	- Rails: all the properties are defined on state
+	- Ducks: all the properties are defined on state
+
+
+update
+	- create new model - thunks included
+	- create new model - thunks separated
+
+
+	- update defined actions from update
+
+	- update 
+
+
+add
+
+	- prevents adding duplicate models
+		- ducks 
+		- rails xx
+
+
+	- prevents adding duplicate actions
+		- ducks
+		- rails - FAILING for CRUD methods
+
+	- prevents adding duplicate thunks
+		- ducks
+		- rails single xx multiple xx
+
+	- add new model with actions and thunks defined 
+		- ducks - single - multiple
+		- rails - single - multiple
+	
+	- add new model with and without defined actions, CRUD false 
+		- ducks
+		- rails
+
+	- add new actions to model with actions already defined 
+		- ducks 
+		- rails xx single xx multiple
+
+	- add new actions to model with actions not yet defined 
+		- ducks 
+		- rails xx single  xx multiple
+	
+	- add new thunks to model with thunks already defined
+		- rails xx single xx muliple
+
+
+	- add new thunks to model with thunks not yet defined
+		- rails  single multiple 
+
+
+
+*/
+
 
 /* 
 
@@ -213,6 +290,12 @@ generate store
 const testSeven = () => {
 	genTest(config.testSevenYaml)
 }
+
+
+
+
+
+
 
 /*
 
@@ -608,6 +691,7 @@ generate store with a model that has actions
 and then add actions using the 'update' method
 Rails model
 */
+
 
 
 const testSeventeen = () => {
