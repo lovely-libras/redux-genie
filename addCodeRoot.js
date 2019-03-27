@@ -1,3 +1,5 @@
+const chalk = require('chalk')
+
 module.exports = (commandLine) => {
 
 	/*
@@ -21,13 +23,24 @@ module.exports = (commandLine) => {
 	// extract and validate command input
 
 	const existingModel = addCall.model || addCall.Model || addCall.m || addCall.MODEL
+	const newModel = addCall.newModel || addCall.newmodel || addCall.M || addCall.NEWMODEL
 
 	if(Array.isArray(existingModel)){
 
 		console.error(require('chalk').yellow('ERROR: can only edit one model at a time. Please run consecutive calls for', existingModel.join(' and ')))
+		process.exit()
 	} 
+	if(Array.isArray(newModel)){
+		console.error(require('chalk').yellow('ERROR: can only add one model at a time via genie add. Please run consecutive calls for', newModel.join(' and '), ', or use the genie update method.'))
+		process.exit()
+	}
 
-	const newModel = addCall.newModel || addCall.newmodel || addCall.M || addCall.NEWMODEL
+	if(!existingModel) {
+		
+		console.log(chalk.yellow('No exisiting Model found- please defined model with "--model" or "-m." To add a new model, use --newModel or -M.'))
+		process.exit()
+	}
+
 	let definedThunks = addCall.thunks || addCall.Thunks || addCall.t
 	let definedActions = addCall.actions || addCall.Actions || addCall.a
 	const noCrud = addCall.nocrud || addCall.noCrud || addCall.noCRUD || addCall.NOCRUD
@@ -46,7 +59,7 @@ module.exports = (commandLine) => {
 
 			const capitalizedOldModelName = oldModelName[0].toUpperCase().concat(oldModelName.slice(1))
 			
-			if( oldModelName === newModel || capitalizedOldModelName === newModel ){
+			if( oldModelName === newModel || oldModelName.toUpperCase() === newModel ||capitalizedOldModelName === newModel ){
 
 				console.error(require('chalk').yellow('ERROR: Model', newModel, 'already defined'))
 				process.exit()
@@ -64,13 +77,13 @@ module.exports = (commandLine) => {
 		}
 		
 		if(definedThunks){
-			// console.deep(definedThunks)
-			Array.isArray(definedThunks) ? modelObject.Thunks.push(...definedThunks) : modelObject.Thunks.push(definedThunks) ;
+
+			Array.isArray(definedThunks) ? modelObject.Thunks.push(...definedThunks.map(thunk => { return { [thunk] : ['blank', 'blank']} } )) : modelObject.Thunks.push({ [definedThunks] : ['blank', 'blank'] }  ) ;
 
 		}
 
 		if(definedActions){
-			// console.deep(definedActions)
+
 			Array.isArray(definedActions) ? modelObject.Actions.push(...definedActions) : modelObject.Actions.push(definedActions) ;
 		}
 
@@ -98,13 +111,22 @@ module.exports = (commandLine) => {
 			}
 
 		})
-		
+
 		if(definedThunks){
 
 			// filter for Thunks that already exist on the model, then push to the model list
 
-			const currentThunks = thisModel.Thunks.reduce((a,b) => { a.push(...Object.keys(b)); return a } , [])
-			
+			let currentThunks 
+
+			if(thisModel.Thunks){
+
+				currentThunks = thisModel.Thunks.reduce((a,b) => { a.push(...Object.keys(b)); return a } , [])
+			} 
+			else{
+				thisModel.Thunks = []
+				currentThunks = thisModel.Thunks
+			}
+
 			if(Array.isArray(definedThunks)){
 
 				// have to convert the current model thunks to an array of just each thunk's names
@@ -117,12 +139,18 @@ module.exports = (commandLine) => {
 			else{
 
 				definedThunks = { [definedThunks] : ['null', 'null']}
-
-				!currentThunks.includes(definedThunks) ? thisModel.Thunks.push(definedThunks) : console.log('Thunk ', definedThunks, 'is already defined on', currentModelName)
+				console.log(definedThunks)
+				!currentThunks.includes(Object.keys(definedThunks)[0]) ? thisModel.Thunks.push(definedThunks) : console.log('Thunk', Object.keys(definedThunks)[0], 'is already defined on', Object.keys(thisModel)[0])
 			}
 		}
 
 		if(definedActions){
+
+			const modelName = Object.keys(thisModel)[0]
+
+			// edge case where they try and add a CRUD method
+
+			let cruds = ['getCampus', 'getAllCampus', 'createCampus', 'updateCampus', 'deleteCampus']
 
 			// filter for Thunks that already exist on the model, then push to the model list
 	
@@ -131,12 +159,12 @@ module.exports = (commandLine) => {
 				// have to convert the current model thunks to an array of just each thunk's names
 				definedActions = definedActions.filter(thunk =>  !thisModel.Actions.includes(thunk) )
 
-				thisModel.Actions.push(...definedActions)
+				if(definedActions.length) thisModel.Actions.push(...definedActions)
 
 			}
 			else{
 
-				!currentThunks.includes(definedActions) ? thisModel.Actions.push(definedActions) : console.log('Action ', definedActions, 'is already defined on', currentModelName)
+				!thisModel.Actions.includes(definedActions) ? thisModel.Actions.push(definedActions) : console.log('Action ', definedActions, 'is already defined on', Object.keys(thisModel)[0])
 			}
 		}
 

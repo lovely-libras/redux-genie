@@ -16,13 +16,14 @@ const shell = (command) => {
 
 // define simulation
 
-let simulationOne = () => {
+let simulationZero = () => {
 
 	const thisConfig = `Structure: Rails
 
 Logging: false
 
 Models:
+
   - Campus:
     Slice:
       - Name: string
@@ -39,6 +40,7 @@ Models:
       - getOne:
           - "/api/Dux/:dux"
           - getCampus
+
   - terminator:
     Slice:
       - WillBeBack: Boolean
@@ -49,7 +51,7 @@ Models:
 
 }
 
-let simulationTwo = () => {
+let simulationOne = () => {
 
   const thisConfig = `Structure: Ducks
 
@@ -83,21 +85,245 @@ Models:
 }
 
 
-module.exports = [ simulationOne, simulationTwo ]
+let simulationTwo = () => {
+
+  const thisConfig = `Structure: Rails
+
+Logging: false 
+
+Models:
+  - campus:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux`
+
+  genTest(thisConfig)
+
+}
+
+let simulationThree = () => {
+
+  const thisConfig = `Structure: Ducks
+
+Logging: false 
+
+Models:
+  - campus:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux`
+
+  genTest(thisConfig)
+
+}
+
+let simulationFour = () => {
+
+  const thisConfig = `Structure: Rails
+
+Thunks: included 
+
+Models:
+  - campus:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux`
+
+  genTest(thisConfig)
+
+}
+
+let simulationFive = () => {
+
+  const thisConfig = `Structure: Ducks
+
+Thunks: included 
+
+Models:
+  - campus:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux`
+
+  genTest(thisConfig)
+
+}
+
+let simulationSix = () => {
+
+  const thisConfig = `Structure: Rails
+
+Models:
+  - campus:
+
+    CRUD: false
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux`
+
+  genTest(thisConfig)
+
+}
+
+let simulationSeven = () => {
+
+  const thisConfig = `Structure: Ducks
+
+Models:
+  - campus:
+
+    CRUD: false
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+      - migrateDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux`
+
+  genTest(thisConfig)
+
+}
+
+let simulationEight = () => {
+
+  const thisConfig = `Structure: Rails
+
+Models:
+  - campus:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+    Actions:
+      - countDux
+     # - migrateDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux`
+
+  genTest(thisConfig)
+
+}
+
+
+
+module.exports = [ 
+
+simulationZero, 
+simulationOne, 
+simulationTwo, 
+simulationThree, 
+simulationFour,
+simulationFive,
+simulationSix,
+simulationSeven,
+simulationEight
+]
 
 
 
 function genTest(yaml){
-
-  // delete current store
 
   let deleteCall = shell('genie delete all')
 
   let genCall
 
   return deleteCall.on('exit', () =>{
-
-    // print config file
 
     fs.writeFile(
         "./lamp.config.yml",

@@ -10,7 +10,7 @@ let input = minimist(process.argv)
 let command = input._[2]
 let arg1 = input._[3]
 const { makeLock, diffLock } = require('./lock')
-const simulation_dev = require('./test/generate_tests/test_simulation.dev')
+const simulation_dev = require('./test/old/generate_tests/test_simulation.dev')
 
 if(process.env.mode === 'testing'){
 	console.log = ()=>{}

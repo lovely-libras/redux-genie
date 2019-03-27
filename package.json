@@ -5,9 +5,8 @@
   "main": "generate_code_root.js",
   "scripts": {
     "build": "npm install -g ./",
-    "test": "node test-root.js",
-    "rails-test": "mode=testing mocha ./test/generate_tests/rails.spec.js --timeout 4000",
-    "ducks-test" : "mode=testing mocha ./test/generate_tests/ducks.spec.js --timeout 4000"
+    "test": "node ./test/test-root.js",
+    "onetest" : "mocha ./test/fullsuite.spec.js --timeout 20000"
   },
   "repository": {
     "type": "git",
