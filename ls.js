@@ -22,9 +22,9 @@ const printFileStructure = tree => {
 };
 
 const ls = () => {
-  const dir = path.join(__dirname, '/store');
+  const currentDir = path.join(__dirname, '/store');
   if (fs.existsSync('./store')) {
-    const tree = buildTree(dir);
+    const tree = buildTree(currentDir);
     printFileStructure(tree);
   } else {
     console.log(
