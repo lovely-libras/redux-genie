@@ -1,6 +1,6 @@
 const fs = require('fs')
 const chalk = require('chalk')
-const { spawn } = require('child_process')
+const { spawn, spawnSync } = require('child_process')
 const util = require('util')
 
 const shell = (command) => {
@@ -13,6 +13,15 @@ const shell = (command) => {
   return thisCommand
 }
 
+const shellSync = (command) => {
+
+  return spawnSync(command, {shell: true, 
+            stdio: 'inherit'
+                }
+            )
+
+
+}
 
 // define simulation
 
@@ -300,7 +309,43 @@ Models:
 
 }
 
+let simulationNine = () => {
 
+  const firstYam = `Structure: Ducks
+
+Models:
+
+
+  - Campus:
+
+    CRUD: false
+    
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+
+          `
+
+  const secondYam = `Structure: Ducks
+
+Models:
+
+  - Campus:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+      `
+
+  updateTest(firstYam, secondYam)      
+
+}
 
 module.exports = [ 
 
@@ -312,7 +357,8 @@ simulationFour,
 simulationFive,
 simulationSix,
 simulationSeven,
-simulationEight
+simulationEight,
+simulationNine
 ]
 
 
@@ -334,5 +380,46 @@ function genTest(yaml){
     
     return genCall
 
+  })
+}
+
+function updateTest(yam1, yam2){
+
+  // print new config file with new model added
+
+  let deleteCall = shell('genie delete all')
+
+  let genCall
+
+  deleteCall.on('exit', () =>{
+
+    // print config file
+
+    fs.writeFile(
+        "./lamp.config.yml",
+        yam1,
+        () => { });
+    
+    // run genie generate (after deleting and rewriting config)
+
+    genCall = shell('genie generate')
+    
+    // console.log(genCall)
+
+    genCall.on('exit', ()=>{
+
+      fs.writeFile(
+          "./lamp.config.yml",
+          yam2,
+          () => {}
+        )
+
+      let updateCall = shell('genie update')
+    
+      updateCall.on('exit', ()=>{
+      
+        process.exit()
+      })
+    })
   })
 }

@@ -1,4 +1,5 @@
 module.exports = (Model, name) => {
+  
   let vals = Object.values(Model.Slice);
 
   const inputConversion = arg => {
@@ -62,7 +63,7 @@ module.exports = (Model, name) => {
   if (Model.Actions) {
     Model.Actions.forEach(action => {
       cases += `
-    case actions.${action}: {
+    case actions.${action.toUpperCase()}: {
 
       return { ...state }
     }

@@ -14,7 +14,7 @@ module.exports = (crudedModelNames, userDefinedActions) => {
 
   let actionMaker = model => {
 
-  	return model.Actions.reduce((a,b)=> (a += `\t${b.toUpperCase()} : '${b.toUpperCase()}',\n`), "")
+  	return model.Actions.reduce((a,b)=> (a += `\t${b.toUpperCase()} : '${b.toUpperCase()}',` + '\n'), "")
   }
 
 	return ( "export default {\n" 
