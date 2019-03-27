@@ -29,8 +29,8 @@ generate
 
 update
 	- create new model - thunks included
-	- create new model - thunks separated
 
+	- create new model - thunks separated
 
 	- update defined actions from update
 
@@ -39,34 +39,25 @@ update
 
 add
 
-	- prevents adding duplicate models
-		- ducks 
-		- rails xx
-
-
-	- prevents adding duplicate actions
-		- ducks
-		- rails - FAILING for CRUD methods
-
-	- prevents adding duplicate thunks
-		- ducks
-		- rails single xx multiple xx
-
 	- add new model with actions and thunks defined 
 		- ducks - single - multiple
 		- rails - single - multiple
+
 	
 	- add new model with and without defined actions, CRUD false 
 		- ducks
 		- rails
 
+
 	- add new actions to model with actions already defined 
 		- ducks 
 		- rails xx single xx multiple
 
+
 	- add new actions to model with actions not yet defined 
 		- ducks 
 		- rails xx single  xx multiple
+
 	
 	- add new thunks to model with thunks already defined
 		- rails xx single xx muliple
@@ -75,6 +66,18 @@ add
 	- add new thunks to model with thunks not yet defined
 		- rails  single multiple 
 
+	- prevents adding duplicate models
+		- ducks 
+		- rails xx
+
+
+	- prevents adding duplicate actions
+		- ducks
+		- rails - single - multiple (FAILING for CRUD methods)
+
+	- prevents adding duplicate thunks
+		- ducks
+		- rails single xx multiple xx
 
 
 */

@@ -146,15 +146,6 @@ Redux logger is wired into the store by default, but can be excluded.
 Logging: false  
 ```
 
-#### Normalizr 
-
-While this will obviously be specific to your use case, the genie can begin the wiring for normalizr inside the appropriate store files.
-
-```
-Normalize:
-  Associate:
-```
-
 #### Example of Full Configuration File:
 
 ```
@@ -231,34 +222,37 @@ The genie update method will never result in a deletion, even if parts of the or
 Add directly from the command line, declaring the same information:
 
 ```
-genie generate model <model name> // generates a model with crud methods 
+To add a new model
 
-	eg: genie generate model Terminator // one model
-	eg: genie generate model Terminator Dux // two models
+  genie add --newmodel Terminator
 
-	Note: will prompt if the root combiner isn't defined in the yaml file.
+  can also add actions in new model call 
 
-	options: 
+  genie add --newmodel Terminator -a getIsBack -a killJohnConnor 
 
-	--crudless // creates all the connection code without defining any crud methods
+  without CRUD ops
 
-	eg: genie generate model Dux --crudless
+  genie add --newmodel Terminator -a getIsBack --noCRUD
 
-genie generate model <model name> action <action name> 
+To add an action to specific model
 
-	eg: genie generate model Terminator action getIsBack
+  genie add --action getIsBack -model Terminator 
+    
+    ... or abbreviated 
+  genie add -a getIsBack -m Terminator
 
-genie generate thunk <thunk name> <thunk endpoints> (generates additional named thunk) 
+To add a thunk to a specific model
 
-	eg: genie generate model Lolz
+  genie add --thunk countDux --model Dux
+  
+    ... or
+  genie add -t countDux -m Dux
 
-genie generate domain <feature name>
+To add a connected React component
 
-	eg: genie generate domain 
+  genie add --connected DuckPond --model Dux -model Ducklings
 
-genie generate thunk <thunk name> <thunk endpoint>
-
-genie generate action <action name> <model assignment> 
+  the component will be created with connections to each model's slice of the store
 
 ```
 
@@ -317,17 +311,6 @@ genie edit <File Structure> <file type>
 genie edit ducks actions
 ```
 
-#### genie delete 
-
-Yes, it will do this...but it will also prompt you.
-
-```bash
-genie delete model <Model>
-genie delete domain <domain>
-
-  eg: genie delete model terminator
-
-```
 
 ## Advanced 
 
@@ -340,23 +323,3 @@ genie generate connected NavBar slice User Consumer
 genie test
 
 prints a test suite for your specifc lamp configuration
-
-<!-- ### Linking the genie to an Existing Store
-
-To link an exisitng store, declare the store's file structure and additional models. Afterwards, you can generate new models by adding to the lamp.config.yml and calling "genie update." 
-
-```
-File Structure: Linked
-
-store: 
-	- actions : './store/actions'
-	- constants : './store/constants'
-	- reducer : './store/reducers'
-	- combiner : './store/reducers/combine_reducers.js' 
-```
-
-In the root directory that contains the lamp.config.yml, run:
-
-```bash
-genie link store
-``` -->
