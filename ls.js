@@ -21,19 +21,21 @@ const printFileStructure = tree => {
   }
 };
 
-module.exports = {
-  ls: function() {
-    if (fs.existsSync('./store')) {
-      const tree = buildTree(path.join(process.cwd(), './store'));
-      printFileStructure(tree);
-    } else {
-      console.log(
-        chalk.red(
-          `You have not yet created the store with ${chalk.white(
-            'genie generate'
-          )}!`
-        )
-      );
-    }
-  },
+const ls = () => {
+  if (fs.existsSync('./store')) {
+    const currentDir = path.join(process.cwd(), './store');
+    console.log('ROOT: ', currentDir);
+    const tree = buildTree(currentDir);
+    printFileStructure(tree);
+  } else {
+    console.log(
+      chalk.red(
+        `You have not yet created the store with ${chalk.white(
+          'genie generate'
+        )}!`
+      )
+    );
+  }
 };
+
+ls();

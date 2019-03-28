@@ -11,7 +11,6 @@ let command = input._[2];
 let arg1 = input._[3];
 const { makeLock, diffLock } = require('./lock');
 const simulation_dev = require('./test/old/generate_tests/test_simulation.dev');
-const { ls } = require('./ls');
 const path = require('path');
 
 if (process.env.mode === 'testing') {
@@ -52,8 +51,8 @@ if (command === 'add') {
 }
 
 if (command === 'ls' || command === 'l' || command === 'list') {
-  const func = ls();
-  spawn(func);
+  let ls = `node ${__dirname}/ls.js`;
+  shell(ls);
 }
 
 // these will only be for development
