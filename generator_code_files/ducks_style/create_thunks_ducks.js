@@ -12,7 +12,19 @@ module.exports = (modelName, model) => {
     let returnAction 
     let endpoint 
 
-    if(typeof thunk === 'string'){
+    if(typeof thunk === 'string' && thunk.indexOf('-') > 0){
+      console.log(require("chalk").hex('#764fb7')`Please list thunks as follows:
+- Fly2Gether:
+  - '/api/dux/' 
+  - migrateAll 
+
+Please remember to use the semicolon.
+
+Best,
+the genie\n`)
+    process.exit()
+    }
+    if( typeof thunk === 'string' ){
       thunkName = thunk
       endpoint = null
       returnAction = null

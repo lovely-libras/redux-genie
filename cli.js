@@ -23,7 +23,7 @@ const shell = command => {
 
 if(command === 'generate' || command === 'gen') {
 
-	console.log(chalk.red('genie generate'))
+	console.log(chalk.hex('#764fb7')('genie generate'))
 
 	// if theres a lamp config
 
@@ -32,48 +32,39 @@ if(command === 'generate' || command === 'gen') {
 	let generateCall = shell(gencommand)
 
 }
+else if(command === 'update'){
 
-
-
-if(command === 'update'){
-
-	console.log(chalk.red('genie update'))
+	console.log(chalk.hex('#764fb7')('genie update'))
 
 	let updateCommand = `node ${__dirname}/updateCodeRoot.js`
 
 	let updateCall = shell(updateCommand)
 	
 }
+else if(command === 'add'){
 
-if(command === 'add'){
-
-	console.log(chalk.red('genie add'))
+	console.log(chalk.hex('#764fb7')('genie add'))
 
 	let updateCommand = `add=${process.argv.slice(2)} node ${__dirname}/updateCodeRoot.js`
 
 	let addCall = shell(updateCommand)
 }
+else if (command === 'ls' || command === 'list') {
+  console.log(chalk.hex('#764fb7')('genie ls'));
 
-
-
-if (command === 'ls' || command === 'list') {
-  console.log(chalk.red('genie ls'));
   let lsCommand = `node ${__dirname}/ls.js`;
+
   let lsCall = shell(lsCommand);
+
 }
-
-  
-// these will only be for development 
-
-if(command === 'delete' || command === 'del') {
+else if(command === 'delete' || command === 'del') {
 
 	let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`
 
 	shell(genieDeleteCall)
 
 }
-
-if (command === 'simdev') {
+else if (command === 'simdev') {
 
   if (arg1 === 'last') {
     
@@ -83,9 +74,13 @@ if (command === 'simdev') {
     simulation_dev[Number(arg1)]();
   }
 }
-
-if (command === 'sim') {
+else if (command === 'sim') {
 
     require('./simulationstwo')[Number(arg1)]();
+}
+else{
+
+	console.log(chalk.red('the genie says: command not found'))
+
 }
 

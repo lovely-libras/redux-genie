@@ -27,6 +27,8 @@ else if (process.env.add){
 	diffing = require('./addCodeRoot')(process.env.add.split(','))
 }
 
+// require('./lock').validateModels(diffing[2])
+
 // logic for adding a model
 
 let { Structure, Thunks, Logging } = diffing[1] // maintain original config answer

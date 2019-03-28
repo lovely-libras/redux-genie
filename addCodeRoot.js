@@ -20,6 +20,8 @@ module.exports = (commandLine) => {
 
 	const addCall = require('minimist')(commandLine)
 
+	const thunkMessage = "FYI: Thunks are generated with a 'blank' endpoint and 'blank' action from genie add."
+
 	// extract and validate command input
 
 	const existingModel = addCall.model || addCall.Model || addCall.m || addCall.MODEL
@@ -80,7 +82,7 @@ module.exports = (commandLine) => {
 		if(definedThunks){
 
 			Array.isArray(definedThunks) ? modelObject.Thunks.push(...definedThunks.map(thunk => { return { [thunk] : ['blank', 'blank']} } )) : modelObject.Thunks.push({ [definedThunks] : ['blank', 'blank'] }  ) ;
-			console.log(chalk.white(`Remember to fill in your thunks: they're going to be generated with a "blank" endpoint and "blank" action`))
+			console.log(chalk.white(thunkMessage))
 
 		}
 
@@ -119,6 +121,11 @@ module.exports = (commandLine) => {
 
 		})
 
+		if(thisModel === undefined ){
+			console.log(chalk.white('Unable to locate model- please check spelling.'))
+			process.exit()
+		}
+
 		if(definedThunks){
 
 			// filter for Thunks that already exist on the model, then push to the model list
@@ -140,7 +147,7 @@ module.exports = (commandLine) => {
 				definedThunks = definedThunks.filter(thunk =>  !currentThunks.includes(thunk) )
 				definedThunks = definedThunks.map(thunk => { return { [thunk] : ['blank', 'blank']} } )
 				thisModel.Thunks.push(...definedThunks)
-				console.log(chalk.white(`Remember to fill in your thunks: they're going to be generated with a "blank" endpoint and "blank" action`))
+				console.log(chalk.white(thunkMessage))
 
 			}
 			else{
@@ -149,12 +156,12 @@ module.exports = (commandLine) => {
 				
 				if(!currentThunks.includes(Object.keys(definedThunks)[0])){
 					thisModel.Thunks.push(definedThunks)
-					console.log(chalk.white(`Remember to fill in your thunks: they're going to be generated with a "blank" endpoint and "blank" action`))
+					console.log(chalk.white(thunkMessage))
 
 				}
 				else{ 
 
-					console.log('Thunk', Object.keys(definedThunks)[0], 'is already defined on', Object.keys(thisModel)[0])
+					console.log(chalk.yellow('Thunk', Object.keys(definedThunks)[0], 'already defined on', Object.keys(thisModel)[0]))
 				} 
 				
 

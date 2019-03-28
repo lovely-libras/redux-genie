@@ -7,7 +7,7 @@ const ducks = require("./generator_code_files/ducks_style");
 const yaml = require("js-yaml");
 const create_store = require("./generator_code_files/ducks_style/create_store");
 const create_combine_reducers = require("./generator_code_files/ducks_style/create_combine_reducers");
-const { makeLock } = require('./lock')
+const { makeLock, validateModels } = require('./lock')
 
 
 if (fs.existsSync('./.lamp-lock.json')) {
@@ -33,9 +33,11 @@ else{
   // we make the lock file containing the store declaration
   // at the initial generate call
 
-  makeLock(yams, null)
-
   let { Structure, Models, Thunks, Logging } = yams;
+
+  // validateModels(Models)
+  
+  makeLock(yams, null)
 
   if (!Structure) {
     console.log('Please specify file structure as "Structure".');
@@ -49,19 +51,25 @@ else{
 
   let rootStore = spawn("mkdir store", { shell: true });
 
-  if (Structure === "Rails") {
-    console.log(chalk.red('Generating Rails file structure'))
-    let makeDir = spawn("mkdir store/actions store/constants store/reducers", {
-      shell: true
-    });
+  fs.mkdirSync
 
-    makeDir.on("exit", () => {
-      
-      rails(Models, Thunks, Logging);
-    });
-  }
 
+    if (Structure === "Rails") {
+      console.log(chalk.red('Generating Rails file structure'))
+      let makeDir = spawn("mkdir store/actions store/constants store/reducers", {
+        shell: true
+      });
+
+      makeDir.on("exit", () => {
+        
+        rails(Models, Thunks, Logging);
+      });
+    }
+
+  })
+  
   if (Structure === "Ducks") {
+
     console.log(chalk.red('Generating Ducks file structure'))
 
     // create action types, action creators, and reducer
@@ -107,5 +115,6 @@ else{
         });
     })
 
-  }
+  
+
 }

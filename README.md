@@ -34,7 +34,7 @@ Define the models for the store. In Rails-style, each model will each receive it
 Full Rails-style lamp.config.yml file: 
 
 ```
-Structure: Ducks # Two options: Rails || Ducks
+Structure: Rails
 
 Models:
 

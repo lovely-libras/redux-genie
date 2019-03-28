@@ -75,13 +75,16 @@ module.exports = (updates, Thunks) => {
 			// no named actions yet- very unlikely scenario, CRUD no and no actions defined
 			// just call the writeFile method with the same object
 
-			fs.writeFile(
-	        `./store/${modelName}/actions_for_${modelName}.js`,
-	        require('./../action_boiler_Rails_model')(modelName, { Actions: actions }, Thunks),
-	        () => {
-	          console.log(chalk.yellow(`made action types for ${modelName}`)) 
-	        }
-	      );
+			console.log('unable to locate action folder')
+
+			// fs.writeFile(
+	  //       `./store/${modelName}/actions_for_${modelName}.js`,
+	  //       require('./../action_boiler_Rails_model')(modelName, { Actions: actions }, Thunks),
+	  //       () => {
+	  //         console.log(chalk.yellow(`made action types for ${modelName}`)) 
+	  //       }
+	  //     );
+
 		}
 
 		// update action constants - add actions

@@ -2,6 +2,7 @@
 const fs = require("fs");
 const yaml = require("js-yaml");
 const { diff } = require('json-diff')
+const chalk = require('chalk')
 
 const makeLock = (currentYam, previousYam, diffedModels, diffedAdditions) => {
 
@@ -152,7 +153,7 @@ const diffLock = (definedCurrent) => {
 		return { addedModels, modelUpdates:  modelUpdates  }
 	}
 
-	return [currentYam, previousYam, diffify(currentYam, previousYam)]
+	return [ currentYam, previousYam, diffify( currentYam, previousYam ) ]
 }
 
 const returnPrevious = () => {
@@ -168,8 +169,32 @@ const returnPrevious = () => {
 
 }
 
+const validateModels = (Model) => {
+
+	modelCache = { }
+
+	Model.forEach(model =>{
+
+		if(Object.keys(model)[0].match(/[^a-zA-Z]/g) !== null ){
+			
+			console.log(chalk.white("Please don't put spaces or special characters in your model names."))
+			process.exit()
+		}
+
+		if(modelCache[Object.keys(model)[0]]){
+			console.log(chalk.white("Model name", Object.keys(model)[0], "already defined on Store."))
+			process.exit()
+		}
+
+		modelCache[Object.keys(model)[0]] = true
+	})
+
+}
+
+
 module.exports = {
 	makeLock,
 	diffLock,
-	returnPrevious
+	returnPrevious,
+	validateModels
 }
