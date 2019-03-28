@@ -67,7 +67,8 @@ describe("Rails Integration Tests", () => {
 
 		  done()
 		})
-	})
+
+	})	
 
 	it("Generated Rails model is a valid Redux store", (done) => {
 

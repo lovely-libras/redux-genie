@@ -8,15 +8,9 @@ const yaml = require("js-yaml");
 const create_store = require("./generator_code_files/ducks_style/create_store");
 const create_combine_reducers = require("./generator_code_files/ducks_style/create_combine_reducers");
 const { makeLock, validateModels } = require('./lock')
+const mkdirp = require('mkdirp')
 
-
-if (fs.existsSync('./.lamp-lock.json')) {
-  
-  // lamp-lock already exists
-
-  console.log(chalk.yellow('\nStore has already been initialized.\nPlease use the "genie update" or "genie add" methods to alter the store.\n'))
-}
-else{
+module.exports = () => {
 
   console.log(chalk.red("your wish is my command"));
 
@@ -49,25 +43,21 @@ else{
     process.exit();
   }
 
-  let rootStore = spawn("mkdir store", { shell: true });
+  // let rootStore = spawn("mkdir store", { shell: true });
 
-  fs.mkdirSync
+  fs.mkdirSync('./store', 0744) 
+    
+  if (Structure === "Rails") {
 
-  rootStore.on('exit', ()=>{
+    console.log(chalk.red('Generating Rails file structure'))
 
-    if (Structure === "Rails") {
-      console.log(chalk.red('Generating Rails file structure'))
-      let makeDir = spawn("mkdir store/actions store/constants store/reducers", {
-        shell: true
-      });
+    fs.mkdirSync('./store/actions', 0744) 
+    fs.mkdirSync('./store/constants', 0744) 
+    fs.mkdirSync('./store/reducers', 0744)   
+    rails(Models, Thunks, Logging);
+    
+  } // end of rails calls
 
-      makeDir.on("exit", () => {
-        
-        rails(Models, Thunks, Logging);
-      });
-    }
-
-  })
   
   if (Structure === "Ducks") {
 
@@ -81,41 +71,38 @@ else{
                                       .toUpperCase()
                                          .concat(Object.keys(model)[0].slice(1))
 
-      let makeDir = spawn(`mkdir store/${modelName}`, { shell: true });
-
-      makeDir.on("exit", () => {
-
-          ducks(model, modelName, Thunks);
-      });
+      fs.mkdirSync(`./store/${modelName}`, 0744)
+      ducks(model, modelName, Thunks);
+   
     });
 
-    rootStore.on('exit', ()=>{
 
-        // create combine reducers
-      let modelNames = Models.map(
+      // create combine reducers
+    let modelNames = Models.map(
 
-       Model =>
-         (Model = Object.keys(Model)[0][0]
-           .toUpperCase()
-           .concat(Object.keys(Model)[0].slice(1)))
-      )
+     Model =>
+       (Model = Object.keys(Model)[0][0]
+         .toUpperCase()
+         .concat(Object.keys(Model)[0].slice(1)))
+    )
 
-     fs.writeFile(
-          "./store/combine_reducers.js",
-          create_combine_reducers(modelNames),
-          (err) => {
-            if(err) console.log(err)
-           console.log(chalk.yellow(`made the combine_reducers.js file`)) 
-          }
-        );
-
-        // create store
-        fs.writeFile("./store/store.js", create_store(Logging), (err) => {
+   fs.writeFile(
+        "./store/combine_reducers.js",
+        create_combine_reducers(modelNames),
+        (err) => {
           if(err) console.log(err)
-          console.log(chalk.yellow(`made the store.js file`)) 
-        });
-    })
+         console.log(chalk.yellow(`made the combine_reducers.js file`)) 
+        }
+      );
 
-  }
+      // create store
+      fs.writeFile(
+        "./store/store.js", 
+        create_store(Logging), 
+        (err) => {
+        if(err) console.log(err)
+        console.log(chalk.yellow(`made the store.js file`)) 
+      });
+  } // end of ducks call
 
 }

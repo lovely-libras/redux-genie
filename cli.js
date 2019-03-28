@@ -10,7 +10,6 @@ let input = minimist(process.argv)
 let command = input._[2]
 let arg1 = input._[3]
 const { makeLock, diffLock } = require('./lock')
-const simulation_dev = require('./test/old/generate_tests/test_simulation.dev')
 
 if(process.env.mode === 'testing'){
 	console.log = ()=>{}
@@ -23,45 +22,40 @@ const shell = command => {
 
 if(command === 'generate' || command === 'gen') {
 
-	console.log(chalk.hex('#764fb7')('genie generate'))
+	// console.log(chalk.hex('#764fb7')('genie generate'))
 
-	// if theres a lamp config
+	if (fs.existsSync('./.lamp-lock.json')) {
+  
+		console.log(chalk.yellow('\nStore has already been initialized.\nPlease use the "genie update" or "genie add" methods to alter the store.\n'))
+		process.exit()
+	}
 
-	let gencommand = `node ${__dirname}/generator_code_root.js`
-
-	let generateCall = shell(gencommand)
-
+	require('./generator_code_root')()
 }
 else if(command === 'update'){
 
-	console.log(chalk.hex('#764fb7')('genie update'))
+	// console.log(chalk.hex('#764fb7')('genie update'))
 
-	let updateCommand = `node ${__dirname}/updateCodeRoot.js`
-
-	let updateCall = shell(updateCommand)
-	
+	require('./updateCodeRoot')()
 }
 else if(command === 'add'){
 
-	console.log(chalk.hex('#764fb7')('genie add'))
+	// console.log(chalk.hex('#764fb7')('genie add'))
 
-	let updateCommand = `add=${process.argv.slice(2)} node ${__dirname}/updateCodeRoot.js`
+	// let updateCommand = `add=${process.argv.slice(2)} node ${__dirname}/updateCodeRoot.js`
 
-	let addCall = shell(updateCommand)
+	// let addCall = shell(updateCommand)
+	require('./updateCodeRoot')(process.argv.slice(2))
 }
 else if (command === 'ls' || command === 'list') {
-  console.log(chalk.hex('#764fb7')('genie ls'));
+  // console.log(chalk.hex('#764fb7')('genie ls'));
 
-  let lsCommand = `node ${__dirname}/ls.js`;
-
-  let lsCall = shell(lsCommand);
+  require('./ls')()
 
 }
 else if(command === 'delete' || command === 'del') {
 
-	let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`
-
-	shell(genieDeleteCall)
+	shell('rm -r store .lamp-lock.json')
 
 }
 else if (command === 'simdev') {
