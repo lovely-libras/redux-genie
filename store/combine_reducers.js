@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
-import Campus_state from './Campus/reducer_for_Campus'
+import Horses_state from './Horses/reducer_for_Horses'
+import CobraChicken_state from './CobraChicken/reducer_for_CobraChicken'
 
 export default combineReducers({
- Campus_state,
+ Horses_state,
+ CobraChicken_state,
 })

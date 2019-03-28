@@ -2,19 +2,64 @@
 	"Structure": "Ducks",
 	"Models": [
 		{
-			"Campus": null,
+			"horses": null,
 			"Slice": [
 				{
-					"Name": "string"
+					"coat": "string"
 				},
 				{
-					"Quacking": "Boolean"
+					"trophies": "number"
 				},
 				{
-					"Ducklings": "Object"
+					"neighing": "boolean"
 				},
 				{
-					"Fly2Gether": "Boolean"
+					"riders": "array"
+				},
+				{
+					"stable": "object"
+				}
+			],
+			"Thunks": [
+				{
+					"runRaceThunk": [
+						"/api/races",
+						"runRace"
+					]
+				}
+			]
+		},
+		{
+			"cobraChicken": null,
+			"Slice": [
+				{
+					"feathers": "string"
+				},
+				{
+					"confirmedKills": "number"
+				},
+				{
+					"isHunting": "boolean"
+				},
+				{
+					"targets": "array"
+				},
+				{
+					"flockMembers": "object"
+				}
+			],
+			"CRUD": false,
+			"Actions": [
+				"flyTogether",
+				"huntTogether",
+				"slayTogether"
+			],
+			"Thunks": [
+				{
+					"migrateNorthThunk": [
+						"/api/geese",
+						"goNorth"
+					]
 				}
 			]
 		}

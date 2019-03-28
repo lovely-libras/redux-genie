@@ -55,8 +55,8 @@ if (command === 'ls' || command === 'l' || command === 'list') {
 }
 
 if (command === 'sample' || command === 's') {
-  let sampleCommand = `node ${__dirname}/sample.js`;
-  shell(sampleCommand);
+  let sample = `node ${__dirname}/sample.js`;
+  shell(sample);
 }
 
 // these will only be for development
