@@ -50,7 +50,7 @@ module.exports = (crudedModel, userDefinedActions, modelName) => {
   	returnStatement += userDefinedActions.reduce((a,b)=> (a += actionMaker(b)), "")
   }
 
-	return "export default {" + returnStatement + "\n}"
+	return "export default {\n" + returnStatement + "\n}"
 			
 };
 

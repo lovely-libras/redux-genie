@@ -8,15 +8,46 @@ module.exports = (modelName, model) => {
 
   model.Thunks.forEach(thunk => {
 
-    thisThunk = Object.entries(thunk)[0];
+    let thunkName 
+    let returnAction 
+    let endpoint 
 
-    returnStatement += `\nexport const ${thisThunk[0]} = () => dispatch => {
+    if(typeof thunk === 'string'){
+      thunkName = thunk
+      endpoint = null
+      returnAction = null
+    }
+    else if(typeof thunk === 'object'){
+
+      thisThunk = Object.entries(thunk)[0];
+
+      thunkName = thisThunk[0]
+
+      if(!thisThunk[1]){
+
+        endpoint = null
+        returnAction = null
+      }
+      else if(thisThunk[1][1] && thisThunk[1][0]){
+
+        endpoint = thisThunk[1][0]
+        returnAction  = thisThunk[1][1]
+      }
+      else if(thisThunk[1][1]){
+        returnAction  = thisThunk[1][1]
+      }
+      else if(thisThunk[1][0]){
+        endpoint = thisThunk[1][0]
+      }
+    }
+    
+    returnStatement += `\nexport const ${thunkName} = () => dispatch => {
  
-  return fetch('${thisThunk[1][0]}')
+  return fetch('${endpoint}')
       .then((resp) => resp.json()) 
       .then(function( {data} ) {
  
-          dispatch(actions.${thisThunk[1][1]}(data))
+          dispatch(actions.${returnAction}(data))
   });
 };\n`;
 
