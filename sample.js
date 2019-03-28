@@ -1,7 +1,11 @@
 const chalk = require('chalk');
 const fs = require('fs');
 
-let sampleData = `Structure: Ducks
+let sampleData = `
+# This is a sample of the lamp.config.yml.
+# Please visit https://redux-genie.herokuapp.com/ for a guided tutorial for creating your own YML configuration file.
+
+Structure: Ducks
 
 Models:
   - trains:
