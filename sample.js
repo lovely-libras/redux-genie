@@ -4,63 +4,40 @@ const fs = require('fs');
 let sampleData = `Structure: Ducks
 
 Models:
-  - horses:
+  - trains:
 
     Slice:
-      - coat: string
-      - trophies: number
-      - neighing: boolean
-      - riders: array
-      - stable: object
+      - color: string
+      - cars: number
+      - inTransit: boolean
+      - conductors: array
+      - stations: object
 
     Thunks:
-      - runRaceThunk:
-          - /api/races
-          - runRace
+      - sendToStationThunk:
+          - /api/stations
+          - sendToStation
 
-  - cobraChicken:
+  - ducks:
 
     Slice:
       - feathers: string
-      - confirmedKills: number
-      - isHunting: boolean
-      - targets: array
+      - flockSize: number
+      - isMigrating: boolean
+      - sightings: array
       - flockMembers: object
 
     CRUD: false
 
     Actions:
       - flyTogether
-      - huntTogether
-      - slayTogether
+      - seasonState
 
     Thunks:
-      - migrateNorthThunk:
+      - migrateSouthThunk:
           - /api/geese
-          - goNorth
-
-# Want to edit this file?
-# Be careful! Make sure that models and properties always have a
-# space between the dash and the name. Major fields
-# (Models, Actions, Thunks, CRUD) should all have a colon after them.
-# Also, the name of this file **must** be lamp.config.yaml or the code will not run.
-#
-# This is how your file should look:
-#
-# Structure: Ducks
-#
-# Models:
-#
-# - Ducks:
-#
-#      - feathers: number
-#
-#    CRUD: false
-#
-#     Actions:
-#      - migrateSouth
-#      - flyTogether
-#`;
+          - goSouth
+`;
 
 if (fs.existsSync('./lamp.config.yml')) {
   console.log(
