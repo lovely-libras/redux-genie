@@ -54,6 +54,11 @@ if (command === 'ls' || command === 'l' || command === 'list') {
   shell(ls);
 }
 
+if (command === 'sample' || command === 's') {
+  let sampleCommand = `node ${__dirname}/sample.js`;
+  shell(sampleCommand);
+}
+
 // these will only be for development
 
 if (command === 'delete' || command === 'del') {

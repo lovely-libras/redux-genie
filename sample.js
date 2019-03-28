@@ -9,92 +9,70 @@ const create_store = require('./generator_code_files/ducks_style/create_store');
 const create_combine_reducers = require('./generator_code_files/ducks_style/create_combine_reducers');
 const { makeLock } = require('./lock');
 
+let data = `Structure: Ducks
+
+Models:
+  - horses:
+
+    Slice:
+      - coat: string
+      - trophies: number
+      - neighing: boolean
+      - riders: array
+      - stable: object
+
+    Thunks:
+      - runRaceThunk:
+          - /api/races
+          - runRace
+
+  - cobraChicken:
+
+    Slice:
+      - feathers: string
+      - confirmedKills: number
+      - isHunting: boolean
+      - targets: array
+      - flockMembers: object
+
+    CRUD: false
+
+    Actions:
+      - flyTogether
+      - huntTogether
+      - slayTogether
+
+    Thunks:
+      - migrateNorthThunk:
+          - /api/geese
+          - goNorth
+
+# Want to edit this file?
+# Be careful! Make sure that models and properties always have a
+# space between the dash and the name. Major fields
+# (Models, Actions, Thunks, CRUD) should all have a colon after them.
+# Also, the name of this file **must** be lamp.config.yaml or the code will not run.
+#
+# This is how your file should look:
+#
+# Structure: Ducks
+#
+# Models:
+#
+# - Ducks:
+#
+#      - feathers: number
+#
+#    CRUD: false
+#
+#     Actions:
+#      - migrateSouth
+#      - flyTogether
+#`;
+
 if (fs.existsSync('./lamp.config.yml')) {
   console.log(chalk.red('\nYou already have a lamp.config.yml!'));
 } else {
   console.log(chalk.hex('#764fb7')('Your wish is my command!'));
+  fs.writeFile('./lamp.config.yml', data);
 }
-
-//   let yams;
-
-//   try {
-//     yams = yaml.safeLoad(fs.readFileSync('./lamp.config.yml', 'utf8'));
-//   } catch (e) {
-//     console.log(chalk.red(e.message));
-//     process.exit();
-//   }
-//   // this is the logic for the initial generate store call
-
-//   // we make the lock file containing the store declaration
-//   // at the initial generate call
-
-//   makeLock(yams, null);
-
-//   let { Structure, Models, Thunks, Logging } = yams;
-
-//   if (!Structure) {
-//     console.log('Please specify file structure as "Structure".');
-//     process.exit();
-//   }
-
-//   if (!Models) {
-//     console.log('Please specify the slices of state as "Models".');
-//     process.exit();
-//   }
-
-//   let rootStore = spawn('mkdir store', { shell: true });
-
-//   if (Structure === 'Rails') {
-//     console.log(chalk.red('Generating Rails file structure'));
-//     let makeDir = spawn('mkdir store/actions store/constants store/reducers', {
-//       shell: true,
-//     });
-
-//     makeDir.on('exit', () => {
-//       rails(Models, Thunks, Logging);
-//     });
-//   }
-
-//   if (Structure === 'Ducks') {
-//     console.log(chalk.red('Generating Ducks file structure'));
-
-//     // create action types, action creators, and reducer
-
-//     Models.forEach((model, i) => {
-//       let modelName = Object.keys(model)[0][0]
-//         .toUpperCase()
-//         .concat(Object.keys(model)[0].slice(1));
-
-//       let makeDir = spawn(`mkdir store/${modelName}`, { shell: true });
-
-//       makeDir.on('exit', () => {
-//         ducks(model, modelName, Thunks);
-//       });
-//     });
-
-//     rootStore.on('exit', () => {
-//       // create combine reducers
-//       let modelNames = Models.map(
-//         Model =>
-//           (Model = Object.keys(Model)[0][0]
-//             .toUpperCase()
-//             .concat(Object.keys(Model)[0].slice(1)))
-//       );
-
-//       fs.writeFile(
-//         './store/combine_reducers.js',
-//         create_combine_reducers(modelNames),
-//         err => {
-//           if (err) console.log(err);
-//           console.log(chalk.yellow(`made the combine_reducers.js file`));
-//         }
-//       );
-
-//       // create store
-//       fs.writeFile('./store/store.js', create_store(Logging), err => {
-//         if (err) console.log(err);
-//         console.log(chalk.yellow(`made the store.js file`));
-//       });
-//     });
-//   }
-// }
