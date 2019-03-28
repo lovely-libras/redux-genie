@@ -2,11 +2,11 @@ const chalk = require("chalk");
 const clear = require("clear");
 const fs = require("fs");
 let { spawn } = require("child_process");
-let rails = require("./generator_code_files/rails_style/rails_index");
-const ducks = require("./generator_code_files/ducks_style");
+let rails = require("./../generator_code_files/rails_style/rails_index");
+const ducks = require("./../generator_code_files/ducks_style");
 const yaml = require("js-yaml");
-const create_store = require("./generator_code_files/ducks_style/create_store");
-const create_combine_reducers = require("./generator_code_files/ducks_style/create_combine_reducers");
+const create_store = require("./../generator_code_files/ducks_style/create_store");
+const create_combine_reducers = require("./../generator_code_files/ducks_style/create_combine_reducers");
 const { makeLock, validateModels } = require('./lock')
 const mkdirp = require('mkdirp')
 

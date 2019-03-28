@@ -9,10 +9,10 @@ const currentDirectory = require('path').dirname
 let input = minimist(process.argv)
 let command = input._[2]
 let arg1 = input._[3]
-const { makeLock, diffLock } = require('./lock')
+const { makeLock, diffLock } = require('./src/lock')
 
 if(process.env.mode === 'testing'){
-	console.log = ()=>{}
+	// console.log = ()=>{}
 }
 
 const shell = command => {
@@ -30,13 +30,13 @@ if(command === 'generate' || command === 'gen') {
 		process.exit()
 	}
 
-	require('./generator_code_root')()
+	require('./src/generator_code_root')()
 }
 else if(command === 'update'){
 
 	// console.log(chalk.hex('#764fb7')('genie update'))
 
-	require('./updateCodeRoot')()
+	require('./src/updateCodeRoot')()
 }
 else if(command === 'add'){
 
@@ -45,36 +45,21 @@ else if(command === 'add'){
 	// let updateCommand = `add=${process.argv.slice(2)} node ${__dirname}/updateCodeRoot.js`
 
 	// let addCall = shell(updateCommand)
-	require('./updateCodeRoot')(process.argv.slice(2))
+	require('./src/updateCodeRoot')(process.argv.slice(2))
 }
 else if (command === 'ls' || command === 'list') {
   // console.log(chalk.hex('#764fb7')('genie ls'));
 
-  require('./ls')()
+  require('./src/ls')()
 
-}
-else if(command === 'delete' || command === 'del') {
-
-	shell('rm -r store .lamp-lock.json')
-
-}
-else if (command === 'simdev') {
-
-  if (arg1 === 'last') {
-    
-    simulation_dev[simulation_dev.length - 1]();
-  } else if (typeof arg1 === 'number') {
-    
-    simulation_dev[Number(arg1)]();
-  }
 }
 else if (command === 'sim') {
 
-    require('./simulationstwo')[Number(arg1)]();
+    require('./test/simulationstwo')[Number(arg1)]();
 }
 else{
 
-	console.log(chalk.red('the genie says: command not found'))
+	console.log(chalk.red('the genie says: command not found', command))
 
 }
 

@@ -1,8 +1,9 @@
 Structure: Ducks
 
-Models:
+Logging: false 
 
-  - Campus:
+Models:
+  - campus:
 
     Slice:
       - Name: string
@@ -10,4 +11,14 @@ Models:
       - Ducklings: Object
       - Fly2Gether: Boolean
 
-      
+    Actions:
+      - countDux
+      - migrateDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux

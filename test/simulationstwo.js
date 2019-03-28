@@ -365,7 +365,7 @@ simulationNine
 
 function genTest(yaml){
 
-  let deleteCall = shell('genie delete all')
+  let deleteCall = shell('rm -r store .lamp-lock.json')
 
   let genCall
 
@@ -387,7 +387,7 @@ function updateTest(yam1, yam2){
 
   // print new config file with new model added
 
-  let deleteCall = shell('genie delete all')
+  let deleteCall = shell('rm -r store .lamp-lock.json')
 
   let genCall
 

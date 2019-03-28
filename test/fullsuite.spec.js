@@ -1,6 +1,5 @@
 import fetchMock from "fetch-mock";
 const { spawn } = require("child_process");
-const config = require('./old/generate_tests/config.dev')
 const fs = require('fs')
 import { expect, should, equal } from "chai";
 // import { createSpy, spyOn, isSpy } from "expect";
@@ -47,11 +46,8 @@ fetchMock.put(
   { overwriteRoutes: false }
 );
 
-
-
-
-
 let sim = Number(process.env.sim)
+const simCommand = `mode=testing genie sim ${sim}`
 
 if(sim === 0){
 
@@ -61,7 +57,7 @@ describe("Rails Integration Tests", () => {
 
 	it('Rails store generates', (done)=>{
 
-		let storeGenerate = shell(`mode=testing genie sim 0`);
+		let storeGenerate = shell(simCommand
 
 		storeGenerate.on("exit", () => {
 
@@ -217,7 +213,7 @@ describe("Integration tests- Ducks", () => {
 
 	before((done)=>{
 
-		let storeGenerate = shell(`mode=testing genie sim 1`);
+		let storeGenerate = shell(simCommand);
 
 		storeGenerate.on("exit", () => {
 			
@@ -378,7 +374,7 @@ describe("Rails model generates with thunks separated", () => {
 
 	it('Rails model generates with thunks separated', (done)=>{
 
-		let storeGenerate = shell(`mode=testing genie sim 2`);
+		let storeGenerate = shell(simCommand);
 
 		storeGenerate.on("exit", () => {
 
@@ -418,7 +414,7 @@ describe("Ducks model generates with thunks separated", () => {
 
 	it('Ducks model generates with thunks separated', (done)=>{
 
-		let storeGenerate = shell(`mode=testing genie sim 3`);
+		let storeGenerate = shell(simCommand);
 
 		storeGenerate.on("exit", () => {
 
@@ -458,7 +454,7 @@ describe("Rails model generates with thunks included in action file", () => {
 
 	it('Rails model generates with thunks included in action file', (done)=>{
 
-		let storeGenerate = shell(`mode=testing genie sim 4`);
+		let storeGenerate = shell(simCommand);
 
 		storeGenerate.on("exit", () => {
 
@@ -502,7 +498,7 @@ describe("Ducks model generates with thunks included in action file", () => {
 
 	it('Ducks model generates with thunks included in action file', (done)=>{
 
-		let storeGenerate = shell(`mode=testing genie sim 5`);
+		let storeGenerate = shell(simCommand);
 
 		storeGenerate.on("exit", () => {
 
@@ -544,7 +540,7 @@ describe("Rails model generates properly when CRUD false selected on model", () 
 
 	it('Rails model generates with CRUD ops exlcuded from action file', (done)=>{
 
-		let storeGenerate = shell(`mode=testing genie sim 6`);
+		let storeGenerate = shell(simCommand);
 
 		storeGenerate.on("exit", () => {
 
@@ -584,7 +580,7 @@ describe("Ducks model generates properly when CRUD false selected on model", () 
 
 	it('Ducks model generates with CRUD ops exlcuded from action file', (done)=>{
 
-		let storeGenerate = shell(`mode=testing genie sim 7`);
+		let storeGenerate = shell(simCommand);
 
 		storeGenerate.on("exit", () => {
 
