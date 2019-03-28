@@ -53,6 +53,7 @@ else{
 
   fs.mkdirSync
 
+  rootStore.on('exit', ()=>{
 
     if (Structure === "Rails") {
       console.log(chalk.red('Generating Rails file structure'))
@@ -115,6 +116,6 @@ else{
         });
     })
 
-  
+  }
 
 }
