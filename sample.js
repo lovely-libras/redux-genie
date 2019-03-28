@@ -63,7 +63,9 @@ Models:
 #`;
 
 if (fs.existsSync('./lamp.config.yml')) {
-  console.log(chalk.red('You already have a lamp.config.yml!'));
+  console.log(
+    chalk.red(`You already have a ${chalk.white('lamp.config.yml')}!`)
+  );
 } else {
   console.log(chalk.hex('#764fb7')('Your wish is my command!'));
   fs.writeFile('./lamp.config.yml', sampleData, function(err, data) {
