@@ -11,10 +11,6 @@ let command = input._[2];
 let arg1 = input._[3];
 const { makeLock, diffLock } = require('./lock');
 const simulation_dev = require('./test/old/generate_tests/test_simulation.dev');
-<<<<<<< HEAD
-=======
-const path = require('path');
->>>>>>> master
 
 if (process.env.mode === 'testing') {
   console.log = () => {};
