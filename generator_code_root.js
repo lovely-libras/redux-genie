@@ -26,7 +26,13 @@ if (fs.existsSync('./.lamp-lock.json')) {
   try {
     yams = yaml.safeLoad(fs.readFileSync('./lamp.config.yml', 'utf8'));
   } catch (e) {
-    console.error(chalk.red('e.message'));
+    console.log(
+      chalk.red(
+        `You do not have a ${'lamp.config.yml'} configuration file!\nFor help creating the ${'lamp.config.yml'}, please visit us at ${chalk.cyan(
+          'https://redux-genie.herokuapp.com'
+        )}`
+      )
+    );
     process.exit();
   }
 
