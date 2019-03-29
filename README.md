@@ -16,7 +16,7 @@
 
 ---
 
-**Redux Genie** is a development tool that writes the boilerplate code for your Redux components. You can create a store from scratch, and then inject new files and their corresponding code into your project through the command line interface (CLI). Now you can spend less time managing your Redux store without abstracting its functionality while avoiding some common errors.
+Redux Genie is a development tool that writes the boilerplate code for your Redux components. You can create a store from scratch, and then inject new files and their corresponding code into your project through the command line interface (CLI). Now you can spend less time managing your Redux store without abstracting its functionality while avoiding some common errors.
 
 For more in-depth information, as well a tutorial for creating a YML file, please visit us at the [Redux Genie homepage](https://redux-genie.herokuapp.com/).
 
@@ -44,7 +44,7 @@ With Redux Genie installed, all you need to get started is a YML file. You can l
 
 ### Usage
 
-The following commands are available for use with **Redux Genie**.
+The following commands are available for use with Redux Genie.
 
 #### Help
 
@@ -96,7 +96,7 @@ genie update
 
 Reads your _lamp.config.yml_ configuration file, and then recreates the store with any changes you may have made.
 
-_CAUTION_: You cannot change the file structure that was created when the store was generated. Update merely adds or removes models, actions, or thunks.
+**NOTE**: You cannot change the file structure that was created when the store was generated. Update merely adds or removes models, actions, or thunks.
 
 ---
 
@@ -118,7 +118,7 @@ The add command allows you to add specific properties or thunks to an existing m
 
 ### Developers
 
-**Redux Genie** was created as the capstone project by **Team Lovely Libras** for [Fullstack Academy's](https://www.fullstackacademy.com/) 1901-FSA-NY cohort.
+Redux Genie was created as the capstone project by Team Lovely Libras for [Fullstack Academy's](https://www.fullstackacademy.com/) 1901-FSA-NY cohort.
 
 Team Lovely Libras:
 
@@ -131,7 +131,7 @@ Team Lovely Libras:
 
 ### Contributing
 
-**Redux Genie** is an open-source project.
+Redux Genie is an open-source project.
 
 Please make sure to update tests as appropriate.
 
