@@ -53,6 +53,10 @@ else if (command === 'ls' || command === 'list') {
   require('./src/ls')()
 
 }
+else if(command === 'delete'){
+	
+	shell('rm -r store .lamp-lock.json')
+}
 else if (command === 'sim') {
 
     require('./test/simulationstwo')[Number(arg1)]();

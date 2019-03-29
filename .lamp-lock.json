@@ -1,6 +1,5 @@
 {
 	"Structure": "Ducks",
-	"Logging": false,
 	"Models": [
 		{
 			"campus": null,
@@ -20,7 +19,8 @@
 			],
 			"Actions": [
 				"countDux",
-				"migrateDux"
+				"migrateDux",
+				"getStudents"
 			],
 			"Thunks": [
 				{

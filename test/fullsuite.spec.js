@@ -51,13 +51,13 @@ const simCommand = `mode=testing genie sim ${sim}`
 
 if(sim === 0){
 
-describe("Rails Integration Tests", () => {
+describe("Rails generate method Integration Tests", () => {
 
 	let actions, action_constants, store, reducer
 
 	it('Rails store generates', (done)=>{
 
-		let storeGenerate = shell(simCommand
+		let storeGenerate = shell(simCommand)
 
 		storeGenerate.on("exit", () => {
 
@@ -165,11 +165,6 @@ describe("Rails Integration Tests", () => {
 		done()
 	});
 
-});
-
-
-describe("Rails Integration Tests", () => {
-
 	it("should get all campus in the store", async () => {
 
 		let {
@@ -220,15 +215,6 @@ describe("Integration tests- Ducks", () => {
 		  done()
 		})
 	})
-
-	it('Ducks store generates', (done)=>{
-
-
-		done()
-	})
-})
-
-describe("Integration tests- Ducks", () => {
 
 	let actions, action_constants, store, reducer
 
@@ -328,10 +314,6 @@ describe("Integration tests- Ducks", () => {
 		done()
 	});
 
-});
-
-describe("Ducks integration tests- Thunks", () => {
-
 	it("should get all campus in the store", async () => {
 
 		let {
@@ -370,41 +352,6 @@ describe("Ducks integration tests- Thunks", () => {
 
 if(sim === 2){
 
-describe("Rails model generates with thunks separated", () => {
-
-	it('Rails model generates with thunks separated', (done)=>{
-
-		let storeGenerate = shell(simCommand);
-
-		storeGenerate.on("exit", () => {
-
-		  done()
-		})
-	})
-
-
-	it("Generates thunks in a separate file", (done) => {
-
-		let thunksFileExists = fs.existsSync(`${process.cwd()}/store/actions/thunks_for_Campus.js`)
-
-		expect(thunksFileExists).to.equal(true)
-
-		done()
-
-	});	
-
-	it('Contains valid thunks', (done)=> {
-
-		let thunks = require(`${process.cwd()}/store/actions/thunks_for_Campus.js`)
-
-		expect(typeof thunks.getAll).to.equal('function')
-		expect(typeof thunks.getOne).to.equal('function')
-
-		done()
-	})
-
-
-})
 
 }
 
@@ -621,7 +568,7 @@ describe("Ducks model generates properly when CRUD false selected on model", () 
 
 if(sim === 9){
 
-describe("DUMMY DESCRIBE TO TEST ADD FUNCTIONALITY", () => {
+describe("DUMMY DESCRIBE TO", () => {
 
 	it('dummy store generated', (done)=>{
 
@@ -673,5 +620,45 @@ if(sim === 22){}
 
 
 
+if(sim === 500){
 
+	describe("Rails model generates with thunks separated", () => {
+
+	it('Rails model generates with thunks separated', (done)=>{
+
+		let storeGenerate = shell(simCommand);
+
+		storeGenerate.on("exit", () => {
+
+		  done()
+		})
+	})
+
+
+	it("Generates thunks in a separate file", (done) => {
+
+		let thunksFileExists = fs.existsSync(`${process.cwd()}/store/actions/thunks_for_Campus.js`)
+
+		expect(thunksFileExists).to.equal(true)
+
+		done()
+
+	});	
+
+	it('Contains valid thunks', (done)=> {
+
+		let thunks = require(`${process.cwd()}/store/actions/thunks_for_Campus.js`)
+
+		expect(typeof thunks.getAll).to.equal('function')
+		expect(typeof thunks.getOne).to.equal('function')
+
+		done()
+	})
+
+
+	})
+
+
+
+}
 
