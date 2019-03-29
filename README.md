@@ -2,16 +2,16 @@
 
 ## Summon the genie!
 
-- [Installation](##Installation)
-- [Usage](##Usage)
-  - [Help](#Help)
-  - [Sample](#Sample)
-  - [Generate](#Generate)
-  - [List](#List)
-  - [Update](#Update)
-  - [Add](#Add)
-- [Contributing](##Contributing)
-- [License](##License)
+- [Installation](###Installation)
+- [Usage](###Usage)
+  - [Help](####Help)
+  - [Sample](####Sample)
+  - [Generate](####Generate)
+  - [List](####List)
+  - [Update](####Update)
+  - [Add](####Add)
+- [Contributing](###Contributing)
+- [License](###License)
 
 ---
 
