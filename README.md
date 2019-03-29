@@ -38,7 +38,9 @@ To begin, install Redux Genie globally from the NPM registry:
 $ npm install -g redux-genie
 ```
 
-With Redux Genie installed, all you need to get started is a YML file. You can learn more by reading our documentation at [https://redux-genie.herokuapp.com/docs](https://redux-genie.herokuapp.com/docs)
+With Redux Genie installed, all you need to get started is a YML file.
+
+You can learn more by reading our documentation at [https://redux-genie.herokuapp.com/docs](https://redux-genie.herokuapp.com/docs)
 
 ---
 
