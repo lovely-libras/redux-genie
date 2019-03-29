@@ -1,57 +1,22 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const chalkAnimation = require('chalk-animation');
 const minimist = require('minimist');
-const chalk = require('chalk');
 const { spawn } = require('child_process');
-const currentDirectory = require('path').dirname;
 let input = minimist(process.argv);
 let command = input._[2];
 let arg1 = input._[3];
-const { makeLock, diffLock } = require('./lock');
-const simulation_dev = require('./test/old/generate_tests/test_simulation.dev');
 
 if (process.env.mode === 'testing') {
   console.log = () => {};
 }
 
 const shell = command => {
-  let thisCommand = spawn(command, { shell: true, stdio: 'inherit' });
-  return thisCommand;
+  spawn(command, { shell: true, stdio: 'inherit' });
 };
 
-if (command === 'generate' || command === 'gen') {
-  console.log(chalk.red('genie generate'));
-
-  // if theres a lamp config
-
-  let gencommand = `node ${__dirname}/generator_code_root.js`;
-
-  let generateCall = shell(gencommand);
-}
-
-if (command === 'update') {
-  console.log(chalk.red('genie update'));
-
-  let updateCommand = `node ${__dirname}/updateCodeRoot.js`;
-
-  let updateCall = shell(updateCommand);
-}
-
-if (command === 'add') {
-  console.log(chalk.red('genie add'));
-
-  let updateCommand = `add=${process.argv.slice(
-    2
-  )} node ${__dirname}/updateCodeRoot.js`;
-
-  let addCall = shell(updateCommand);
-}
-
-if (command === 'ls' || command === 'l' || command === 'list') {
-  let ls = `node ${__dirname}/ls.js`;
-  shell(ls);
+if (command === 'help' || command === 'h') {
+  let help = `node ${__dirname}/help.js`;
+  shell(help);
 }
 
 if (command === 'sample' || command === 's') {
@@ -59,12 +24,29 @@ if (command === 'sample' || command === 's') {
   shell(sample);
 }
 
-// these will only be for development
+if (command === 'generate' || command === 'gen' || command === 'g') {
+  let gen = `node ${__dirname}/generator_code_root.js`;
+  shell(gen);
+}
 
-if (command === 'delete' || command === 'del') {
-  let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`;
+if (command === 'list' || command === 'ls' || command === 'l') {
+  let ls = `node ${__dirname}/ls.js`;
+  shell(ls);
+}
 
-  shell(genieDeleteCall);
+if (command === 'delete' || command === 'del' || command === 'd') {
+  let del = `node ${__dirname}/erase_dummy_store.js`;
+  shell(del);
+}
+
+if (command === 'update' || command === 'u') {
+  let update = `node ${__dirname}/updateCodeRoot.js`;
+  shell(update);
+}
+
+if (command === 'add' || command === 'a') {
+  let add = `add=${process.argv.slice(2)} node ${__dirname}/updateCodeRoot.js`;
+  shell(add);
 }
 
 if (command === 'simdev') {
