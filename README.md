@@ -10,6 +10,7 @@
   - [List](#List)
   - [Update](#Update)
   - [Add](#Add)
+- [Developers](#Developers)
 - [Contributing](#Contributing)
 - [License](#License)
 
@@ -17,7 +18,7 @@
 
 **Redux Genie** is a development tool that writes the boilerplate code for your Redux components. You can create a store from scratch, and then inject new files and their corresponding code into your project through the command line interface (CLI). Now you can spend less time managing your Redux store without abstracting its functionality while avoiding some common errors.
 
-For more in-depth information, as well a tutorial for creating a YML file, please visit us at the [Redux Genie Homepage](https://redux-genie.herokuapp.com/).
+For more in-depth information, as well a tutorial for creating a YML file, please visit us at the [Redux Genie homepage](https://redux-genie.herokuapp.com/).
 
 Made for developers creating JavaScript applications with [Redux](https://redux.js.org/).
 
@@ -115,7 +116,7 @@ The add command allows you to add specific properties or thunks to an existing m
 
 ---
 
-### Contributing
+### Developers
 
 **Redux Genie** was created as the capstone project by **Team Lovely Libras** for [Fullstack Academy's](https://www.fullstackacademy.com/) 1901-FSA-NY cohort.
 
@@ -125,6 +126,14 @@ Team Lovely Libras:
 - [Jon Cannon](https://www.linkedin.com/in/jonathan-cannon-62675683/)
 - [Amy Kim](https://www.linkedin.com/in/amyarimkim/)
 - [Nick Peresguloff](https://www.linkedin.com/in/nicholas-pereslugoff/)
+
+---
+
+### Contributing
+
+**Redux Genie** is an open-source project.
+
+Please make sure to update tests as appropriate.
 
 ---
 
