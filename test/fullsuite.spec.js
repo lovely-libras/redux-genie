@@ -1,12 +1,15 @@
-import fetchMock from 'fetch-mock';
-const { spawn } = require('child_process');
-const fs = require('fs');
-import { expect, should, equal } from 'chai';
-import sinon from 'sinon';
-import sinonChai from 'sinon-chai';
-import mockStore from 'redux-mock-store';
-import nock from './nockSetup';
-import chai from 'chai';
+import fetchMock from "fetch-mock";
+const { spawn } = require("child_process");
+const fs = require('fs')
+import { expect, should, equal } from "chai";
+// import { createSpy, spyOn, isSpy } from "expect";
+import sinon from "sinon";
+import sinonChai from "sinon-chai";
+// import assert from "assert";
+import mockStore from "redux-mock-store";
+// import { logger } from "../../store/store";
+import nock from "./nockSetup";
+import chai from "chai";
 
 const shell = command => {
   let thisProc = spawn(command, { shell: true, stdio: 'inherit' });
@@ -42,22 +45,27 @@ fetchMock.put(
   { overwriteRoutes: false }
 );
 
-let sim = Number(process.env.sim);
+let sim = Number(process.env.sim)
+const simCommand = `mode=testing genie sim ${sim}`
 
-if (sim === 0) {
-  describe('Rails Integration Tests', () => {
-    let actions, action_constants, store, reducer;
+if(sim === 0){
 
-    it('Rails store generates', done => {
-      let storeGenerate = shell(`mode=testing genie sim 0`);
+describe("Rails generate method Integration Tests", () => {
 
-      storeGenerate.on('exit', () => {
-        done();
-      });
-    });
+	let actions, action_constants, store, reducer
 
-    it('Generated Rails model is a valid Redux store', done => {
-      actions = require('../store/actions/actions_for_Campus').default;
+	it('Rails store generates', (done)=>{
+
+		let storeGenerate = shell(simCommand)
+
+		storeGenerate.on("exit", () => {
+
+		  done()
+		})
+
+	})	
+
+	it("Generated Rails model is a valid Redux store", (done) => {
 
       action_constants = require('../store/constants/action_constants').default;
 
@@ -144,17 +152,7 @@ if (sim === 0) {
         SingleCampus: { name: 'campus1!' },
       });
 
-      done();
-    });
-  });
-
-  describe('Rails Integration Tests', () => {
-    it('should get all campus in the store', async () => {
-      let { getAll } = require('../store/actions/thunks_for_Campus').default;
-
-      const store = require('../store/store').default;
-
-      await store.dispatch(getAll());
+	it("should get all campus in the store", async () => {
 
       const campusList = store.getState().Campus_state.CampusList;
 
@@ -183,28 +181,20 @@ if (sim === 1) {
     before(done => {
       let storeGenerate = shell(`mode=testing genie sim 1`);
 
-      storeGenerate.on('exit', () => {
-        done();
-      });
-    });
+if(sim === 1){
+
+describe("Integration tests- Ducks", () => {
+
+	before((done)=>{
+
+		let storeGenerate = shell(simCommand);
 
     it('Ducks store generates', done => {
       done();
     });
   });
 
-  describe('Integration tests- Ducks', () => {
-    let actions, action_constants, store, reducer;
-
-    it('Generated Ducks model is a valid Redux store', done => {
-      actions = require('../store/Campus/actions_for_Campus').default;
-
-      action_constants = require('../store/Campus/action_constants_for_Campus')
-        .default;
-
-      store = require('../store/store').default;
-
-      reducer = require('../store/Campus/reducer_for_Campus').default; //for rails
+	let actions, action_constants, store, reducer
 
       done();
     });
@@ -295,61 +285,64 @@ if (sim === 1) {
 
       const campusList = store.getState().Campus_state.CampusList;
 
-      expect(campusList).to.deep.equal(campuses);
-    });
+	it("should get all campus in the store", async () => {
 
-    it('should return the initial state', async () => {
-      const reducer = require('../store/Campus/reducer_for_Campus').default;
+		let {
+		  getAll
+		} = require("../store/Campus/thunks_for_Campus").default; 
 
-      await expect(reducer(undefined, {})).to.deep.equal({
-        CampusList: [],
-        isLoading: false,
-        SingleCampus: {
-          Name: '',
-          Quacking: true,
-          Ducklings: {},
-          Fly2Gether: true,
-        },
-      });
-    });
-  });
+		const store = require("../store/store").default;
+
+		await store.dispatch(getAll());
+
+	    const campusList = store.getState().Campus_state.CampusList;
+	    
+	    expect(campusList).to.deep.equal(campuses);
+
+	});	
+
+	it("should return the initial state", async () => {
+
+		const reducer = require("../store/Campus/reducer_for_Campus").default
+
+	    await expect(reducer(undefined, {})).to.deep.equal({
+
+	      CampusList: [],
+	      isLoading: false,
+	      SingleCampus: {
+	        Name: "",
+	        Quacking: true,
+	        Ducklings: {},
+	        Fly2Gether: true
+	      }
+	    });
+
+	});
+})
 }
 
-if (sim === 2) {
-  describe('Rails model generates with thunks separated', () => {
-    it('Rails model generates with thunks separated', done => {
-      let storeGenerate = shell(`mode=testing genie sim 2`);
+if(sim === 2){
 
-      storeGenerate.on('exit', () => {
-        done();
-      });
-    });
-
-    it('Generates thunks in a separate file', done => {
-      let thunksFileExists = fs.existsSync(
-        `${process.cwd()}/store/actions/thunks_for_Campus.js`
-      );
-
-      expect(thunksFileExists).to.equal(true);
-
-      done();
-    });
-
-    it('Contains valid thunks', done => {
-      let thunks = require(`${process.cwd()}/store/actions/thunks_for_Campus.js`);
-
-      expect(typeof thunks.getAll).to.equal('function');
-      expect(typeof thunks.getOne).to.equal('function');
 
       done();
     });
   });
 }
 
-if (sim === 3) {
-  describe('Ducks model generates with thunks separated', () => {
-    it('Ducks model generates with thunks separated', done => {
-      let storeGenerate = shell(`mode=testing genie sim 3`);
+if(sim === 3){
+
+describe("Ducks model generates with thunks separated", () => {
+
+	it('Ducks model generates with thunks separated', (done)=>{
+
+		let storeGenerate = shell(simCommand);
+
+		storeGenerate.on("exit", () => {
+
+		  done()
+		})
+	})
+
 
       storeGenerate.on('exit', () => {
         done();
@@ -377,10 +370,15 @@ if (sim === 3) {
   });
 }
 
-if (sim === 4) {
-  describe('Rails model generates with thunks included in action file', () => {
-    it('Rails model generates with thunks included in action file', done => {
-      let storeGenerate = shell(`mode=testing genie sim 4`);
+if(sim === 4){
+
+describe("Rails model generates with thunks included in action file", () => {
+
+	it('Rails model generates with thunks included in action file', (done)=>{
+
+		let storeGenerate = shell(simCommand);
+
+		storeGenerate.on("exit", () => {
 
       storeGenerate.on('exit', () => {
         done();
@@ -418,10 +416,26 @@ if (sim === 5) {
       });
     });
 
-    it('Generates actions file', done => {
-      let thunksFileExists = fs.existsSync(
-        `${process.cwd()}/store/Campus/actions_for_Campus.js`
-      );
+if(sim === 5){
+
+describe("Ducks model generates with thunks included in action file", () => {
+
+	it('Ducks model generates with thunks included in action file', (done)=>{
+
+		let storeGenerate = shell(simCommand);
+
+		storeGenerate.on("exit", () => {
+
+		  done()
+		})
+	})
+
+
+	it("Generates actions file", (done) => {
+
+		let thunksFileExists = fs.existsSync(`${process.cwd()}/store/Campus/actions_for_Campus.js`)
+
+		expect(thunksFileExists).to.equal(true)
 
       expect(thunksFileExists).to.equal(true);
 
@@ -449,10 +463,20 @@ if (sim === 6) {
       });
     });
 
-    it('Generates actions file', done => {
-      let thunksFileExists = fs.existsSync(
-        `${process.cwd()}/store/actions/actions_for_Campus.js`
-      );
+if(sim === 6){
+
+describe("Rails model generates properly when CRUD false selected on model", () => {
+
+	it('Rails model generates with CRUD ops exlcuded from action file', (done)=>{
+
+		let storeGenerate = shell(simCommand);
+
+		storeGenerate.on("exit", () => {
+
+		  done()
+		})
+	})
+
 
       expect(thunksFileExists).to.equal(true);
 
@@ -476,10 +500,13 @@ if (sim === 7) {
     it('Ducks model generates with CRUD ops exlcuded from action file', done => {
       let storeGenerate = shell(`mode=testing genie sim 7`);
 
-      storeGenerate.on('exit', () => {
-        done();
-      });
-    });
+if(sim === 7){
+
+describe("Ducks model generates properly when CRUD false selected on model", () => {
+
+	it('Ducks model generates with CRUD ops exlcuded from action file', (done)=>{
+
+		let storeGenerate = shell(simCommand);
 
     it('Generates actions file', done => {
       let thunksFileExists = fs.existsSync(
@@ -513,37 +540,104 @@ if (sim === 9) {
       });
     });
 
-    it('heres some tests we can use here', done => {
-      done();
-    });
-  });
+
+
+
+
+
+if(sim === 9){
+
+describe("DUMMY DESCRIBE TO", () => {
+
+	it('dummy store generated', (done)=>{
+
+		let storeGenerate = shell(`genie sim 9`);
+
+		storeGenerate.on("exit", () => {
+
+		  done()
+		})
+	})
+
+	it('heres some tests we can use here', (done)=>{
+
+		done()
+	})
+})
+
+
+
+
 }
 
-if (sim === 9) {
+
+
+
+
+
+
+
+
+
+
+
+
+if(sim === 9){}
+if(sim === 10){}
+if(sim === 11){}
+if(sim === 12){}
+if(sim === 13){}	
+if(sim === 14){}
+if(sim === 15){}
+if(sim === 16){}	
+if(sim === 17){}
+if(sim === 18){}
+if(sim === 19){}
+if(sim === 20){}
+if(sim === 21){}
+if(sim === 22){}
+
+
+
+if(sim === 500){
+
+	describe("Rails model generates with thunks separated", () => {
+
+	it('Rails model generates with thunks separated', (done)=>{
+
+		let storeGenerate = shell(simCommand);
+
+		storeGenerate.on("exit", () => {
+
+		  done()
+		})
+	})
+
+
+	it("Generates thunks in a separate file", (done) => {
+
+		let thunksFileExists = fs.existsSync(`${process.cwd()}/store/actions/thunks_for_Campus.js`)
+
+		expect(thunksFileExists).to.equal(true)
+
+		done()
+
+	});	
+
+	it('Contains valid thunks', (done)=> {
+
+		let thunks = require(`${process.cwd()}/store/actions/thunks_for_Campus.js`)
+
+		expect(typeof thunks.getAll).to.equal('function')
+		expect(typeof thunks.getOne).to.equal('function')
+
+		done()
+	})
+
+
+	})
+
+
+
 }
-if (sim === 10) {
-}
-if (sim === 11) {
-}
-if (sim === 12) {
-}
-if (sim === 13) {
-}
-if (sim === 14) {
-}
-if (sim === 15) {
-}
-if (sim === 16) {
-}
-if (sim === 17) {
-}
-if (sim === 18) {
-}
-if (sim === 19) {
-}
-if (sim === 20) {
-}
-if (sim === 21) {
-}
-if (sim === 22) {
-}
+

@@ -25,7 +25,7 @@ const printFileStructure = tree => {
 
   for (let i = 0; i < tree.length; i++) {
     
-    console.log(archy(tree[i]));
+    console.log(chalk.yellow(archy(tree[i])));
   }
 };
 
@@ -36,9 +36,7 @@ const ls = () => {
   if (fs.existsSync('./store')) {
 
     const tree = buildTree(dir);
-  
-    console.log(tree)
-  
+    
     printFileStructure(tree);
   
   } else {
@@ -53,4 +51,4 @@ const ls = () => {
   }
 };
 
-ls();
+module.exports = ls

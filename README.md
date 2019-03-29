@@ -2,8 +2,6 @@ this is the working readme that we can build on
 
 # redux-genie 
 
-### cheat codes for redux
-
 Redux Genie isn't a "starter kit" or a library of helper methods. It actually writes your Redux boilerplate code, either creating new files or injecting code into existing store files. This makes the writing process easier to start, easier to manage as you progress, and less error-prone, without abstracting over any functionality of Redux itself.
 
 The genie can be comprehensive- generating the whole Redux store from the outset of a project- or granular- creating or operating on a specific slice of state for an existing project.
@@ -98,7 +96,6 @@ Output file structure:
 ### Ducks-Style
 
 > “Ducks”: separate folders per feature or domain
-
 
 ### Options
 

@@ -1,12 +1,9 @@
-Structure: Ducks # two options: Rails or Ducks
+Structure: Ducks
 
-# Thunks: included 
+Logging: false 
 
-# Logging: false will not generate with logging middleware
-
-Models: # these are the separate slices of state that will be defined
-
-  - Dux:
+Models:
+  - campus:
 
     Slice:
       - Name: string
@@ -14,17 +11,14 @@ Models: # these are the separate slices of state that will be defined
       - Ducklings: Object
       - Fly2Gether: Boolean
 
-    Actions: # additional actions
+    Actions:
       - countDux
-      - migrateAll
-      
-    Thunks: 
-      - Fly2Gether:
-        - '/api/dux/' 
-        - migrateAll 
-      - bulkMigration:
-        - '/api/dux/' 
-        - migrateAll 
-    # - Thunk Name
-    #     - Endpoint
-    #     - Action to dispatch at conclusion of thunk  
+      - migrateDux
+
+    Thunks:
+      - getAll:
+        - "/api/Dux" 
+        - countDux
+      - getOne: 
+        - "/api/Dux/:dux"
+        - migrateDux
