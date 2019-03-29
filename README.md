@@ -1,5 +1,3 @@
-this is the working readme that we can build on 
-
 # redux-genie 
 
 ### cheat codes for redux
@@ -76,29 +74,53 @@ Models:
 Place the lamp.config.yml file in the project root directory, navigate there, then run:
 
 ```bash
-genie generate store
+genie generate
 ```
 
 Output file structure:
 ```
 
-└─┬ store
-  ├─store.js
-  ├─┬ actions
-  │ ├── action_types_for_Terminator.js
-  │ └── action_types_for_Dux.js
-  ├─┬ constants
-  │ └── action_constants.js
-  └─┬ reducers
-    ├── combine_reducers.js
-    ├── Dux_reducer.js
-    └── Terminator_reducer.js
+actions
+├── actions_for_Ducks.js
+├── actions_for_Terminator.js
+├── selectors_for_Ducks.js
+└── selectors_for_Terminator.js
+
+constants
+└── action_constants.js
+
+reducers
+├── combine_reducers.js
+├── reducer_for_Ducks.js
+└── reducer_for_Terminator.js
+
+store.js
+
+
 ```
 
 ### Ducks-Style
 
 > “Ducks”: separate folders per feature or domain
 
+Output file structure:
+```
+Ducks
+├── action_constants_for_Ducks.js
+├── actions_for_Ducks.js
+├── reducer_for_Ducks.js
+└── selectors_for_Ducks.js
+
+Terminator
+├── action_constants_for_Terminator.js
+├── actions_for_Terminator.js
+├── reducer_for_Terminator.js
+└── selectors_for_Terminator.js
+
+combine_reducers.js
+
+store.js
+```
 
 ### Options
 
@@ -208,7 +230,7 @@ After the store is initialized, the genie can add to the store in two ways: from
 To perform a yml update, add or alter the yaml file and then call: 
 
 ```bash
-genie update store
+genie update
 ```
 
 The genie will diff the new yml config to previous version and generate any required updates.
@@ -278,48 +300,20 @@ e.g. (Rails-Style)
 └── store.js
 ```
 
-genie list models
-genie list actions mine
-genie list thunks
-
-#### genie locate ( genie loc )
-
-Returns the file path of a store sub-directory to the command line.
-
-```bash
-genie locate <model name> <file type>
-
-	eg: genie locate Dux action types // $ ./store/actions
-
-genie locate <domain name> <file type>
-
-	eg: genie locate navbar reducer // $ ./store/navbar/reducers
-
-```
-
-#### genie lamp
+#### genie sample
 
 Prints a sample lamp.config.yml file. 
 
-#### genie edit
+```yml
+Structure: Ducks
 
-Edit the template files.
+Models:
 
-```bash
-genie edit <File Structure> <file type>
+  - Campus:
 
-genie edit ducks actions
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
 ```
-
-
-## Advanced 
-
-### Connected components 
-
-```bash
-genie generate connected NavBar slice User Consumer 
-```
-
-genie test
-
-prints a test suite for your specifc lamp configuration

@@ -1,9 +1,8 @@
 Structure: Ducks
 
-Thunks: included 
-
 Models:
-  - campus:
+
+  - Ducks:
 
     Slice:
       - Name: string
@@ -11,14 +10,12 @@ Models:
       - Ducklings: Object
       - Fly2Gether: Boolean
 
-    Actions:
-      - countDux
-      - migrateDux
+  - Terminator:
 
-    Thunks:
-      - getAll:
-        - "/api/Dux" 
-        - countDux
-      - getOne: 
-        - "/api/Dux/:dux"
-        - migrateDux
+    Slice:
+      - Name: string
+      - isBack: Boolean
+      - timeTravel: Object
+      - JohnConnorGot: Boolean
+
+      
