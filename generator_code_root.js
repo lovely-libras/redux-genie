@@ -104,7 +104,9 @@ if (fs.existsSync('./.lamp-lock.json')) {
           if (err) console.error(err);
           console.log(
             chalk.green(
-              `Generated the ${chalk.white('combine_reducers.js')} file.`
+              `Successfully generated the ${chalk.white(
+                'combine_reducers.js'
+              )} file.`
             )
           );
         }
@@ -114,7 +116,9 @@ if (fs.existsSync('./.lamp-lock.json')) {
       fs.writeFile('./store/store.js', createStore(Logging), err => {
         if (err) console.error(err);
         console.log(
-          chalk.green(`Generated the ${chalk.white('store.js')} file`)
+          chalk.green(
+            `Successfully generated the ${chalk.white('store.js')} file`
+          )
         );
       });
     });
