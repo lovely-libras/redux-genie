@@ -2,8 +2,6 @@
 
 ### Summon the genie!
 
----
-
 - [Installation](##Installation)
 - [Usage](##Usage)
   - [Help](#Help)
