@@ -1,6 +1,6 @@
 {
   "name": "redux-genie",
-  "version": "0.0.10",
+  "version": "1.0.0",
   "description": "Redux-Genie is a command line interface tool that generates a Redux store for managing an application's state. Users can create a Redux front-end boilerplate by supplying a *.yml file. Components are created with basic C.R.U.D. routes and option for adding Thunks. Also includes support for adding logging middleware and development tools.",
   "main": "generate_code_root.js",
   "scripts": {
