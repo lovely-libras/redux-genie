@@ -37,7 +37,7 @@
     "genie": "./cli.js"
   },
   "bugs": {
-    "url": "https://github.com/lovely-libras/Redux_Genie/issues"
+    "url": "https://github.com/lovely-libras/redux-genie/issues"
   },
   "homepage": "https://redux-genie.herokuapp.com",
   "dependencies": {
