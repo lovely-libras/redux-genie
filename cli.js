@@ -14,9 +14,29 @@ const shell = command => {
   spawn(command, { shell: true, stdio: 'inherit' });
 };
 
+if (command === 'help' || command === 'h') {
+  let help = `node ${__dirname}/help.js`;
+  shell(help);
+}
+
+if (command === 'sample' || command === 's') {
+  let sample = `node ${__dirname}/sample.js`;
+  shell(sample);
+}
+
 if (command === 'generate' || command === 'gen' || command === 'g') {
   let gen = `node ${__dirname}/generator_code_root.js`;
   shell(gen);
+}
+
+if (command === 'list' || command === 'ls' || command === 'l') {
+  let ls = `node ${__dirname}/ls.js`;
+  shell(ls);
+}
+
+if (command === 'delete' || command === 'del' || command === 'd') {
+  let del = `node ${__dirname}/erase_dummy_store.js`;
+  shell(del);
 }
 
 if (command === 'update' || command === 'u') {
@@ -27,21 +47,6 @@ if (command === 'update' || command === 'u') {
 if (command === 'add' || command === 'a') {
   let add = `add=${process.argv.slice(2)} node ${__dirname}/updateCodeRoot.js`;
   shell(add);
-}
-
-if (command === 'ls' || command === 'l' || command === 'list') {
-  let ls = `node ${__dirname}/ls.js`;
-  shell(ls);
-}
-
-if (command === 'sample' || command === 's') {
-  let sample = `node ${__dirname}/sample.js`;
-  shell(sample);
-}
-
-if (command === 'delete' || command === 'del') {
-  let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`;
-  shell(genieDeleteCall);
 }
 
 if (command === 'simdev') {
