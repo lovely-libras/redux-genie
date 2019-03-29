@@ -23,7 +23,12 @@
     "redux-genie",
     "store",
     "yml",
-    "boilerplate"
+    "boilerplate",
+    "libras",
+    "FSA",
+    "fullstack",
+    "fullstackacademy",
+    "1901"
   ],
   "author": "The Lovely Libras <lovely.libras.1901@gmail.com> (https://github.com/lovely-libras)",
   "contributors": [
@@ -55,6 +60,7 @@
     "js-yaml": "^3.12.2",
     "json-diff": "^0.5.4",
     "minimist": "^1.2.0",
+    "mocha": "^6.0.2",
     "moxios": "^0.4.0",
     "nock": "^10.0.6",
     "node-fetch": "^2.3.0",
@@ -75,7 +81,6 @@
     "@babel/node": "^7.2.2",
     "@babel/polyfill": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
-    "@babel/register": "^7.4.0",
-    "mocha": "^6.0.2"
+    "@babel/register": "^7.4.0"
   }
 }
