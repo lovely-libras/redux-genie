@@ -19,11 +19,11 @@
 
 For more in-depth information, as well a tutorial for creating a YML file, please visit us at the [Redux Genie Homepage](https://redux-genie.herokuapp.com/).
 
-To look at the code itself, please visit our [Github respository](https://github.com/lovely-libras/redux-genie).
-
 Made for developers creating JavaScript applications with [Redux](https://redux.js.org/).
 
 To learn more about the YML file and the YAML programming language, please [visit their homepage](https://yaml.org/).
+
+To look at the code itself, please visit our [Github respository](https://github.com/lovely-libras/redux-genie).
 
 Interested in learning to code? Consider [Fullstack Academy of Code](https://www.fullstackacademy.com/), a top ranked coding bootcamp!
 
@@ -37,7 +37,7 @@ To begin, install Redux Genie globally from the NPM registry:
 $ npm install -g redux-genie
 ```
 
-With Redux Genie installed, all you need to get started is a YML file.
+With Redux Genie installed, all you need to get started is a YML file. You can learn more by reading our documentation at [https://redux-genie.herokuapp.com/docs](https://redux-genie.herokuapp.com/docs)
 
 ---
 
