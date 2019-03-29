@@ -1,6 +1,6 @@
 {
   "name": "redux-genie",
-  "version": "1.0.2",
+  "version": "1.1.1",
   "description": "Redux-Genie is a command line interface tool that generates a Redux store for managing an application's state. Users can create a Redux front-end boilerplate by supplying a *.yml file. Components are created with basic C.R.U.D. routes and option for adding Thunks. Also includes support for adding logging middleware and development tools.",
   "main": "generate_code_root.js",
   "scripts": {
@@ -23,7 +23,12 @@
     "redux-genie",
     "store",
     "yml",
-    "boilerplate"
+    "boilerplate",
+    "libras",
+    "FSA",
+    "fullstack",
+    "fullstackacademy",
+    "1901"
   ],
   "author": "The Lovely Libras <lovely.libras.1901@gmail.com> (https://github.com/lovely-libras)",
   "contributors": [
@@ -44,7 +49,7 @@
     "archy": "^1.0.0",
     "chai": "^4.2.0",
     "chai-things": "^0.2.0",
-    "chalk-animation": "^1.6.0",
+    "chalk": "^2.4.2",
     "clear": "^0.1.0",
     "directory-tree": "^2.2.1",
     "expect": "^24.5.0",
@@ -55,11 +60,11 @@
     "js-yaml": "^3.12.2",
     "json-diff": "^0.5.4",
     "minimist": "^1.2.0",
+    "mocha": "^6.0.2",
     "moxios": "^0.4.0",
     "nock": "^10.0.6",
     "node-fetch": "^2.3.0",
     "path": "^0.12.7",
-    "read-file-tree": "^1.1.1",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
@@ -75,7 +80,6 @@
     "@babel/node": "^7.2.2",
     "@babel/polyfill": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
-    "@babel/register": "^7.4.0",
-    "mocha": "^6.0.2"
+    "@babel/register": "^7.4.0"
   }
 }
