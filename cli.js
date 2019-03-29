@@ -1,24 +1,17 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const chalkAnimation = require('chalk-animation');
-const minimist = require('minimist')
-const chalk = require('chalk')
-const { spawn } = require('child_process')
-const currentDirectory = require('path').dirname
-let input = minimist(process.argv)
-let command = input._[2]
-let arg1 = input._[3]
-const { makeLock, diffLock } = require('./lock')
-const simulation_dev = require('./test/old/generate_tests/test_simulation.dev')
+const minimist = require('minimist');
+const { spawn } = require('child_process');
+let input = minimist(process.argv);
+let command = input._[2];
+let arg1 = input._[3];
 
-if(process.env.mode === 'testing'){
-	console.log = ()=>{}
+if (process.env.mode === 'testing') {
+  console.log = () => {};
 }
 
 const shell = command => {
-  let thisCommand = spawn(command, { shell: true, stdio: 'inherit' });
-  return thisCommand;
+  spawn(command, { shell: true, stdio: 'inherit' });
 };
 
 if(command === 'generate' || command === 'gen') {
@@ -61,16 +54,20 @@ else if(command === 'delete' || command === 'del') {
 
 	let genieDeleteCall = `node ${__dirname}/erase_dummy_store.js`
 
-	shell(genieDeleteCall)
+if (command === 'update' || command === 'u') {
+  let update = `node ${__dirname}/updateCodeRoot.js`;
+  shell(update);
+}
 
+if (command === 'add' || command === 'a') {
+  let add = `add=${process.argv.slice(2)} node ${__dirname}/updateCodeRoot.js`;
+  shell(add);
 }
 else if (command === 'simdev') {
 
   if (arg1 === 'last') {
-    
     simulation_dev[simulation_dev.length - 1]();
   } else if (typeof arg1 === 'number') {
-    
     simulation_dev[Number(arg1)]();
   }
 }

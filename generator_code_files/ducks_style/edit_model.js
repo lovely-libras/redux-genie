@@ -1,7 +1,8 @@
-const fs = require('fs')
-const chalk = require('chalk')
+const fs = require('fs');
+const chalk = require('chalk');
 
-const warning = 'Unable to complete update- genie cannot process current action constants file. Check that the file ends with a "}" bracket.'
+const warning =
+  'Unable to complete update- genie cannot process current action constants file. Check that the file ends with a "}" bracket.';
 
 module.exports = (updates, Thunks) => {
 

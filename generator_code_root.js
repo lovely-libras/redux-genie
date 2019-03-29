@@ -11,27 +11,32 @@ const { makeLock, validateModels } = require('./lock')
 
 
 if (fs.existsSync('./.lamp-lock.json')) {
-  
-  // lamp-lock already exists
-
-  console.log(chalk.yellow('\nStore has already been initialized.\nPlease use the "genie update" or "genie add" methods to alter the store.\n'))
-}
-else{
-
-  console.log(chalk.red("your wish is my command"));
+  console.log(
+    chalk.red(
+      `\nThe store has already been initialized! \nPlease use the ${chalk.white(
+        '[genie update]'
+      )} or ${chalk.white(
+        '[genie add]'
+      )} methods to alter your existing store.\n`
+    )
+  );
+} else {
+  console.log(chalk.hex('#764abc')('Your wish is my command!\n'));
 
   let yams;
 
   try {
-    yams = yaml.safeLoad(fs.readFileSync("./lamp.config.yml", "utf8"));
+    yams = yaml.safeLoad(fs.readFileSync('./lamp.config.yml', 'utf8'));
   } catch (e) {
-    console.log(chalk.red(e.message));
+    console.log(
+      chalk.red(
+        `You do not have a ${'lamp.config.yml'} configuration file!\nFor help creating the ${'lamp.config.yml'}, please visit us at ${chalk.cyan(
+          'https://redux-genie.herokuapp.com'
+        )}`
+      )
+    );
     process.exit();
   }
-  // this is the logic for the initial generate store call
-  
-  // we make the lock file containing the store declaration
-  // at the initial generate call
 
   let { Structure, Models, Thunks, Logging } = yams;
 
@@ -40,16 +45,22 @@ else{
   makeLock(yams, null)
 
   if (!Structure) {
-    console.log('Please specify file structure as "Structure".');
+    console.log(
+      chalk.red(`Please specify file structure as ${chalk.white('Structure')}.`)
+    );
     process.exit();
   }
 
   if (!Models) {
-    console.log('Please specify the slices of state as "Models".');
+    console.log(
+      chalk.red(
+        `Please specify the slices of state as ${chalk.white('Models')}.`
+      )
+    );
     process.exit();
   }
 
-  let rootStore = spawn("mkdir store", { shell: true });
+  let rootStore = spawn('mkdir store', { shell: true });
 
   fs.mkdirSync
 
@@ -76,46 +87,51 @@ else{
     // create action types, action creators, and reducer
 
     Models.forEach((model, i) => {
-
       let modelName = Object.keys(model)[0][0]
-                                      .toUpperCase()
-                                         .concat(Object.keys(model)[0].slice(1))
+        .toUpperCase()
+        .concat(Object.keys(model)[0].slice(1));
 
       let makeDir = spawn(`mkdir store/${modelName}`, { shell: true });
 
-      makeDir.on("exit", () => {
-
-          ducks(model, modelName, Thunks);
+      makeDir.on('exit', () => {
+        ducks(model, modelName, Thunks);
       });
     });
 
-    rootStore.on('exit', ()=>{
-
-        // create combine reducers
+    rootStore.on('exit', () => {
+      // create combine reducers
       let modelNames = Models.map(
+        Model =>
+          (Model = Object.keys(Model)[0][0]
+            .toUpperCase()
+            .concat(Object.keys(Model)[0].slice(1)))
+      );
 
-       Model =>
-         (Model = Object.keys(Model)[0][0]
-           .toUpperCase()
-           .concat(Object.keys(Model)[0].slice(1)))
-      )
+      fs.writeFile(
+        './store/combine_reducers.js',
+        createCombineReducers(modelNames),
+        err => {
+          if (err) console.error(err);
+          console.log(
+            chalk.green(
+              `Successfully generated the ${chalk.white(
+                'combine_reducers.js'
+              )} file.`
+            )
+          );
+        }
+      );
 
-     fs.writeFile(
-          "./store/combine_reducers.js",
-          create_combine_reducers(modelNames),
-          (err) => {
-            if(err) console.log(err)
-           console.log(chalk.yellow(`made the combine_reducers.js file`)) 
-          }
+      // create store
+      fs.writeFile('./store/store.js', createStore(Logging), err => {
+        if (err) console.error(err);
+        console.log(
+          chalk.green(
+            `Successfully generated the ${chalk.white('store.js')} file`
+          )
         );
-
-        // create store
-        fs.writeFile("./store/store.js", create_store(Logging), (err) => {
-          if(err) console.log(err)
-          console.log(chalk.yellow(`made the store.js file`)) 
-        });
-    })
-
+      });
+    });
   }
 
 }

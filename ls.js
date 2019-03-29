@@ -44,7 +44,11 @@ const ls = () => {
   } else {
     
     console.log(
-      chalk.red("You have not yet created the store with 'genie generate!'")
+      chalk.red(
+        `You have not yet created the store with ${chalk.white(
+          'genie generate'
+        )}!`
+      )
     );
   }
 };

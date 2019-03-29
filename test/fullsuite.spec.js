@@ -1,40 +1,35 @@
-import fetchMock from "fetch-mock";
-const { spawn } = require("child_process");
-const config = require('./old/generate_tests/config.dev')
-const fs = require('fs')
-import { expect, should, equal } from "chai";
-// import { createSpy, spyOn, isSpy } from "expect";
-import sinon from "sinon";
-import sinonChai from "sinon-chai";
-// import assert from "assert";
-import mockStore from "redux-mock-store";
-// import { logger } from "../../store/store";
-import nock from "./nockSetup";
-import chai from "chai";
+import fetchMock from 'fetch-mock';
+const { spawn } = require('child_process');
+const fs = require('fs');
+import { expect, should, equal } from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
+import mockStore from 'redux-mock-store';
+import nock from './nockSetup';
+import chai from 'chai';
 
 const shell = command => {
-  let thisProc = spawn(command, { shell: true, stdio: "inherit" });
+  let thisProc = spawn(command, { shell: true, stdio: 'inherit' });
 
   return thisProc;
 };
 
-
 const campuses = [
-  { Name: "campus1", address: "not here yet" },
-  { Name: "campus2" }
+  { Name: 'campus1', address: 'not here yet' },
+  { Name: 'campus2' },
 ];
 
-const newCampus = { Name: "campusNew" };
+const newCampus = { Name: 'campusNew' };
 const oneCampus = {
-  Name: "campus1",
+  Name: 'campus1',
   Quacking: true,
   Ducklings: {},
-  Fly2Gether: true
+  Fly2Gether: true,
 };
 
-const oneUpdatedCampus = { Name: "campus1", address: "something" };
+const oneUpdatedCampus = { Name: 'campus1', address: 'something' };
 
-const URL = "/api/Dux";
+const URL = '/api/Dux';
 fetchMock.mock(URL, { data: campuses, status: 200 });
 
 const getOneURL = `/api/Dux/${oneCampus.Name}`;
@@ -43,638 +38,512 @@ fetchMock.mock(getOneURL, { data: oneCampus, status: 201 });
 const updateOneURL = `/api/Dux/${oneCampus.Name}`;
 fetchMock.put(
   updateOneURL,
-  { data: "notCampus", status: 203 },
+  { data: 'notCampus', status: 203 },
   { overwriteRoutes: false }
 );
 
+let sim = Number(process.env.sim);
 
+if (sim === 0) {
+  describe('Rails Integration Tests', () => {
+    let actions, action_constants, store, reducer;
 
+    it('Rails store generates', done => {
+      let storeGenerate = shell(`mode=testing genie sim 0`);
 
+      storeGenerate.on('exit', () => {
+        done();
+      });
+    });
 
-let sim = Number(process.env.sim)
+    it('Generated Rails model is a valid Redux store', done => {
+      actions = require('../store/actions/actions_for_Campus').default;
 
-if(sim === 0){
+      action_constants = require('../store/constants/action_constants').default;
 
-describe("Rails Integration Tests", () => {
+      store = require('../store/store').default;
 
-	let actions, action_constants, store, reducer
+      reducer = require('../store/reducers/reducer_for_Campus').default; //for rails
 
-	it('Rails store generates', (done)=>{
+      expect(typeof actions).to.equal('object');
 
-		let storeGenerate = shell(`mode=testing genie sim 0`);
+      done();
+    });
 
-		storeGenerate.on("exit", () => {
+    it('should create an action to get a campus', done => {
+      let payload = 'other thing';
 
-		  done()
-		})
-	})
+      const expectedAction = {
+        type: action_constants.GET_CAMPUS,
+        payload,
+      };
 
-	it("Generated Rails model is a valid Redux store", (done) => {
+      expect(actions.getCampus(payload)).to.deep.equal(expectedAction);
 
-		actions = require("../store/actions/actions_for_Campus").default; 
+      done();
+    });
 
-		action_constants = require("../store/constants/action_constants").default; 
+    it('should create an action to get all campuses', done => {
+      let payload = 'something';
 
-		store = require("../store/store").default;
+      const expectedAction = {
+        type: action_constants.GET_ALL_CAMPUS,
+        payload,
+      };
 
-		reducer = require("../store/reducers/reducer_for_Campus").default; //for rails
+      expect(actions.getAllCampus(payload)).to.deep.equal(expectedAction);
 
-		expect(typeof actions).to.equal('object')
+      done();
+    });
 
-	  done()	  
-	}); 
+    it('should create an action to add a campus', done => {
+      let payload = 'another thing';
 
-	it("should create an action to get a campus", (done) => {
+      const expectedAction = {
+        type: action_constants.ADD_CAMPUS,
+        payload,
+      };
 
-		let payload = "other thing";
+      expect(actions.createCampus(payload)).to.deep.equal(expectedAction);
 
-		const expectedAction = {
-		  type: action_constants.GET_CAMPUS,
-		  payload
-		};
+      done();
+    });
 
-		expect(actions.getCampus(payload)).to.deep.equal(expectedAction);
+    it('should handle GET_ALL_CAMPUS', done => {
+      const { GET_ALL_CAMPUS } = action_constants;
 
-		done()
-	});
+      const beforeState = {
+        CampusList: [],
+      };
 
-	it("should create an action to get all campuses", (done) => {
+      const action = { type: GET_ALL_CAMPUS, payload: [{ name: 'campus1' }] };
 
-		let payload = "something";
-		
-		const expectedAction = {
-		  type: action_constants.GET_ALL_CAMPUS,
-		  payload
-		};
-		
-		expect(actions.getAllCampus(payload)).to.deep.equal(expectedAction);
+      const afterState = reducer(beforeState, action);
 
-		done()
-	});
+      expect(afterState).to.deep.equal({
+        CampusList: [{ name: 'campus1' }],
+      });
 
-	it("should create an action to add a campus", (done) => {
+      done();
+    });
 
-		let payload = "another thing";
-		
-		const expectedAction = {
-		  type: action_constants.ADD_CAMPUS,
-		  payload
-		};
+    it('should handle GET_CAMPUS', done => {
+      const { GET_CAMPUS } = action_constants;
 
-		expect(actions.createCampus(payload)).to.deep.equal(expectedAction);
+      const beforeState = {
+        CampusList: [{ name: 'campus1!' }, { name: 'campus2' }],
+        SingleCampus: {},
+      };
 
-		done()
-	});
+      const actionTwo = { type: GET_CAMPUS, payload: { name: 'campus1!' } };
 
-	it("should handle GET_ALL_CAMPUS", (done) => {
+      const afterState = reducer(beforeState, actionTwo);
 
-		const { GET_ALL_CAMPUS } = action_constants
+      expect(afterState).to.deep.equal({
+        CampusList: [{ name: 'campus1!' }, { name: 'campus2' }],
+        SingleCampus: { name: 'campus1!' },
+      });
 
-	    
-	    const beforeState = {
-	      CampusList: []
-	    };
+      done();
+    });
+  });
 
-	    const action = { type: GET_ALL_CAMPUS, payload: [{ name: "campus1" }] };
+  describe('Rails Integration Tests', () => {
+    it('should get all campus in the store', async () => {
+      let { getAll } = require('../store/actions/thunks_for_Campus').default;
 
-	    const afterState = reducer(beforeState, action);
-	    
-	    expect(afterState).to.deep.equal({
-	      CampusList: [{ name: "campus1" }]
-	    });
-	  
-	  	done()
-	});
+      const store = require('../store/store').default;
 
-	it("should handle GET_CAMPUS", (done) => {
+      await store.dispatch(getAll());
 
-		const { GET_CAMPUS } = action_constants
+      const campusList = store.getState().Campus_state.CampusList;
 
-		const beforeState = {
-			CampusList: [{ name: "campus1!" }, { name: "campus2" }],
-			SingleCampus: {}
-		};
+      expect(campusList).to.deep.equal(campuses);
+    });
 
-		const actionTwo = { type: GET_CAMPUS, payload: { name: "campus1!" } };
-		
-		const afterState = reducer(beforeState, actionTwo);
-		
-		expect(afterState).to.deep.equal({
+    it('should return the initial state', async () => {
+      const reducer = require('../store/reducers/reducer_for_Campus').default;
 
-			CampusList: [{ name: "campus1!" }, { name: "campus2" }],
-			SingleCampus: { name: "campus1!" }
-		});
-	
-		done()
-	});
-
-});
-
-
-describe("Rails Integration Tests", () => {
-
-	it("should get all campus in the store", async () => {
-
-		let {
-		  getAll
-		} = require("../store/actions/thunks_for_Campus").default; 
-
-		const store = require("../store/store").default;
-
-		await store.dispatch(getAll());
-
-	    const campusList = store.getState().Campus_state.CampusList;
-	    
-	    expect(campusList).to.deep.equal(campuses);
-
-	});	
-
-	it("should return the initial state", async () => {
-
-		const reducer = require("../store/reducers/reducer_for_Campus").default
-
-	    await expect(reducer(undefined, {})).to.deep.equal({
-
-	      CampusList: [],
-	      isLoading: false,
-	      SingleCampus: {
-	        Name: "",
-	        Quacking: true,
-	        Ducklings: {},
-	        Fly2Gether: true
-	      }
-	    });
-
-	});
-})
+      await expect(reducer(undefined, {})).to.deep.equal({
+        CampusList: [],
+        isLoading: false,
+        SingleCampus: {
+          Name: '',
+          Quacking: true,
+          Ducklings: {},
+          Fly2Gether: true,
+        },
+      });
+    });
+  });
 }
 
+if (sim === 1) {
+  describe('Integration tests- Ducks', () => {
+    before(done => {
+      let storeGenerate = shell(`mode=testing genie sim 1`);
 
-if(sim === 1){
+      storeGenerate.on('exit', () => {
+        done();
+      });
+    });
 
-describe("Integration tests- Ducks", () => {
+    it('Ducks store generates', done => {
+      done();
+    });
+  });
 
-	before((done)=>{
+  describe('Integration tests- Ducks', () => {
+    let actions, action_constants, store, reducer;
 
-		let storeGenerate = shell(`mode=testing genie sim 1`);
+    it('Generated Ducks model is a valid Redux store', done => {
+      actions = require('../store/Campus/actions_for_Campus').default;
 
-		storeGenerate.on("exit", () => {
-			
-		  done()
-		})
-	})
+      action_constants = require('../store/Campus/action_constants_for_Campus')
+        .default;
 
-	it('Ducks store generates', (done)=>{
+      store = require('../store/store').default;
 
+      reducer = require('../store/Campus/reducer_for_Campus').default; //for rails
 
-		done()
-	})
-})
+      done();
+    });
 
-describe("Integration tests- Ducks", () => {
+    it('should create an action to get a campus', done => {
+      let payload = 'other thing';
 
-	let actions, action_constants, store, reducer
+      const expectedAction = {
+        type: action_constants.GET_CAMPUS,
+        payload,
+      };
 
-	it("Generated Ducks model is a valid Redux store", (done) => {
+      expect(actions.getCampus(payload)).to.deep.equal(expectedAction);
+      done();
+    });
 
-		actions = require("../store/Campus/actions_for_Campus").default; 
+    it('should create an action to get all campuses', done => {
+      let payload = 'something';
 
-		action_constants = require("../store/Campus/action_constants_for_Campus").default; 
+      const expectedAction = {
+        type: action_constants.GET_ALL_CAMPUS,
+        payload,
+      };
 
-		store = require("../store/store").default;
+      expect(actions.getAllCampus(payload)).to.deep.equal(expectedAction);
+      done();
+    });
 
-		reducer = require("../store/Campus/reducer_for_Campus").default; //for rails
+    it('should create an action to add a campus', done => {
+      let payload = 'another thing';
 
-	  done()	  
+      const expectedAction = {
+        type: action_constants.ADD_CAMPUS,
+        payload,
+      };
 
-	}); 
+      expect(actions.createCampus(payload)).to.deep.equal(expectedAction);
 
-	it("should create an action to get a campus", (done) => {
+      done();
+    });
 
-		let payload = "other thing";
+    it('should handle GET_ALL_CAMPUS', done => {
+      const { GET_ALL_CAMPUS } = action_constants;
 
-		const expectedAction = {
-		  type: action_constants.GET_CAMPUS,
-		  payload
-		};
+      const beforeState = {
+        CampusList: [],
+      };
 
-		expect(actions.getCampus(payload)).to.deep.equal(expectedAction);
-		done()
-	});
+      const action = { type: GET_ALL_CAMPUS, payload: [{ name: 'campus1' }] };
 
-	it("should create an action to get all campuses", (done) => {
+      const afterState = reducer(beforeState, action);
 
-		let payload = "something";
-		
-		const expectedAction = {
-		  type: action_constants.GET_ALL_CAMPUS,
-		  payload
-		};
-		
-		expect(actions.getAllCampus(payload)).to.deep.equal(expectedAction);
-		done()
-	});
+      expect(afterState).to.deep.equal({
+        CampusList: [{ name: 'campus1' }],
+      });
 
-	it("should create an action to add a campus", (done) => {
+      done();
+    });
 
-		let payload = "another thing";
-		
-		const expectedAction = {
-		  type: action_constants.ADD_CAMPUS,
-		  payload
-		};
+    it('should handle GET_CAMPUS', done => {
+      const { GET_CAMPUS } = action_constants;
 
-		expect(actions.createCampus(payload)).to.deep.equal(expectedAction);
+      const beforeState = {
+        CampusList: [{ name: 'campus1!' }, { name: 'campus2' }],
+        SingleCampus: {},
+      };
 
-		done()
-	});
+      const actionTwo = { type: GET_CAMPUS, payload: { name: 'campus1!' } };
 
-	it("should handle GET_ALL_CAMPUS", (done) => {
+      const afterState = reducer(beforeState, actionTwo);
 
-		const { GET_ALL_CAMPUS } = action_constants
+      expect(afterState).to.deep.equal({
+        CampusList: [{ name: 'campus1!' }, { name: 'campus2' }],
+        SingleCampus: { name: 'campus1!' },
+      });
 
-	    
-	    const beforeState = {
-	      CampusList: []
-	    };
+      done();
+    });
+  });
 
-	    const action = { type: GET_ALL_CAMPUS, payload: [{ name: "campus1" }] };
+  describe('Ducks integration tests- Thunks', () => {
+    it('should get all campus in the store', async () => {
+      let { getAll } = require('../store/Campus/thunks_for_Campus').default;
 
-	    const afterState = reducer(beforeState, action);
-	    
-	    expect(afterState).to.deep.equal({
-	      CampusList: [{ name: "campus1" }]
-	    });
-	  
-	  	done()
-	});
+      const store = require('../store/store').default;
 
-	it("should handle GET_CAMPUS", (done) => {
+      await store.dispatch(getAll());
 
-		const { GET_CAMPUS } = action_constants
+      const campusList = store.getState().Campus_state.CampusList;
 
-		const beforeState = {
-			CampusList: [{ name: "campus1!" }, { name: "campus2" }],
-			SingleCampus: {}
-		};
+      expect(campusList).to.deep.equal(campuses);
+    });
 
-		const actionTwo = { type: GET_CAMPUS, payload: { name: "campus1!" } };
-		
-		const afterState = reducer(beforeState, actionTwo);
-		
-		expect(afterState).to.deep.equal({
+    it('should return the initial state', async () => {
+      const reducer = require('../store/Campus/reducer_for_Campus').default;
 
-			CampusList: [{ name: "campus1!" }, { name: "campus2" }],
-			SingleCampus: { name: "campus1!" }
-		});
-	
-		done()
-	});
-
-});
-
-describe("Ducks integration tests- Thunks", () => {
-
-	it("should get all campus in the store", async () => {
-
-		let {
-		  getAll
-		} = require("../store/Campus/thunks_for_Campus").default; 
-
-		const store = require("../store/store").default;
-
-		await store.dispatch(getAll());
-
-	    const campusList = store.getState().Campus_state.CampusList;
-	    
-	    expect(campusList).to.deep.equal(campuses);
-
-	});	
-
-	it("should return the initial state", async () => {
-
-		const reducer = require("../store/Campus/reducer_for_Campus").default
-
-	    await expect(reducer(undefined, {})).to.deep.equal({
-
-	      CampusList: [],
-	      isLoading: false,
-	      SingleCampus: {
-	        Name: "",
-	        Quacking: true,
-	        Ducklings: {},
-	        Fly2Gether: true
-	      }
-	    });
-
-	});
-})
+      await expect(reducer(undefined, {})).to.deep.equal({
+        CampusList: [],
+        isLoading: false,
+        SingleCampus: {
+          Name: '',
+          Quacking: true,
+          Ducklings: {},
+          Fly2Gether: true,
+        },
+      });
+    });
+  });
 }
 
-if(sim === 2){
+if (sim === 2) {
+  describe('Rails model generates with thunks separated', () => {
+    it('Rails model generates with thunks separated', done => {
+      let storeGenerate = shell(`mode=testing genie sim 2`);
 
-describe("Rails model generates with thunks separated", () => {
+      storeGenerate.on('exit', () => {
+        done();
+      });
+    });
 
-	it('Rails model generates with thunks separated', (done)=>{
+    it('Generates thunks in a separate file', done => {
+      let thunksFileExists = fs.existsSync(
+        `${process.cwd()}/store/actions/thunks_for_Campus.js`
+      );
 
-		let storeGenerate = shell(`mode=testing genie sim 2`);
+      expect(thunksFileExists).to.equal(true);
 
-		storeGenerate.on("exit", () => {
+      done();
+    });
 
-		  done()
-		})
-	})
+    it('Contains valid thunks', done => {
+      let thunks = require(`${process.cwd()}/store/actions/thunks_for_Campus.js`);
 
+      expect(typeof thunks.getAll).to.equal('function');
+      expect(typeof thunks.getOne).to.equal('function');
 
-	it("Generates thunks in a separate file", (done) => {
-
-		let thunksFileExists = fs.existsSync(`${process.cwd()}/store/actions/thunks_for_Campus.js`)
-
-		expect(thunksFileExists).to.equal(true)
-
-		done()
-
-	});	
-
-	it('Contains valid thunks', (done)=> {
-
-		let thunks = require(`${process.cwd()}/store/actions/thunks_for_Campus.js`)
-
-		expect(typeof thunks.getAll).to.equal('function')
-		expect(typeof thunks.getOne).to.equal('function')
-
-		done()
-	})
-
-
-})
-
+      done();
+    });
+  });
 }
 
-if(sim === 3){
+if (sim === 3) {
+  describe('Ducks model generates with thunks separated', () => {
+    it('Ducks model generates with thunks separated', done => {
+      let storeGenerate = shell(`mode=testing genie sim 3`);
 
-describe("Ducks model generates with thunks separated", () => {
+      storeGenerate.on('exit', () => {
+        done();
+      });
+    });
 
-	it('Ducks model generates with thunks separated', (done)=>{
+    it('Generates thunks in a separate file', done => {
+      let thunksFileExists = fs.existsSync(
+        `${process.cwd()}/store/Campus/thunks_for_Campus.js`
+      );
 
-		let storeGenerate = shell(`mode=testing genie sim 3`);
+      expect(thunksFileExists).to.equal(true);
 
-		storeGenerate.on("exit", () => {
+      done();
+    });
 
-		  done()
-		})
-	})
+    it('Contains valid thunks', done => {
+      let thunks = require(`${process.cwd()}/store/Campus/thunks_for_Campus.js`);
 
+      expect(typeof thunks.getAll).to.equal('function');
+      expect(typeof thunks.getOne).to.equal('function');
 
-	it("Generates thunks in a separate file", (done) => {
-
-		let thunksFileExists = fs.existsSync(`${process.cwd()}/store/Campus/thunks_for_Campus.js`)
-
-		expect(thunksFileExists).to.equal(true)
-
-		done()
-
-	});	
-
-	it('Contains valid thunks', (done)=> {
-
-		let thunks = require(`${process.cwd()}/store/Campus/thunks_for_Campus.js`)
-
-		expect(typeof thunks.getAll).to.equal('function')
-		expect(typeof thunks.getOne).to.equal('function')
-
-		done()
-	})
-
-
-})
-
+      done();
+    });
+  });
 }
 
-if(sim === 4){
+if (sim === 4) {
+  describe('Rails model generates with thunks included in action file', () => {
+    it('Rails model generates with thunks included in action file', done => {
+      let storeGenerate = shell(`mode=testing genie sim 4`);
 
-describe("Rails model generates with thunks included in action file", () => {
+      storeGenerate.on('exit', () => {
+        done();
+      });
+    });
 
-	it('Rails model generates with thunks included in action file', (done)=>{
+    it('Generates actions file', done => {
+      let thunksFileExists = fs.existsSync(
+        `${process.cwd()}/store/actions/actions_for_Campus.js`
+      );
 
-		let storeGenerate = shell(`mode=testing genie sim 4`);
+      expect(thunksFileExists).to.equal(true);
 
-		storeGenerate.on("exit", () => {
+      done();
+    });
 
-		  done()
-		})
-	})
+    it('Contains valid thunks', done => {
+      let thunks = require(`${process.cwd()}/store/actions/actions_for_Campus.js`);
 
+      expect(typeof thunks.getAll).to.equal('function');
+      expect(typeof thunks.getOne).to.equal('function');
 
-	it("Generates actions file", (done) => {
-
-		let thunksFileExists = fs.existsSync(`${process.cwd()}/store/actions/actions_for_Campus.js`)
-
-		expect(thunksFileExists).to.equal(true)
-
-		done()
-
-	});	
-
-	it('Contains valid thunks', (done)=> {
-
-		let thunks = require(`${process.cwd()}/store/actions/actions_for_Campus.js`)
-
-		expect(typeof thunks.getAll).to.equal('function')
-		expect(typeof thunks.getOne).to.equal('function')
-
-
-		done()
-	})
-})
-
-
-
-
+      done();
+    });
+  });
 }
 
+if (sim === 5) {
+  describe('Ducks model generates with thunks included in action file', () => {
+    it('Ducks model generates with thunks included in action file', done => {
+      let storeGenerate = shell(`mode=testing genie sim 5`);
 
+      storeGenerate.on('exit', () => {
+        done();
+      });
+    });
 
-if(sim === 5){
+    it('Generates actions file', done => {
+      let thunksFileExists = fs.existsSync(
+        `${process.cwd()}/store/Campus/actions_for_Campus.js`
+      );
 
-describe("Ducks model generates with thunks included in action file", () => {
+      expect(thunksFileExists).to.equal(true);
 
-	it('Ducks model generates with thunks included in action file', (done)=>{
+      done();
+    });
 
-		let storeGenerate = shell(`mode=testing genie sim 5`);
+    it('Contains valid thunks', done => {
+      let thunks = require(`${process.cwd()}/store/Campus/actions_for_Campus.js`);
 
-		storeGenerate.on("exit", () => {
+      expect(typeof thunks.getAll).to.equal('function');
+      expect(typeof thunks.getOne).to.equal('function');
 
-		  done()
-		})
-	})
-
-
-	it("Generates actions file", (done) => {
-
-		let thunksFileExists = fs.existsSync(`${process.cwd()}/store/Campus/actions_for_Campus.js`)
-
-		expect(thunksFileExists).to.equal(true)
-
-		done()
-
-	});	
-
-	it('Contains valid thunks', (done)=> {
-
-		let thunks = require(`${process.cwd()}/store/Campus/actions_for_Campus.js`)
-
-		expect(typeof thunks.getAll).to.equal('function')
-		expect(typeof thunks.getOne).to.equal('function')
-		
-
-		done()
-	})
-})
-
-
+      done();
+    });
+  });
 }
 
+if (sim === 6) {
+  describe('Rails model generates properly when CRUD false selected on model', () => {
+    it('Rails model generates with CRUD ops exlcuded from action file', done => {
+      let storeGenerate = shell(`mode=testing genie sim 6`);
 
+      storeGenerate.on('exit', () => {
+        done();
+      });
+    });
 
-if(sim === 6){
+    it('Generates actions file', done => {
+      let thunksFileExists = fs.existsSync(
+        `${process.cwd()}/store/actions/actions_for_Campus.js`
+      );
 
-describe("Rails model generates properly when CRUD false selected on model", () => {
+      expect(thunksFileExists).to.equal(true);
 
-	it('Rails model generates with CRUD ops exlcuded from action file', (done)=>{
+      done();
+    });
 
-		let storeGenerate = shell(`mode=testing genie sim 6`);
+    it('Action file does not include CRUD ops', done => {
+      let CRUDs = require(`${process.cwd()}/store/actions/actions_for_Campus.js`)
+        .default;
 
-		storeGenerate.on("exit", () => {
+      expect(CRUDs.getCampus).to.equal(undefined);
+      expect(CRUDs.getAllCampus).to.equal(undefined);
 
-		  done()
-		})
-	})
-
-
-	it("Generates actions file", (done) => {
-
-		let thunksFileExists = fs.existsSync(`${process.cwd()}/store/actions/actions_for_Campus.js`)
-
-		expect(thunksFileExists).to.equal(true)
-
-		done()
-
-	});	
-
-	it('Action file does not include CRUD ops', (done)=> {
-
-		let CRUDs = require(`${process.cwd()}/store/actions/actions_for_Campus.js`).default
-
-		expect(CRUDs.getCampus).to.equal(undefined)
-		expect(CRUDs.getAllCampus).to.equal(undefined)
-
-		done()
-	})
-})
-
-
+      done();
+    });
+  });
 }
 
+if (sim === 7) {
+  describe('Ducks model generates properly when CRUD false selected on model', () => {
+    it('Ducks model generates with CRUD ops exlcuded from action file', done => {
+      let storeGenerate = shell(`mode=testing genie sim 7`);
 
-if(sim === 7){
+      storeGenerate.on('exit', () => {
+        done();
+      });
+    });
 
-describe("Ducks model generates properly when CRUD false selected on model", () => {
+    it('Generates actions file', done => {
+      let thunksFileExists = fs.existsSync(
+        `${process.cwd()}/store/Campus/actions_for_Campus.js`
+      );
 
-	it('Ducks model generates with CRUD ops exlcuded from action file', (done)=>{
+      expect(thunksFileExists).to.equal(true);
 
-		let storeGenerate = shell(`mode=testing genie sim 7`);
+      done();
+    });
 
-		storeGenerate.on("exit", () => {
+    it('Action file does not include CRUD ops', done => {
+      let CRUDs = require(`${process.cwd()}/store/Campus/actions_for_Campus.js`)
+        .default;
 
-		  done()
-		})
-	})
+      expect(CRUDs.getCampus).to.equal(undefined);
+      expect(CRUDs.getAllCampus).to.equal(undefined);
 
-
-	it("Generates actions file", (done) => {
-
-		let thunksFileExists = fs.existsSync(`${process.cwd()}/store/Campus/actions_for_Campus.js`)
-
-		expect(thunksFileExists).to.equal(true)
-
-		done()
-
-	});	
-
-	it('Action file does not include CRUD ops', (done)=> {
-
-		let CRUDs = require(`${process.cwd()}/store/Campus/actions_for_Campus.js`).default
-
-		expect(CRUDs.getCampus).to.equal(undefined)
-		expect(CRUDs.getAllCampus).to.equal(undefined)
-
-		done()
-	})
-})
-
+      done();
+    });
+  });
 }
 
+if (sim === 9) {
+  describe('DUMMY DESCRIBE TO TEST ADD FUNCTIONALITY', () => {
+    it('dummy store generated', done => {
+      let storeGenerate = shell(`genie sim 9`);
 
+      storeGenerate.on('exit', () => {
+        done();
+      });
+    });
 
-
-
-
-
-
-if(sim === 9){
-
-describe("DUMMY DESCRIBE TO TEST ADD FUNCTIONALITY", () => {
-
-	it('dummy store generated', (done)=>{
-
-		let storeGenerate = shell(`genie sim 9`);
-
-		storeGenerate.on("exit", () => {
-
-		  done()
-		})
-	})
-
-	it('heres some tests we can use here', (done)=>{
-
-		done()
-	})
-})
-
-
-
-
+    it('heres some tests we can use here', done => {
+      done();
+    });
+  });
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-if(sim === 9){}
-if(sim === 10){}
-if(sim === 11){}
-if(sim === 12){}
-if(sim === 13){}	
-if(sim === 14){}
-if(sim === 15){}
-if(sim === 16){}	
-if(sim === 17){}
-if(sim === 18){}
-if(sim === 19){}
-if(sim === 20){}
-if(sim === 21){}
-if(sim === 22){}
-
-
-
-
-
+if (sim === 9) {
+}
+if (sim === 10) {
+}
+if (sim === 11) {
+}
+if (sim === 12) {
+}
+if (sim === 13) {
+}
+if (sim === 14) {
+}
+if (sim === 15) {
+}
+if (sim === 16) {
+}
+if (sim === 17) {
+}
+if (sim === 18) {
+}
+if (sim === 19) {
+}
+if (sim === 20) {
+}
+if (sim === 21) {
+}
+if (sim === 22) {
+}
