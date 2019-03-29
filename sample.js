@@ -5,7 +5,7 @@ let sampleData = `
 # This is a sample of a lamp.config.yml configuration.
 # Please visit https://redux-genie.herokuapp.com/ for a guided tutorial for creating your own YML configuration file.
 
-Structure: Ducks
+Structure: Ducks # Ducks || Rails
 
 Models:
   - trains:
