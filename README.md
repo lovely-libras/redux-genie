@@ -1,6 +1,6 @@
 # REDUX GENIE
 
-### Summon the genie!
+## Summon the genie!
 
 - [Installation](##Installation)
 - [Usage](##Usage)
@@ -29,7 +29,7 @@ Interested in learning to code? Consider [Fullstack Academy of Code](https://www
 
 ---
 
-## Installation
+### Installation
 
 To begin, install Redux Genie globally from the NPM registry:
 
@@ -41,11 +41,11 @@ With Redux Genie installed, all you need to get started is a YML file.
 
 ---
 
-## Usage
+### Usage
 
 The following commands are available for use with **Redux Genie**.
 
-# Help
+#### Help
 
 ```bash
 genie help
@@ -55,7 +55,7 @@ Brings up a prompt with descriptions of commands for Redux Genie.
 
 ---
 
-# Sample
+#### Sample
 
 ```bash
 genie sample
@@ -65,7 +65,7 @@ Create a sample _lamp.config.yml_ file.
 
 ---
 
-# Generate
+#### Generate
 
 ```bash
 genie generate
@@ -75,7 +75,7 @@ Generates a store and all associated files based on the paramets set in your exi
 
 ---
 
-# List
+#### List
 
 ```bash
 genie ls
@@ -87,7 +87,7 @@ Then, it prints a visual representation of the store directory, its subdirectori
 
 ---
 
-# Update
+#### Update
 
 ```bash
 genie update
@@ -99,7 +99,7 @@ _CAUTION_: You cannot change the file structure that was created when the store 
 
 ---
 
-# Add
+#### Add
 
 ```bash
 genie add [-m]/[-M] <model_name> [-a] <action_name> [-t] <thunk_name>
@@ -115,7 +115,7 @@ The add command allows you to add specific properties or thunks to an existing m
 
 ---
 
-## Contributing
+### Contributing
 
 **Redux Genie** was created as the capstone project by **Team Lovely Libras** for [Fullstack Academy's](https://www.fullstackacademy.com/) 1901-FSA-NY cohort.
 
@@ -128,6 +128,6 @@ Team Lovely Libras:
 
 ---
 
-## License
+### License
 
 [MIT](https://choosealicense.com/licenses/mit/)
