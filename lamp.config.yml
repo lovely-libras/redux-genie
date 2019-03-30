@@ -2,20 +2,12 @@ Structure: Ducks
 
 Models:
 
-  - Ducks:
+  - Campus:
 
     Slice:
       - Name: string
       - Quacking: Boolean
       - Ducklings: Object
       - Fly2Gether: Boolean
-
-  - Terminator:
-
-    Slice:
-      - Name: string
-      - isBack: Boolean
-      - timeTravel: Object
-      - JohnConnorGot: Boolean
 
       
