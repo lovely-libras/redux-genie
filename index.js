@@ -8,7 +8,7 @@ module.exports = () => {
   switch (cmd) {
     case 'help':
     case 'h':
-      require('./src/help');
+      // require('./src/help');
       break;
     case 'sample':
     case 's':
