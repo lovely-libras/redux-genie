@@ -6,11 +6,13 @@ const command = require('./src');
 const args = minimist(process.argv.slice(2));
 const cmd = args._[0];
 
+// Need to refactor switch in to if statements again (getting too big). Want to create them outside the module.exports. Currently only help is set up to work. Need alternative to default case's error handling.
+
 module.exports = () => {
   switch (cmd) {
     case 'help':
     case 'h':
-      command.help.help();
+      command.help.help(); // Rename function
       break;
     case 'sample':
     case 's':
