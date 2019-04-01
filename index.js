@@ -1,6 +1,8 @@
 const chalk = require('chalk');
 const minimist = require('minimist');
 
+const command = require('./src');
+
 const args = minimist(process.argv.slice(2));
 const cmd = args._[0];
 
@@ -8,7 +10,7 @@ module.exports = () => {
   switch (cmd) {
     case 'help':
     case 'h':
-      // require('./src/help');
+      command.help.help();
       break;
     case 'sample':
     case 's':

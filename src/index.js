@@ -1,7 +1,6 @@
-// const help = require('./help');
-// const sample = require('./sample');
+const help = require('./help');
+// require('./sample');
 
-// module.exports = {
-//   help,
-//   sample,
-// };
+module.exports = {
+  help,
+};

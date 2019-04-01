@@ -8,4 +8,6 @@ const help = () => {
   console.log(prompt);
 };
 
-help();
+module.exports = {
+  help,
+};
