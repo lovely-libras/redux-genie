@@ -12,17 +12,13 @@ if (fs.existsSync('./.lamp-lock.json')) {
   console.log(
     chalk.red(
       `\nThe store has already been initialized! \nPlease use the ${chalk.white(
-        '[genie update]'
-      )} or ${chalk.white(
-        '[genie add]'
-      )} methods to alter your existing store.\n`
+        'genie update'
+      )} or ${chalk.white('genie add')} methods to alter your existing store.\n`
     )
   );
 } else {
   console.log(chalk.hex('#764abc')('Your wish is my command!\n'));
-
   let yams;
-
   try {
     yams = yaml.safeLoad(fs.readFileSync('./lamp.config.yml', 'utf8'));
   } catch (e) {
@@ -35,9 +31,7 @@ if (fs.existsSync('./.lamp-lock.json')) {
     );
     process.exit();
   }
-
   makeLock(yams, null);
-
   let { Structure, Models, Thunks, Logging } = yams;
 
   if (!Structure) {
@@ -46,7 +40,6 @@ if (fs.existsSync('./.lamp-lock.json')) {
     );
     process.exit();
   }
-
   if (!Models) {
     console.log(
       chalk.red(
@@ -55,9 +48,7 @@ if (fs.existsSync('./.lamp-lock.json')) {
     );
     process.exit();
   }
-
   let rootStore = spawn('mkdir store', { shell: true });
-
   if (Structure === 'Rails') {
     console.log(
       chalk.yellow(
@@ -67,12 +58,10 @@ if (fs.existsSync('./.lamp-lock.json')) {
     let makeDir = spawn('mkdir store/actions store/constants store/reducers', {
       shell: true,
     });
-
     makeDir.on('exit', () => {
       rails(Models, Thunks, Logging);
     });
   }
-
   if (Structure === 'Ducks') {
     console.log(
       chalk.yellow(
@@ -100,7 +89,7 @@ if (fs.existsSync('./.lamp-lock.json')) {
         Model =>
           (Model = Object.keys(Model)[0][0]
             .toUpperCase()
-            .concat(Object.keys(Model)[0].slice(1)))
+            .concat(Object.keys(Model)[0].slgice(1)))
       );
 
       fs.writeFile(
