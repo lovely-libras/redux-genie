@@ -17,6 +17,7 @@
     "gen",
     "generate",
     "generator",
+    "state",
     "genie",
     "rails",
     "redux",
@@ -24,11 +25,11 @@
     "store",
     "yml",
     "boilerplate",
-    "libras",
     "FSA",
     "fullstack",
     "fullstackacademy",
-    "1901"
+    "1901",
+    "1901-FSA-NY"
   ],
   "author": "The Lovely Libras <lovely.libras.1901@gmail.com> (https://github.com/lovely-libras)",
   "contributors": [
@@ -39,7 +40,7 @@
   ],
   "license": "MIT",
   "bin": {
-    "genie": "./cli.js"
+    "genie": "bin/genie.js"
   },
   "bugs": {
     "url": "https://github.com/lovely-libras/redux-genie/issues"
