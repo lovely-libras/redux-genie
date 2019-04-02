@@ -43,16 +43,20 @@ Models:
           - goSouth
 `;
 
-if (fs.existsSync('./lamp.config.yml')) {
-  console.log(
-    chalk.red(`You already have a ${chalk.white('lamp.config.yml')}!`)
-  );
-} else {
-  console.log(chalk.hex('#764abc')('Your wish is my command!'));
-  fs.writeFile('./lamp.config.yml', sampleData, function(err) {
-    if (err) console.error(err);
+const getSample = () => {
+  if (fs.existsSync('./lamp.config.yml')) {
     console.log(
-      chalk.green(`Successfully created ${chalk.white('lamp.config.yml')}!`)
+      chalk.red(`You already have a ${chalk.white('lamp.config.yml')}!`)
     );
-  });
-}
+  } else {
+    console.log(chalk.hex('#764abc')('Your wish is my command!'));
+    fs.writeFile('./lamp.config.yml', sampleData, function(err) {
+      if (err) console.error(err);
+    });
+    console.log(chalk.green("Successfully created 'lamp.config.yml'!"));
+  }
+};
+
+module.exports = {
+  getSample,
+};

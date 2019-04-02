@@ -8,6 +8,8 @@ const createStore = require('./generator_code_files/ducks_style/create_store');
 const createCombineReducers = require('./generator_code_files/ducks_style/create_combine_reducers');
 const { makeLock } = require('./lock');
 
+console.log('HEYYEYYEYEYEE');
+
 if (fs.existsSync('./.lamp-lock.json')) {
   console.log(
     chalk.red(

@@ -21,7 +21,7 @@ const printFileStructure = tree => {
   }
 };
 
-const ls = () => {
+const list = () => {
   if (fs.existsSync('./store')) {
     const currentDir = path.join(process.cwd(), './store');
     console.log('\nROOT: ', currentDir, '\n');
@@ -29,13 +29,11 @@ const ls = () => {
     printFileStructure(tree);
   } else {
     console.log(
-      chalk.red(
-        `You have not yet created the store with ${chalk.white(
-          'genie generate'
-        )}!`
-      )
+      chalk.red("You have not yet created the store with 'genie generate'.")
     );
   }
 };
 
-ls();
+module.exports = {
+  list,
+};

@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const minimist = require('minimist');
 
-const command = require('./src');
+const { help, sample } = require('./src');
 
 const args = minimist(process.argv.slice(2));
 const cmd = args._[0];
@@ -12,11 +12,11 @@ module.exports = () => {
   switch (cmd) {
     case 'help':
     case 'h':
-      command.help.help(); // Rename function
+      help.help(); // Rename function
       break;
     case 'sample':
     case 's':
-      require('./src/sample');
+      sample.getSample();
       break;
     case 'generate':
     case 'gen':
