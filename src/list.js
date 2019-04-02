@@ -21,7 +21,7 @@ const printFileStructure = tree => {
   }
 };
 
-const list = () => {
+const renderList = () => {
   if (fs.existsSync('./store')) {
     const currentDir = path.join(process.cwd(), './store');
     console.log('\nROOT: ', currentDir, '\n');
@@ -35,5 +35,5 @@ const list = () => {
 };
 
 module.exports = {
-  list,
+  renderList,
 };

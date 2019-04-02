@@ -4,10 +4,10 @@ const prompt = `\nUsage: genie command\n\nhelp\t\tCalls the help prompt.\ngen\t\
   'https://redux-genie.herokuapp.com'
 )}`;
 
-const help = () => {
+const sendHelp = () => {
   console.log(prompt);
 };
 
 module.exports = {
-  help,
+  sendHelp,
 };

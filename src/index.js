@@ -1,6 +1,6 @@
 const help = require('./help');
 const sample = require('./sample');
-const list = require('./ls');
+const list = require('./list');
 const getSample = require('./sample');
 
 module.exports = {
