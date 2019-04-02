@@ -11,9 +11,7 @@ const { makeLock } = require('./lock');
 if (fs.existsSync('./.lamp-lock.json')) {
   console.log(
     chalk.red(
-      `\nThe store has already been initialized! \nPlease use the ${chalk.white(
-        'genie update'
-      )} or ${chalk.white('genie add')} methods to alter your existing store.\n`
+      `\nThe store has already been initialized! \nPlease use the 'genie update' or 'genie add' methods to alter your existing store.\n`
     )
   );
 } else {
@@ -24,7 +22,7 @@ if (fs.existsSync('./.lamp-lock.json')) {
   } catch (e) {
     console.log(
       chalk.red(
-        `You do not have a ${'lamp.config.yml'} configuration file!\nFor help creating the ${'lamp.config.yml'}, please visit us at ${chalk.cyan(
+        `You do not have a 'lamp.config.yml' configuration file!\nUse 'genie sample' to create a file that you can work from.\nFor more in-depth help creating the 'lamp.config.yml', please visit us at ${chalk.cyan(
           'https://redux-genie.herokuapp.com'
         )}`
       )
@@ -35,26 +33,16 @@ if (fs.existsSync('./.lamp-lock.json')) {
   let { Structure, Models, Thunks, Logging } = yams;
 
   if (!Structure) {
-    console.log(
-      chalk.red(`Please specify file structure as ${chalk.white('Structure')}.`)
-    );
+    console.log(chalk.red("Please specify file structure as 'Structure'."));
     process.exit();
   }
   if (!Models) {
-    console.log(
-      chalk.red(
-        `Please specify the slices of state as ${chalk.white('Models')}.`
-      )
-    );
+    console.log(chalk.red("Please specify the slices of state as 'Models'."));
     process.exit();
   }
   let rootStore = spawn('mkdir store', { shell: true });
   if (Structure === 'Rails') {
-    console.log(
-      chalk.yellow(
-        `Generating store using ${chalk.white('Rails')} file structure`
-      )
-    );
+    console.log(chalk.yellow("Generating store using 'Rails' file structure"));
     let makeDir = spawn('mkdir store/actions store/constants store/reducers', {
       shell: true,
     });
@@ -63,11 +51,7 @@ if (fs.existsSync('./.lamp-lock.json')) {
     });
   }
   if (Structure === 'Ducks') {
-    console.log(
-      chalk.yellow(
-        `Generating store using ${chalk.white('Ducks')} file structure`
-      )
-    );
+    console.log(chalk.yellow("Generating store using 'Ducks' file structure."));
 
     // create action types, action creators, and reducer
 
@@ -99,9 +83,7 @@ if (fs.existsSync('./.lamp-lock.json')) {
           if (err) console.error(err);
           console.log(
             chalk.green(
-              `Successfully generated the ${chalk.white(
-                'combine_reducers.js'
-              )} file.`
+              "Successfully generated the 'combine_reducers.js' file."
             )
           );
         }
@@ -110,11 +92,7 @@ if (fs.existsSync('./.lamp-lock.json')) {
       // create store
       fs.writeFile('./store/store.js', createStore(Logging), err => {
         if (err) console.error(err);
-        console.log(
-          chalk.green(
-            `Successfully generated the ${chalk.white('store.js')} file`
-          )
-        );
+        console.log(chalk.green("Successfully generated the 'store.js' file."));
       });
     });
   }

@@ -39,7 +39,7 @@
   ],
   "license": "MIT",
   "bin": {
-    "genie": "bin/genie.js"
+    "genie": "bin/cli.js"
   },
   "bugs": {
     "url": "https://github.com/lovely-libras/redux-genie/issues"
