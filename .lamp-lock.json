@@ -1,0 +1,23 @@
+{
+	"Structure": "Ducks",
+	"Models": [
+		{
+			"Campus": null,
+			"CRUD": false,
+			"Slice": [
+				{
+					"Name": "string"
+				},
+				{
+					"Quacking": "Boolean"
+				},
+				{
+					"Ducklings": "Object"
+				},
+				{
+					"Fly2Gether": "Boolean"
+				}
+			]
+		}
+	]
+}

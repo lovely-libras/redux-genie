@@ -6,7 +6,7 @@ Made for developers creating JavaScript applications with [Redux](https://redux.
 
 Redux Genie isn't a "starter kit" or a library of helper methods. It actually writes your Redux boilerplate code, either creating new files or injecting code into an existing store files. This makes the writing process easier to start, easier to manage as you progress, and less error-prone, without abstracting over the functionality of Redux itself.
 
-The genie can be comprehensive- generating the whole Redux store from the ontset of a project- or granular- creating or operating on a specific slice of state for an existing project.
+The genie can be comprehensive- generating the whole Redux store from the onset of a project- or granular- creating or operating on a specific slice of state for an existing project.
 
 ```bash
 npm install -g redux-genie
@@ -16,7 +16,7 @@ Check out our [documentation](https://redux-genie.herokuapp.com/), which include
 
 ---
 
-## Store Declaration at the beginning of a project
+# Store Declaration at the beginning of a project
 
 To generate a store, Redux Genie's configuration file- lamp.config.yml - will need define the total store structure. 
 
@@ -110,7 +110,7 @@ store.js
 
 ---
 
-### _lamp.config.yml_ options
+# _lamp.config.yml_ options
 
 Options to customize the generate call.
 
@@ -208,7 +208,7 @@ Models:
 
 ---
 
-### CLI 
+# CLI 
 
 #### genie generate
 

@@ -23,6 +23,23 @@ const shellSync = (command) => {
 
 }
 
+
+
+/*
+
+can refactor so the functions
+are just one big array
+
+module.exports = [
+
+  function simZero(){},
+  function simOne(){},
+  function simTwo(){},
+]
+
+
+*/
+
 // define simulation
 
 let simulationZero = () => {
