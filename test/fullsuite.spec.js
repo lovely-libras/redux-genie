@@ -1515,7 +1515,7 @@ if(sim === 39){
 
     it('', (done)=>{
 
-      let storeGenerate = spawn('genie sim 38', { shell: true });
+      let storeGenerate = spawn('genie sim 39', { shell: true });
 
       storeGenerate.stdout.on('data', (data)=>{
 
@@ -1541,29 +1541,82 @@ if(sim === 39){
 
       done()
 
-  }); 
-})
+    }); 
+  })
 
 
 }
 
-if(sim === 40){
-  // - update- prevents adding duplicate thunks
-  //  40 - ducks 
-  //  41 - rails 
-}
-
-if(sim === 41){
-  // - update- prevents adding duplicate thunks
-  //  40 - ducks 
-  //  41 - rails 
-}
 
 if(sim === 42){
 
   // - update- adds subsequent new models
   //  42 - ducks 
-  //  43 - rails 
+  describe("42 - Ducks: update adds subsequent models", () => {
+
+    it('', (done)=>{
+
+      let storeGenerate = shell(simCommand);
+
+      storeGenerate.on("exit", () => {
+
+        done()
+      })
+    })
+
+    it("lamp lock tracks updated models", (done) => {
+
+      let theLock = require('./../.lamp-lock.json')
+      expect(Object.keys(theLock.Models[1])[0]).to.equal('terminator')
+      expect(Object.keys(theLock.Models[2])[0]).to.equal('DucklingTerminator')
+      done()
+    
+    });
+
+    it("subsequent models created", (done) => {
+
+      let storeDir = []
+
+      fs.readdirSync(`${process.cwd()}/store`).forEach(file => {
+        
+        storeDir.push(file)
+      });
+
+      expect(storeDir.includes('Campus')).to.equal(true)
+      expect(storeDir.includes('Terminator')).to.equal(true)
+      expect(storeDir.includes('DucklingTerminator')).to.equal(true)
+      
+      done()
+    
+    });
+    it("subsequent models contain correct files", (done) => {
+
+      let terminatorFile = []
+
+      fs.readdirSync(`${process.cwd()}/store/Terminator`).forEach(file => {
+        
+        terminatorFile.push(file)
+      });
+
+      let ducklingFile = []
+
+      fs.readdirSync(`${process.cwd()}/store/DucklingTerminator`).forEach(file => {
+        
+        ducklingFile.push(file)
+      });
+
+      expect(terminatorFile.includes('action_constants_for_Terminator.js')).to.equal(true)
+      expect(terminatorFile.includes('actions_for_Terminator.js')).to.equal(true)
+      expect(terminatorFile.includes('reducer_for_Terminator.js')).to.equal(true)    
+      expect(ducklingFile.includes('action_constants_for_DucklingTerminator.js')).to.equal(true)
+      expect(ducklingFile.includes('actions_for_DucklingTerminator.js')).to.equal(true)
+      expect(ducklingFile.includes('reducer_for_DucklingTerminator.js')).to.equal(true)
+  
+      done()
+    
+    });
+
+  })
 
 
 }
@@ -1571,8 +1624,56 @@ if(sim === 42){
 if(sim === 43){
   
   // - update- adds subsequent new models
-  //  42 - ducks 
   //  43 - rails 
+
+  describe("43 - Rails: update adds subsequent models", () => {
+
+    it('', (done)=>{
+
+      let storeGenerate = shell(simCommand);
+
+      storeGenerate.on("exit", () => {
+
+        done()
+      })
+    })
+
+    it("lamp lock tracks updated models", (done) => {
+
+      let theLock = require('./../.lamp-lock.json')
+      expect(Object.keys(theLock.Models[1])[0]).to.equal('terminator')
+      expect(Object.keys(theLock.Models[2])[0]).to.equal('DucklingTerminator')
+      done()
+    
+    });
+
+
+    it("subsequent models created", (done) => {
+
+      let actionFolder = []
+
+      fs.readdirSync(`${process.cwd()}/store/actions`).forEach(file => {
+        
+        actionFolder.push(file)
+      });
+
+      let reducerFolder = []
+
+      fs.readdirSync(`${process.cwd()}/store/reducers`).forEach(file => {
+        
+        reducerFolder.push(file)
+      });
+
+      expect(actionFolder.includes('actions_for_Terminator.js')).to.equal(true)
+      expect(actionFolder.includes('actions_for_DucklingTerminator.js')).to.equal(true)
+      expect(reducerFolder.includes('reducer_for_Terminator.js')).to.equal(true)    
+      expect(reducerFolder.includes('reducer_for_DucklingTerminator.js')).to.equal(true)
+  
+      done()
+    
+    });
+
+  })
 
 }
 

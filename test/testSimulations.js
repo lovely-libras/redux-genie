@@ -1380,6 +1380,242 @@ Models:
 
 },
 
+function sim40(){
+
+  const first = `Structure: Rails
+
+Models:
+
+  - Campus:
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+    CRUD: true
+    Actions:
+      - countDux
+    Thunks:
+      - getAll:
+          - "/api/Dux"
+          - getAllCampus      
+      `
+  const second = `Structure: Rails
+
+Models:
+
+  - Campus:
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+    CRUD: true
+    Actions:
+      - countDux
+    Thunks:
+      - getAll:
+          - "/api/Dux"
+          - getAllCampus  
+      - getAll:
+          - "/api/Dux"
+          - getAllCampus     
+      `
+
+  updateTest(first, second)
+
+},
+
+'omitted planned test',
+
+function sim42(){
+
+  const first = `Structure: Ducks
+
+Models:
+
+  - Campus:
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+    CRUD: true
+    Actions:
+      - countDux
+    Thunks:
+      - getAll:
+          - "/api/Dux"
+          - getAllCampus      
+      `
+  const second = `Structure: Ducks
+
+Models:
+
+  - Campus:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+  - terminator:
+  
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+    Actions:
+      - getJohnConnor
+      - hastaLaVista
+
+    Thunks:
+      - getAll:
+          - "/api/terminator"
+          - getJohnConnor
+      - getOne:
+          - "/api/terminator/:terminator"
+          - getJohnConnor  
+      `
+
+const third = `Structure: Ducks
+
+Models:
+
+  - Campus:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+  - terminator:
+  
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+
+    Actions:
+      - getJohnConnor
+      - hastaLaVista
+
+    Thunks:
+      - getAll:
+          - "/api/terminator"
+          - getJohnConnor
+      - getOne:
+          - "/api/terminator/:terminator"
+          - getJohnConnor
+
+  - DucklingTerminator:
+
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+      `
+
+  multiTest(first, second, third, 'update', 'update')
+
+},
+
+function sim43(){
+
+  const first = `Structure: Rails
+
+Models:
+
+  - Campus:
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+    CRUD: true
+    Actions:
+      - countDux
+    Thunks:
+      - getAll:
+          - "/api/Dux"
+          - getAllCampus      
+      `
+  const second = `Structure: Rails
+
+Models:
+
+  - Campus:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+  - terminator:
+  
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+    Actions:
+      - getJohnConnor
+      - hastaLaVista
+
+    Thunks:
+      - getAll:
+          - "/api/terminator"
+          - getJohnConnor
+      - getOne:
+          - "/api/terminator/:terminator"
+          - getJohnConnor  
+      `
+
+const third = `Structure: Rails
+
+Models:
+
+  - Campus:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+  - terminator:
+  
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+
+    Actions:
+      - getJohnConnor
+      - hastaLaVista
+
+    Thunks:
+      - getAll:
+          - "/api/terminator"
+          - getJohnConnor
+      - getOne:
+          - "/api/terminator/:terminator"
+          - getJohnConnor
+
+  - DucklingTerminator:
+
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+      `
+
+  multiTest(first, second, third, 'update', 'update')
+
+},
+
 ]
 
 
@@ -1450,4 +1686,53 @@ function updateTest(yam1, yam2){
 }
 
 
+function multiTest(yam1, yam2, yam3, second, third){
+
+  // print new config file with new model added
+
+  let deleteCall = shell('genie delete all')
+
+  let genCall
+
+  deleteCall.on('exit', () =>{
+
+    // print config file
+
+    fs.writeFile(
+        "./lamp.config.yml",
+        yam1,
+        () => { });
+    
+    // run genie generate (after deleting and rewriting config)
+
+    genCall = shell('genie generate')
+    
+    genCall.on('exit', ()=>{
+
+      fs.writeFile(
+          "./lamp.config.yml",
+          yam2,
+          () => {}
+        )
+
+      let secondCall = shell(`genie ${second}`)
+     
+      secondCall.on('exit', ()=>{
+
+          fs.writeFile(
+            "./lamp.config.yml",
+            yam3,
+            () => {}
+          )
+        
+          thirdCall = shell(`genie ${third}`)
+
+          thirdCall.on('exit', ()=>{
+
+            process.exit()
+          })
+      })
+    })
+  })
+}
 

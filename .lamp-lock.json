@@ -1,5 +1,5 @@
 {
-	"Structure": "Ducks",
+	"Structure": "Rails",
 	"Models": [
 		{
 			"Campus": null,
@@ -17,8 +17,63 @@
 					"Fly2Gether": "Boolean"
 				}
 			],
+			"CRUD": true,
 			"Actions": [
 				"countDux"
+			],
+			"Thunks": [
+				{
+					"getAll": [
+						"/api/Dux",
+						"getAllCampus"
+					]
+				}
+			]
+		},
+		{
+			"terminator": null,
+			"Slice": [
+				{
+					"WillBeBack": "Boolean"
+				},
+				{
+					"OneLiners": "Array"
+				},
+				{
+					"Sequels": "Number"
+				}
+			],
+			"Actions": [
+				"getJohnConnor",
+				"hastaLaVista"
+			],
+			"Thunks": [
+				{
+					"getAll": [
+						"/api/terminator",
+						"getJohnConnor"
+					]
+				},
+				{
+					"getOne": [
+						"/api/terminator/:terminator",
+						"getJohnConnor"
+					]
+				}
+			]
+		},
+		{
+			"DucklingTerminator": null,
+			"Slice": [
+				{
+					"WillBeBack": "Boolean"
+				},
+				{
+					"OneLiners": "Array"
+				},
+				{
+					"Sequels": "Number"
+				}
 			]
 		}
 	]

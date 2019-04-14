@@ -142,8 +142,6 @@ const diffLock = (definedCurrent) => {
 
 						let thisDiff = diff( previous.Models[modelIndex][part], model[part] )
 
-
-
 						if(thisDiff && !(part === 'CRUD')){
 
 							// filter duplicates 
@@ -162,6 +160,7 @@ const diffLock = (definedCurrent) => {
 								if(dupeFilter[diff[1]]){
 									diff[0] = ' '
 								}
+
 							})
 
 							if(!thisDiff.filter){
