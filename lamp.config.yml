@@ -3,11 +3,15 @@ Structure: Ducks
 Models:
 
   - Campus:
-
     Slice:
       - Name: string
       - Quacking: Boolean
       - Ducklings: Object
       - Fly2Gether: Boolean
 
+    Actions:
+      - countDux
+      - countDux
+  
+ 
       

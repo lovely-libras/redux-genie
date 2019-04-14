@@ -1,8 +1,9 @@
 {
   "name": "redux-genie",
   "version": "1.1.3",
-  "description": "Redux-Genie is a command line interface tool that generates a Redux store for managing an application's state. Users can create a Redux front-end boilerplate by supplying a *.yml file. Components are created with basic C.R.U.D. routes and option for adding Thunks. Also includes support for adding logging middleware and development tools.",
+  "description": "Redux-Genie is a command line interface tool for generating and managing boilerplate for Redux applications.",
   "main": "generate_code_root.js",
+  "man" : "./man/genie.1",
   "scripts": {
     "build": "npm install -g ./",
     "test": "node ./test/test-root.js",
@@ -10,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lovely-libras/redux-genie.git"
+    "url": "git+https://github.com/redux-genie/redux-genie.git"
   },
   "keywords": [
     "front-end",
@@ -24,7 +25,7 @@
     "yml",
     "boilerplate"
   ],
-  "author": "The Lovely Libras <lovely.libras.1901@gmail.com> (https://github.com/lovely-libras)",
+  "author": "Team Redux-Genie",
   "contributors": [
     "Gregory Ardison-Gardner <greg.ardison.gardner@gmail.com> (https://github.com/Ardison-Gardner)",
     "Jon Cannon <iamjoncannon@gmail.com> (https://github.com/iamjoncannon)",
@@ -33,13 +34,19 @@
   ],
   "license": "MIT",
   "bin": {
-    "genie": "./cli.js"
+    "genie": "./src/cli.js"
   },
   "bugs": {
     "url": "https://github.com/lovely-libras/redux-genie/issues"
   },
-  "homepage": "https://redux-genie.herokuapp.com",
+  "homepage": "http://redux-genie.net/",
   "dependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/polyfill": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/register": "^7.4.0",
     "archy": "^1.0.0",
     "chai": "^4.2.0",
     "chai-things": "^0.2.0",
@@ -68,12 +75,5 @@
     "sinon-chai": "^3.3.0",
     "spawn-command": "0.0.2-1"
   },
-  "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.4.0",
-    "@babel/node": "^7.2.2",
-    "@babel/polyfill": "^7.4.0",
-    "@babel/preset-env": "^7.4.2",
-    "@babel/register": "^7.4.0"
-  }
+  "devDependencies": {}
 }

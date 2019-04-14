@@ -290,13 +290,13 @@ Outputs a sample _lamp.config.yml_ file to the current working directory.
 
 ---
 
-#### genie list ( genie ls )
+#### genie list  
 
 ```bash
 genie ls
 ```
 
-Prints a visual representation of the store directory: 
+Prints the store file structure: 
 
 ```bash
 actions
@@ -327,7 +327,6 @@ genie help
 ---
 
 ### Team Redux Genie:
-
 
 - [Gregory Ardison-Gardner](https://www.linkedin.com/in/ardison-gardner/)
 - [Jon Cannon](https://www.linkedin.com/in/jonathan-cannon-62675683/)

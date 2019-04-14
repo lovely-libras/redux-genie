@@ -3,7 +3,6 @@
 	"Models": [
 		{
 			"Campus": null,
-			"CRUD": false,
 			"Slice": [
 				{
 					"Name": "string"
@@ -17,6 +16,9 @@
 				{
 					"Fly2Gether": "Boolean"
 				}
+			],
+			"Actions": [
+				"countDux"
 			]
 		}
 	]

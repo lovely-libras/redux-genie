@@ -2,17 +2,11 @@ import fetchMock from "fetch-mock";
 const { spawn } = require("child_process");
 const fs = require('fs')
 import { expect, should, equal } from "chai";
-// import { createSpy, spyOn, isSpy } from "expect";
-import sinon from "sinon";
-import sinonChai from "sinon-chai";
-// import assert from "assert";
 import mockStore from "redux-mock-store";
-// import { logger } from "../../store/store";
-import nock from "./nockSetup";
-import chai from "chai";
 
 const shell = command => {
-  let thisProc = spawn(command, { shell: true, stdio: "inherit" });
+
+  let thisProc = spawn(command, { shell: true, stdio: 'inherit' });
 
   return thisProc;
 };
@@ -614,75 +608,392 @@ describe("Ducks model generates properly when CRUD false selected on model", () 
 
 if(sim === 8){
 
-// - Rails: generates with mulitple models
+describe("Rails: generates with mulitple models", () => {
 
+  it('generates with mulitple models', (done)=>{
 
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("Campus model generates", (done) => {
+
+    let test = fs.existsSync(`${process.cwd()}/store/reducers/reducer_for_Campus.js`)
+
+    expect(test).to.equal(true)
+
+    done()
+
+  }); 
+
+  it("Terminator model generates", (done) => {
+
+    let test = fs.existsSync(`${process.cwd()}/store/reducers/reducer_for_Terminator.js`)
+
+    expect(test).to.equal(true)
+
+    done()
+
+  }); 
+
+})
 
 }
 
 if(sim === 9){
 //  - Ducks: generates with mulitple models 
 
+describe("Ducks: generates with mulitple models", () => {
 
+  it('generates with mulitple models', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("Campus model generates", (done) => {
+
+    let test = fs.existsSync(`${process.cwd()}/store/Campus/reducer_for_Campus.js`)
+
+    expect(test).to.equal(true)
+
+    done()
+
+  }); 
+
+  it("Terminator model generates", (done) => {
+
+    let test = fs.existsSync(`${process.cwd()}/store/Terminator/reducer_for_Terminator.js`)
+
+    expect(test).to.equal(true)
+
+    done()
+
+  }); 
+
+})
 
 }
 
 if(sim === 10){
 
-// 10  - Rails: generates without defined actions
+describe("10  - Rails: generates without defined actions", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("actions file generates", (done) => {
+
+    let test = fs.existsSync(`${process.cwd()}/store/actions/actions_for_Campus.js`)
+
+    expect(test).to.equal(true)
+
+    done()
+
+  }); 
+
+  it("file only contains CRUD ops", (done) => {
+
+    let actions = require(`${process.cwd()}/store/actions/actions_for_Campus.js`).default
+
+    expect(Object.keys(actions).toString()).to.equal('getCampus,getAllCampus,createCampus,updateCampus,deleteCampus')
+
+    done()
+
+  }); 
+
+})
 
 }
-
-
 
 if(sim === 11){
 // 11  - Ducks: generates without defined actions
+describe("11  - Ducks: generates without defined actions", () => {
 
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("actions file generates", (done) => {
+
+    let test = fs.existsSync(`${process.cwd()}/store/Campus/actions_for_Campus.js`)
+
+    expect(test).to.equal(true)
+
+    done()
+
+  }); 
+
+  it("file only contains CRUD ops", (done) => {
+
+    let actions = require(`${process.cwd()}/store/Campus/actions_for_Campus.js`).default
+
+    expect(Object.keys(actions).toString()).to.equal('getCampus,getAllCampus,createCampus,updateCampus,deleteCampus')
+
+    done()
+
+  }); 
+
+})
 }
+
 if(sim === 12){
 // 12  - Rails: generates without defined thunks
 
+describe("12  - Rails: generates without defined thunks", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("thunks file does not generate", (done) => {
+
+    let test = fs.existsSync(`${process.cwd()}/store/actions/thunks_for_Campus.js`)
+
+    expect(test).to.equal(false)
+
+    done()
+
+  }); 
+
+})
+
 }
+
 if(sim === 13){
 // 13  - Ducks: generates without defined thunks
+describe("13  - Rails: generates without defined thunks", () => {
 
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("thunks file does not generate", (done) => {
+
+    let test = fs.existsSync(`${process.cwd()}/store/Campus/thunks_for_Campus.js`)
+
+    expect(test).to.equal(false)
+
+    done()
+
+  }); 
+
+})
 }  
 if(sim === 14){
 // 14  - Rails: generates with defined actions
+describe("14  - Rails: generates with defined actions", () => {
 
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("action file contain defined actions", (done) => {
+
+    let actions = require(`${process.cwd()}/store/actions/actions_for_Campus.js`).default
+
+    expect(Object.keys(actions)).to.include('countDux')
+
+    done()
+
+  }); 
+
+})
 }
 if(sim === 15){
 // 15  - Ducks: generates with defined actions
+describe("15  - Ducks: generates with defined actions", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("action file contain defined actions", (done) => {
+
+    let actions = require(`${process.cwd()}/store/Campus/actions_for_Campus.js`).default
+
+    expect(Object.keys(actions)).to.include('countDux')
+
+    done()
+
+  }); 
+
+})
 
 }
-if(sim === 16){
-// 16  - Rails: generates with defined thunks
 
-}  
-if(sim === 17){
-// 17  - Ducks: generates with defined thunks
-
-}
 if(sim === 18){
 // 18  - Rails: all the properties are defined on state
+describe("18  - Rails: slice properties are defined on state", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("initial state contains correct values", (done) => {
+
+    let state = require(`${process.cwd()}/store/store.js`).default.getState().Campus_state.SingleCampus
+
+    expect(typeof state.Name).to.equal('string')
+    expect(state.Quacking).to.equal(true)
+    expect(typeof state.Ducklings).to.equal('object')
+    expect(state.Fly2Gether).to.equal(true)
+
+    done()
+
+  }); 
+
+})
+
 
 }
 if(sim === 19){
 // 19  - Ducks: all the properties are defined on state
+describe("19  - Ducks: slice properties are defined on state", () => {
 
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("initial state contains correct values", (done) => {
+
+    let state = require(`${process.cwd()}/store/store.js`).default.getState().Campus_state.SingleCampus
+
+    expect(typeof state.Name).to.equal('string')
+    expect(state.Quacking).to.equal(true)
+    expect(typeof state.Ducklings).to.equal('object')
+    expect(state.Fly2Gether).to.equal(true)
+
+    done()
+
+  }); 
+
+})
 }
 
- 
+
+
+
+/// update tests
+
+
 
 if(sim === 20){
 //   - update to new model no actions or thunks defined- Crud True 
 // 20    - rails xx 
+
+describe("20  - Rails: update adds new model", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("generates the new files correctly", (done) => {
+
+    let newFilesExit = fs.existsSync(`${process.cwd()}/store/actions/actions_for_Terminator.js`) && fs.existsSync(`${process.cwd()}/store/reducers/reducer_for_Terminator.js`) && fs.existsSync(`${process.cwd()}/store/actions/selectors_for_Terminator.js`)
+
+    expect(newFilesExit).to.equal(true)
+
+    done()
+
+  }); 
+
+})
+
 
 }
 
 if(sim === 21){
 //   - update to new model no actions or thunks defined- Crud True 
 // 21    - ducks xx 
+
+describe("21  - Ducks: update adds new model", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("generates the new files correctly", (done) => {
+
+    let newFilesExit = fs.existsSync(`${process.cwd()}/store/Terminator/actions_for_Terminator.js`) && fs.existsSync(`${process.cwd()}/store/Terminator/reducer_for_Terminator.js`) && fs.existsSync(`${process.cwd()}/store/Terminator/selectors_for_Terminator.js`)
+
+    expect(newFilesExit).to.equal(true)
+
+    done()
+
+  }); 
+
+})
+
 
 }
 
@@ -691,119 +1002,577 @@ if(sim === 22){
 //   - update to new model no actions or thunks defined- Crud false 
 // 22    - rails xx 
 
+
+describe("22 - Rails: update adds new model without CRUD ops", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("generates actions without CRUD ops", (done) => {
+
+    let newFilesExit = fs.existsSync(`${process.cwd()}/store/actions/actions_for_Terminator.js`) && fs.existsSync(`${process.cwd()}/store/reducers/reducer_for_Terminator.js`) && fs.existsSync(`${process.cwd()}/store/actions/selectors_for_Terminator.js`)
+
+    expect(newFilesExit).to.equal(true)
+
+    let CRUDs = require(`${process.cwd()}/store/actions/actions_for_Terminator.js`).default
+
+    expect(CRUDs.getCampus).to.equal(undefined)
+    expect(CRUDs.getAllCampus).to.equal(undefined)
+
+    done()
+
+  }); 
+
+})
+
+
 }
 
 if(sim === 23){
 //   - update to new model no actions or thunks defined- Crud false 
 
 // 23    - ducks xx
+
+describe("23 - Ducks: update adds new model without CRUD ops", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("generates actions without CRUD ops", (done) => {
+
+    let newFilesExit = fs.existsSync(`${process.cwd()}/store/Terminator/actions_for_Terminator.js`) && fs.existsSync(`${process.cwd()}/store/Terminator/reducer_for_Terminator.js`) && fs.existsSync(`${process.cwd()}/store/Terminator/selectors_for_Terminator.js`)
+
+    expect(newFilesExit).to.equal(true)
+
+    let CRUDs = require(`${process.cwd()}/store/Terminator/actions_for_Terminator.js`).default
+
+    expect(CRUDs.getCampus).to.equal(undefined)
+    expect(CRUDs.getAllCampus).to.equal(undefined)
+
+    done()
+
+  }); 
+
+})
+
 }
 
 if(sim === 24){
-//   - update to new model with actions and thunks defined - CRUD true
+//   - update to new model with actions and thunks defined 
 // 24    - rails xx
+
+describe("24 - Rails: update adds new model with actions and thunks defined", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("generates defined actions and thunks", (done) => {
+
+    let newFilesExit = fs.existsSync(`${process.cwd()}/store/actions/actions_for_Terminator.js`) && fs.existsSync(`${process.cwd()}/store/reducers/reducer_for_Terminator.js`) && fs.existsSync(`${process.cwd()}/store/actions/selectors_for_Terminator.js`)
+
+    expect(newFilesExit).to.equal(true)
+
+    let actions = require(`${process.cwd()}/store/actions/actions_for_Terminator.js`).default
+    let thunks = require(`${process.cwd()}/store/actions/thunks_for_Terminator.js`).default
+
+    expect(typeof actions.getJohnConnor).to.equal('function')
+    expect(typeof actions.hastaLaVista).to.equal('function')
+
+    done()
+
+  }); 
+
+})
+
 
 }
 
 if(sim === 25){
-//   - update to new model with actions and thunks defined - CRUD true
+//   - update to new model with actions and thunks defined 
 
 // 25    - ducks xx
-}
 
-if(sim === 26){
-//   - update to new model with actions and thunks defined - CRUD false
-// 26    - rails - xx
+describe("25 - Ducks: update adds new model with actions and thunks defined", () => {
 
-}
+  it('', (done)=>{
 
-if(sim === 27){
-//   - update to new model with actions and thunks defined - CRUD false
+    let storeGenerate = shell(simCommand);
 
-// 27    - ducks - xx
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("generates defined actions and thunks", (done) => {
+
+    let actions = require(`${process.cwd()}/store/Terminator/actions_for_Terminator.js`).default
+    let thunks = require(`${process.cwd()}/store/Terminator/thunks_for_Terminator.js`).default
+
+    expect(typeof actions.getJohnConnor).to.equal('function')
+    expect(typeof actions.hastaLaVista).to.equal('function')
+
+    done()
+
+  }); 
+
+})
+
 }
 
 if(sim === 28){
 //   - update new actions on existing model with actions already defined 
-//     CRUD true
 //  28- ducks 
-// 29 - rails 
+
+describe("28 - Ducks: update new actions on existing model with actions already defined", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("generates new defined actions", (done) => {
+
+    let actions = require(`${process.cwd()}/store/Terminator/actions_for_Terminator.js`).default
+
+    expect(typeof actions.hastaLaVista).to.equal('function')
+
+    done()
+
+  }); 
+
+})
+ 
 }
 
 if(sim === 29){
 //   - update new actions on existing model with actions already defined 
-//     CRUD true
-//  28- ducks 
 // 29 - rails 
+
+describe("29 - Rails: update new actions on existing model with actions already defined", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("generates new defined actions", (done) => {
+
+    let actions = require(`${process.cwd()}/store/actions/actions_for_Terminator.js`).default
+
+    expect(typeof actions.hastaLaVista).to.equal('function')
+
+    done()
+
+  }); 
+
+})
+
+
 }
 
 if(sim === 30){
  //  - update new actions to model with actions not yet defined 
  // 30 - ducks 
- // 31 - rails 
+ 
+describe("30 - Ducks: update new actions on existing model with actions already defined", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("generates new defined actions", (done) => {
+
+    let actions = require(`${process.cwd()}/store/Terminator/actions_for_Terminator.js`).default
+
+    expect(typeof actions.getJohnConnor).to.equal('function')
+    expect(typeof actions.hastaLaVista).to.equal('function')
+
+    done()
+
+  }); 
+
+})
+
+
 }
 
 if(sim === 31){
  //  - update new actions to model with actions not yet defined 
- // 30 - ducks 
  // 31 - rails 
+
+describe("31 - Rails: update new actions to model with actions not yet defined", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("generates new defined actions", (done) => {
+
+    let actions = require(`${process.cwd()}/store/actions/actions_for_Terminator.js`).default
+
+    expect(typeof actions.getJohnConnor).to.equal('function')
+    expect(typeof actions.hastaLaVista).to.equal('function')
+
+    done()
+
+  }); 
+
+})
+
 }
 
 if(sim === 32){
-  // - update to new thunks to model with thunks already defined
+  // - update adds new thunks to model with thunks already defined
   //  32 - ducks 
-  //  33 - rails 
+
+describe("32 - Ducks: update adds new thunks to model with thunks already defined", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("generates new defined thunks", (done) => {
+
+    let thunks = require(`${process.cwd()}/store/Terminator/thunks_for_Terminator.js`).default
+
+    expect(typeof thunks.getOne).to.equal('function')
+
+    done()
+
+  }); 
+
+})
+
+
+
 }
 
 if(sim === 33){
-  // - update to new thunks to model with thunks already defined
-  //  32 - ducks 
+  // - update adds new thunks to model with thunks already defined
   //  33 - rails 
+
+describe("33 - Rails: update adds new thunks to model with thunks already defined", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("generates new defined thunks", (done) => {
+
+    let thunks = require(`${process.cwd()}/store/actions/thunks_for_Terminator.js`).default
+
+    expect(typeof thunks.getOne).to.equal('function')
+
+    done()
+
+  }); 
+
+})
+
+
 }
 
 if(sim === 34){
   // - update to new thunks to model with thunks not yet defined
   //  34 - ducks 
-  //  35 - rails 
+
+describe("34 - Ducks: update adds new thunks to model with thunks not yet defined", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("generates new defined thunks", (done) => {
+
+    let thunks = require(`${process.cwd()}/store/Terminator/thunks_for_Terminator.js`).default
+
+    expect(typeof thunks.getOne).to.equal('function')
+    expect(typeof thunks.getAll).to.equal('function')
+
+    done()
+
+  }); 
+
+})
+
+
 }
 if(sim === 35){
   // - update to new thunks to model with thunks not yet defined
-  //  34 - ducks 
   //  35 - rails 
+describe("35 - Rails: update adds new thunks to model with thunks not yet defined", () => {
+
+  it('', (done)=>{
+
+    let storeGenerate = shell(simCommand);
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("generates new defined thunks", (done) => {
+
+    let thunks = require(`${process.cwd()}/store/actions/thunks_for_Terminator.js`).default
+
+    expect(typeof thunks.getOne).to.equal('function')
+    expect(typeof thunks.getAll).to.equal('function')
+
+    done()
+
+  }); 
+
+})
+
 }
+
 if(sim === 36){
  // - update - prevents adding duplicate models
  //   36 - ducks 
- //   37 - rails 
+
+describe("36 - Ducks: prevents adding duplicate models", () => {
+
+  let childConsoleLogs = ''
+
+  it('', (done)=>{
+
+    let storeGenerate = spawn('genie sim 36', { shell: true });
+
+    storeGenerate.stdout.on('data', (data)=>{
+
+      childConsoleLogs += data
+    })
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("throws an error if user defines the same model twice", (done) => {
+
+    let test = childConsoleLogs.includes("Update failed, duplicate Model detected:  [ 'Campus', null ]")
+
+    expect(test).to.equal(true)
+
+    done()
+
+  }); 
+
+})
+
+
+
 }
 
 if(sim === 37){
  // - update -prevents adding duplicate models
- //   36 - ducks 
  //   37 - rails 
+
+ describe("37 - Rails: prevents adding duplicate models", () => {
+
+  let childConsoleLogs = ''
+
+  it('', (done)=>{
+
+    let storeGenerate = spawn('genie sim 37', { shell: true });
+
+    storeGenerate.stdout.on('data', (data)=>{
+
+      childConsoleLogs += data
+    })
+
+    storeGenerate.on("exit", () => {
+
+      done()
+    })
+  })
+
+  it("throws an error if user defines the same model twice", (done) => {
+
+    let test = childConsoleLogs.includes("Update failed, duplicate Model detected:  [ 'Campus', null ]")
+
+    expect(test).to.equal(true)
+
+    done()
+
+  }); 
+
+})
+
+
 }
 
 if(sim === 38){
+  // - update- prevents adding duplicate actions
+  //  38 - ducks 
+
+  describe("38 - Ducks: prevents adding duplicate actions", () => {
+
+    let childConsoleLogs = ''
+
+    it('', (done)=>{
+
+      let storeGenerate = spawn('genie sim 38', { shell: true });
+
+      storeGenerate.stdout.on('data', (data)=>{
+
+        childConsoleLogs += data
+      })
+
+      storeGenerate.stderr.on('data', (data)=>{
+
+        childConsoleLogs += data
+      })
+
+      storeGenerate.on("exit", () => {
+
+        done()
+      })
+    })
+
+    it("throws an error if user defines the same model twice", (done) => {
+
+      let test = childConsoleLogs.includes("You updated the model Campus by adding Actions: countDux")
+
+      expect(test).to.equal(false)
+
+      done()
+
+  }); 
+})
 
 }
 
 if(sim === 39){
 
+  describe("39 - Rails: prevents adding duplicate actions", () => {
+
+    let childConsoleLogs = ''
+
+    it('', (done)=>{
+
+      let storeGenerate = spawn('genie sim 38', { shell: true });
+
+      storeGenerate.stdout.on('data', (data)=>{
+
+        childConsoleLogs += data
+      })
+
+      storeGenerate.stderr.on('data', (data)=>{
+
+        childConsoleLogs += data
+      })
+
+      storeGenerate.on("exit", () => {
+
+        done()
+      })
+    })
+
+    it("throws an error if user defines the same model twice", (done) => {
+
+      let test = childConsoleLogs.includes("You updated the model Campus by adding Actions: countDux")
+
+      expect(test).to.equal(false)
+
+      done()
+
+  }); 
+})
+
+
 }
 
 if(sim === 40){
-
+  // - update- prevents adding duplicate thunks
+  //  40 - ducks 
+  //  41 - rails 
 }
 
 if(sim === 41){
-
+  // - update- prevents adding duplicate thunks
+  //  40 - ducks 
+  //  41 - rails 
 }
 
 if(sim === 42){
 
+  // - update- adds subsequent new models
+  //  42 - ducks 
+  //  43 - rails 
+
+
 }
 
 if(sim === 43){
+  
+  // - update- adds subsequent new models
+  //  42 - ducks 
+  //  43 - rails 
 
 }
 
@@ -874,57 +1643,18 @@ if(sim === 59){
 
 
 
-/*
-
-describe("DUMMY DESCRIBE TO TEST ADD FUNCTIONALITY", () => {
-
-  it('dummy store generated', (done)=>{
-
-    let storeGenerate = shell(`genie sim 9`);
-
-    storeGenerate.on("exit", () => {
-
-      done()
-    })
-  })
-
-  it('heres some tests we can use here', (done)=>{
-
-    done()
-  })
-})
-
-*/
 
 /*
 
 
 
 
-  - prevents adding duplicate models
-   36 - ducks 
-   37 - rails 
-
-  - update- prevents adding duplicate actions
-   38 - ducks 
-   39 - rails 
-
-  - update- prevents adding duplicate thunks
-   40 - ducks 
-   41 - rails 
-
-  - update- adds subsequent new models
-   42 - ducks 
-   43 - rails 
 
 
-    Thunks:
-      - getAll:
-          - "/api/Dux"
-          - getAllCampus
-      - getOne:
-          - "/api/Dux/:dux"
-          - getCampus
+
+
+
+
 
  - terminator:
 
@@ -947,13 +1677,6 @@ describe("DUMMY DESCRIBE TO TEST ADD FUNCTIONALITY", () => {
           - "/api/terminator/:terminator"
           - getJohnConnor
 
-
-issues:
-
-1. RESOLVED adding thunks changes action files
-2. RESOLVED multiple action constants 
-3. RESOLVED adding actions to model with no actions at all 
-4. RESOLVED adding thunks to model wtih no thunks yet (Ducks only)
 
 
 add

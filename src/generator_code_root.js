@@ -1,12 +1,14 @@
 const chalk = require('chalk');
 const fs = require('fs');
 let { spawn } = require('child_process');
-let rails = require('./generator_code_files/rails_style/rails_index');
-const ducks = require('./generator_code_files/ducks_style');
+let rails = require('./../generator_code_files/rails_style/rails_index');
+const ducks = require('./../generator_code_files/ducks_style');
 const yaml = require('js-yaml');
-const createStore = require('./generator_code_files/ducks_style/create_store');
-const createCombineReducers = require('./generator_code_files/ducks_style/create_combine_reducers');
+const createStore = require('./../generator_code_files/ducks_style/create_store');
+const createCombineReducers = require('./../generator_code_files/ducks_style/create_combine_reducers');
 const { makeLock } = require('./lock');
+
+module.exports = () => { 
 
 if (fs.existsSync('./.lamp-lock.json')) {
   console.log(
@@ -28,9 +30,7 @@ if (fs.existsSync('./.lamp-lock.json')) {
   } catch (e) {
     console.log(
       chalk.red(
-        `You do not have a ${'lamp.config.yml'} configuration file!\nFor help creating the ${'lamp.config.yml'}, please visit us at ${chalk.cyan(
-          'https://redux-genie.herokuapp.com'
-        )}`
+        `No lamp.config file found.`
       )
     );
     process.exit();
@@ -129,4 +129,6 @@ if (fs.existsSync('./.lamp-lock.json')) {
       });
     });
   }
+}
+
 }

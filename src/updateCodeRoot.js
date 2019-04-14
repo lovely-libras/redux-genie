@@ -2,7 +2,7 @@ let { makeLock, diffLock } = require('./lock')
 const { spawn } = require('child_process')
 const chalk = require("chalk");
 const inquirer = require('inquirer')
-const update_combiner = require('./generator_code_files/rails_style/update/update_combine_reducer')
+const update_combiner = require('./../generator_code_files/rails_style/update/update_combine_reducer')
 const minimist = require('minimist')
 console.deep = (input) => {
 	console.log(require('util').inspect(input, { showHidden: true, depth: null }))
@@ -41,12 +41,12 @@ if(diffing[2].addedModels.length){
 
 			console.log(chalk.red('We detected a Model added to lamp.config.yml: ', Object.keys(diff)[0]))
 											// call with Update as true
-			require("./generator_code_files/rails_style/rails_index")([ diff ], Thunks, Logging, true);
+			require("./../generator_code_files/rails_style/rails_index")([ diff ], Thunks, Logging, true);
 		})
 	
 		// to update actions- need to read 
 		// the current action constants and update
-		require('./generator_code_files/rails_style/update/update_actions')(modelNames, diffing[2].addedModels, Thunks)
+		require('./../generator_code_files/rails_style/update/update_actions')(modelNames, diffing[2].addedModels, Thunks)
 
 		// to update the combine reducers, same
 		update_combiner(modelNames, 'Rails')
@@ -66,7 +66,7 @@ if(diffing[2].addedModels.length){
 
 			makeDir.on("exit", () => {
 
-			  require('./generator_code_files/ducks_style/index')(diff, modelName, Thunks);
+			  require('./../generator_code_files/ducks_style/index')(diff, modelName, Thunks);
 			});
     	});
 
@@ -129,12 +129,12 @@ if(diffing[2].modelUpdates.length){
 
 		if(Structure === 'Rails'){
 
-			require('./generator_code_files/rails_style/update/edit_model')(updatesArr, Thunks)
+			require('./../generator_code_files/rails_style/update/edit_model')(updatesArr, Thunks)
 		}
 
 		if(Structure === 'Ducks'){
 
-			require('./generator_code_files/ducks_style/edit_model')(updatesArr, Thunks)
+			require('./../generator_code_files/ducks_style/edit_model')(updatesArr, Thunks)
 		}
 	}
 	else if(updatesArr.length && deletingOnly){
