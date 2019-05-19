@@ -27,7 +27,9 @@ https://redux.js.org/faq/code-structure
 Structure: Rails || Ducks
 ```
 
-Define the slices of state. We refer to them as "Models", but they can correspond to database models, domains (e.g. "landing page"), features (e.g. "checkout"), or any other way you want to organize state. The genie automatically generates and configures all CRUD methods with separate subreducers for each Model, with Thunks linked to the Redux-Thunk middleware calling your defined API endpoints.
+Define the slices of state. We refer to them as "Models", but they could also be called "Domains." Essentially, they are the specific way you want to organize the entities in state. 
+
+The genie automatically generates and configures all CRUD methods with separate subreducers for each Model, with Thunks linked to the Redux-Thunk middleware calling your defined API endpoints.
 
 ```
 Structure: Rails
@@ -87,7 +89,7 @@ store.js
 
 ### Ducks-Style
 
-> “Ducks”: separate folders per feature or domain
+> “Ducks”: separate folders per Model/Domain
 
 Generated file structure:
 ```

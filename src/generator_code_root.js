@@ -69,7 +69,11 @@ if (fs.existsSync('./.lamp-lock.json')) {
     });
 
     makeDir.on('exit', () => {
-      rails(Models, Thunks, Logging);
+
+      setTimeout(()=>{
+
+        rails(Models, Thunks, Logging);
+      }, 500)
     });
   }
 
@@ -81,18 +85,6 @@ if (fs.existsSync('./.lamp-lock.json')) {
     );
 
     // create action types, action creators, and reducer
-
-    Models.forEach((model, i) => {
-      let modelName = Object.keys(model)[0][0]
-        .toUpperCase()
-        .concat(Object.keys(model)[0].slice(1));
-
-      let makeDir = spawn(`mkdir store/${modelName}`, { shell: true });
-
-      makeDir.on('exit', () => {
-        ducks(model, modelName, Thunks);
-      });
-    });
 
     rootStore.on('exit', () => {
       // create combine reducers
@@ -127,6 +119,39 @@ if (fs.existsSync('./.lamp-lock.json')) {
           )
         );
       });
+
+      /*
+      to guarantee that the files will be written after the folder
+      directories are created, wait til the end of all the mkdir calls
+      */
+
+      let modelFiles = []
+
+      Models.forEach((model, i) => {
+        let modelName = Object.keys(model)[0][0]
+          .toUpperCase()
+          .concat(Object.keys(model)[0].slice(1));
+
+        let makeDir = spawn(`mkdir store/${modelName}`, { shell: true });
+
+        makeDir.on('exit', () => {
+          modelFiles.push([model, modelName, Thunks])
+          if( i === Models.length - 1 ){
+
+            setTimeout(()=>{
+
+              makeModelFiles()
+            }, 500) //  ¯\_(ツ)_/¯
+          } // better safe than sorry
+        });
+      });
+
+      function makeModelFiles(){
+
+        modelFiles.forEach((array)=>{
+          ducks(...array)
+        })
+      }
     });
   }
 }
