@@ -27,7 +27,7 @@ https://redux.js.org/faq/code-structure
 Structure: Rails || Ducks
 ```
 
-Define the slices of state. We refer to them as "Models", but they could also be called "Domains." Essentially, they are the specific way you want to organize the entities in state. 
+Define the slices of state. We refer to them as "Models", but they could also be called "Domains" (in the sense of "domain driven design"). Essentially, they are the specific way you want to organize the entities in state. 
 
 The genie automatically generates and configures all CRUD methods with separate subreducers for each Model, with Thunks linked to the Redux-Thunk middleware calling your defined API endpoints.
 
