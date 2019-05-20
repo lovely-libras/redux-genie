@@ -33,7 +33,8 @@
 			],
 			"Actions": [
 				"getJohnConnor",
-				"hastaLaVista"
+				"hastaLaVista",
+				"goBackInTime"
 			],
 			"Thunks": [
 				{

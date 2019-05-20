@@ -5,6 +5,7 @@ const { spawn } = require('child_process');
 let input = minimist(process.argv);
 let command = input._[2];
 let arg1 = input._[3];
+const gitCheck = require('./gitCheck')
 
 if (process.env.mode === 'testing') {
   console.log = () => {};
@@ -40,14 +41,24 @@ if (command === 'delete' || command === 'del' || command === 'd') {
 }
 
 if (command === 'update' || command === 'u') {
-  
+  let check = gitCheck()
+
+
   let update = `node ${__dirname}/updateCodeRoot.js`;
+  
+
   shell(update);
 }
 
 if (command === 'add' || command === 'a') {
+  let check = gitCheck()
   let add = `add=${process.argv.slice(2)} node ${__dirname}/updateCodeRoot.js`;
-  shell(add);
+
+  check.on('exit', (exit)=>{
+    
+    console.log('here is the exit: ', exit)
+    shell(add);
+  })
 }
 
 if (command === 'sim') {
