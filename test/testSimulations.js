@@ -1618,14 +1618,6 @@ Models:
 
 ]
 
-
-
-
-
-
-
-
-
 function genTest(yaml){
 
   let deleteCall = shell('genie delete all')
@@ -1639,7 +1631,7 @@ function genTest(yaml){
         yaml,
         () => { });
     
-    genCall = shell('genie generate')
+    genCall = shell('genie generate --no-gc')
     
     return genCall
 
@@ -1665,7 +1657,7 @@ function updateTest(yam1, yam2){
     
     // run genie generate (after deleting and rewriting config)
 
-    genCall = shell('genie generate')
+    genCall = shell('genie generate --no-gc')
     
     genCall.on('exit', ()=>{
 
@@ -1675,7 +1667,7 @@ function updateTest(yam1, yam2){
           () => {}
         )
 
-      let updateCall = shell('genie update')
+      let updateCall = shell('genie update --no-gc')
      
       updateCall.on('exit', ()=>{
       
@@ -1705,7 +1697,7 @@ function multiTest(yam1, yam2, yam3, second, third){
     
     // run genie generate (after deleting and rewriting config)
 
-    genCall = shell('genie generate')
+    genCall = shell('genie generate --no-gc')
     
     genCall.on('exit', ()=>{
 
@@ -1715,7 +1707,7 @@ function multiTest(yam1, yam2, yam3, second, third){
           () => {}
         )
 
-      let secondCall = shell(`genie ${second}`)
+      let secondCall = shell(`genie ${second} --no-gc`)
      
       secondCall.on('exit', ()=>{
 
@@ -1725,7 +1717,7 @@ function multiTest(yam1, yam2, yam3, second, third){
             () => {}
           )
         
-          thirdCall = shell(`genie ${third}`)
+          thirdCall = shell(`genie ${third} --no-gc`)
 
           thirdCall.on('exit', ()=>{
 

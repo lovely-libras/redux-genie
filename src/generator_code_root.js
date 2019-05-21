@@ -73,7 +73,7 @@ if (fs.existsSync('./.lamp-lock.json')) {
       setTimeout(()=>{
 
         rails(Models, Thunks, Logging);
-      }, 500)
+      }, 2000)
     });
   }
 
@@ -141,7 +141,7 @@ if (fs.existsSync('./.lamp-lock.json')) {
             setTimeout(()=>{
 
               makeModelFiles()
-            }, 500) //  ¯\_(ツ)_/¯
+            }, 2000) //  ¯\_(ツ)_/¯
           } // better safe than sorry
         });
       });

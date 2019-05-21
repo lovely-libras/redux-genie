@@ -10,8 +10,17 @@ console.deep = (input) => {
 if(process.env.mode === 'testing'){
 	console.log = ()=>{}
 }
+
+// note- the data in this object is somewhat nested
+// the below won't make a lot of sense unless you 
+// keep in mind: 
+
 // diffing is returned as an array:
 // [ currentYaml, previousYaml, diff of current against previous ]
+// diffing[2] is just the previousYaml file
+
+// I probably should have destuctred as above
+// will refactor for readaibility in the future
 
 let diffing 
 
@@ -74,8 +83,6 @@ if(diffing[2].addedModels.length){
 	}
 }
 
-
-
 // logic for adding to an existing model
 
 const updatesArr = []
@@ -83,7 +90,6 @@ const updatesArr = []
 if(diffing[2].modelUpdates.length){
 
 	let deletingOnly = true
-
 
 	diffing[2].modelUpdates.forEach( (diff) => {
 
@@ -151,33 +157,3 @@ if(diffing[2].modelUpdates.length){
 }
 
 makeLock(null, diffing[1], diffing[2].addedModels, updatesArr)
-
-/*
-
-this is a prompt thing to put in after testing phase
-
-var questions = [{
-	  type: 'input',
-	  name: 'answer',
-	  message: `Please confirm that all files are saved.\nPlease confirm that we can proceed with the following updates: ${updates.join('')}\n\n "Yes" or "No"`,
-	}]
-
-inquirer.prompt(questions).then( result => {
-
-	const { answer } = result
-
-	if(answer === "Yes" || answer === "yes"){
-
-	  console.log(`Confirmed`)
-
-	  initialize add operations
-
-	}
-	else{
-		console.log('Updates not confirmed, exiting process.')
-		process.exit()
-	}
-
-})		
-
-*/

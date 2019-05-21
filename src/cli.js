@@ -6,6 +6,10 @@ let input = minimist(process.argv);
 let command = input._[2];
 let arg1 = input._[3];
 const gitCheck = require('./gitCheck')
+const chalk = require('chalk')
+
+input.gc === undefined ? input.gc = true : '' ;
+
 
 if (process.env.mode === 'testing') {
   console.log = () => {};
@@ -14,7 +18,6 @@ if (process.env.mode === 'testing') {
 const shell = command => {
   spawn(command, { shell: true, stdio: 'inherit' });
 };
-
 
 if (command === 'help' || command === 'h') {
   shell('man genie');
@@ -41,24 +44,55 @@ if (command === 'delete' || command === 'del' || command === 'd') {
 }
 
 if (command === 'update' || command === 'u') {
-  let check = gitCheck()
-
 
   let update = `node ${__dirname}/updateCodeRoot.js`;
-  
 
-  shell(update);
+  if(!input.gc){
+    shell(update)
+    return 
+  }
+  
+  let check = gitCheck()
+  check.on('exit', (exit)=>{
+
+    shell(update);
+  })
 }
 
 if (command === 'add' || command === 'a') {
-  let check = gitCheck()
   let add = `add=${process.argv.slice(2)} node ${__dirname}/updateCodeRoot.js`;
 
+  if(!input.gc){
+    shell(add)
+    return 
+  }
+
+  let check = gitCheck()
   check.on('exit', (exit)=>{
     
-    console.log('here is the exit: ', exit)
     shell(add);
   })
+}
+
+if (command === 'connect'){
+
+  if(!input._[3] || !input._[4] || !input.m){
+    console.log(chalk.yellow('Please specify file path, React component, and model/domain to be connected:'), chalk.red('\n"genie connect <Component File Name> <Component Name> -m <Model> -m <Model>"'))
+    return
+  }
+
+  if(!input.gc){
+    require('./connect')(input._[3], input._[4], input.m)
+    return 
+  }
+
+  let check = gitCheck()
+  check.on('exit', (exit)=>{
+    
+    require('./connect')(input._[3], input._[4], input.m)
+  })
+
+ 
 }
 
 if (command === 'sim') {

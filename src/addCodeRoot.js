@@ -25,7 +25,6 @@ module.exports = (commandLine) => {
 	const existingModel = addCall.model || addCall.Model || addCall.m || addCall.MODEL
 	const newModel = addCall.newModel || addCall.newmodel || addCall.M || addCall.NEWMODEL
 
-
 	if(Array.isArray(existingModel)){
 
 		console.error(require('chalk').yellow('ERROR: can only edit one model at a time. Please run consecutive calls for', existingModel.join(' and ')))
