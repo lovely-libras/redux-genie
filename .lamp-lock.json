@@ -1,0 +1,80 @@
+{
+	"Structure": "Rails",
+	"Models": [
+		{
+			"Campus": null,
+			"Slice": [
+				{
+					"Name": "string"
+				},
+				{
+					"Quacking": "Boolean"
+				},
+				{
+					"Ducklings": "Object"
+				},
+				{
+					"Fly2Gether": "Boolean"
+				}
+			],
+			"CRUD": true,
+			"Actions": [
+				"countDux"
+			],
+			"Thunks": [
+				{
+					"getAll": [
+						"/api/Dux",
+						"getAllCampus"
+					]
+				}
+			]
+		},
+		{
+			"terminator": null,
+			"Slice": [
+				{
+					"WillBeBack": "Boolean"
+				},
+				{
+					"OneLiners": "Array"
+				},
+				{
+					"Sequels": "Number"
+				}
+			],
+			"Actions": [
+				"getJohnConnor",
+				"hastaLaVista"
+			],
+			"Thunks": [
+				{
+					"getAll": [
+						"/api/terminator",
+						"getJohnConnor"
+					]
+				},
+				{
+					"getOne": [
+						"/api/terminator/:terminator",
+						"getJohnConnor"
+					]
+				}
+			]
+		},
+		{
+			"DucklingTerminator": null,
+			"Slice": [
+				{
+					"WillBeBack": "Boolean"
+				},
+				{
+					"OneLiners": "Array"
+				},
+				{
+					"Sequels": "Number"
+				}
+			]
+		}
+	]
+}

@@ -34,6 +34,7 @@ if (command === 'generate' || command === 'gen' || command === 'g') {
 }
 
 if (command === 'list' || command === 'ls' || command === 'l') {
+  
   let ls = `node ${__dirname}/ls.js`;
   shell(ls);
 }

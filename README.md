@@ -220,6 +220,103 @@ genie generate
 
 ---
 
+#### genie connect
+
+```bash
+genie connect
+```
+
+Connects  a  React  component  to  the  store via the React-Redux library.
+
+Must define the path to the component to be converted, the  name of the component, and the models/domains to connect:
+
+```bash
+genie   connect  app/components/ExampleThree.js  ExampleThree  -m DucklingTerminator
+```
+
+Can connect multiple models at one time:
+
+```bash
+genie  connect  app/components/ExampleThree.js  ExampleThree   -m
+DucklingTerminator -m Velociraptor -m Replicant
+```
+
+The genie will insert the code for the connect method into the current file, and generate an unconnected copy of the source file in the same directory.
+
+##### Example:
+
+Source file
+
+```js
+import React from 'react';
+
+export default function ExampleThree (props){
+
+  const { stuff } = props;
+
+  return (
+    <div>
+
+    </div>
+  );
+};
+```
+
+Connect call:
+
+```bash
+genie connect app/components/ExampleThree.js ExampleThree -m DucklingTerminator
+```
+
+Output:
+
+```js
+import { connect } from "react-redux";
+
+import {
+  getDucklingTerminator,
+  getAllDucklingTerminator,
+  createDucklingTerminator,
+  updateDucklingTerminator,
+  deleteDucklingTerminator
+} from "../../store/DucklingTerminator/actions_for_DucklingTerminator.js";
+
+import React from "react";
+
+function ExampleThree(props) {
+  const { stuff } = props;
+  return (
+    <div>
+
+    </div>
+  );
+}
+
+const mapStateToProps = ({ DucklingTerminator_state }) => {
+  return {
+    isQuacking: DucklingTerminator_state.isQuacking,
+    DucklingTerminatorList: DucklingTerminator_state.DucklingTerminatorList,
+    isLoading: DucklingTerminator_state.isLoading,
+    SingleDucklingTerminator: DucklingTerminator_state.SingleDucklingTerminator
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  getDucklingTerminator: () => dispatch(getDucklingTerminator()),
+  getAllDucklingTerminator: () => dispatch(getAllDucklingTerminator()),
+  createDucklingTerminator: () => dispatch(createDucklingTerminator()),
+  updateDucklingTerminator: () => dispatch(updateDucklingTerminator()),
+  deleteDucklingTerminator: () => dispatch(deleteDucklingTerminator())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExampleThree);
+```
+
+---
+
 #### genie update
 
 ```bash
@@ -295,7 +392,7 @@ Outputs a sample _lamp.config.yml_ file to the current working directory.
 #### genie list  
 
 ```bash
-genie ls
+genie list
 ```
 
 Prints the store file structure: 

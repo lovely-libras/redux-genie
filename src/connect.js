@@ -181,7 +181,17 @@ module.exports = (componentFile, componentName, models, stateObject) => {
   const prettifiedCode = prettier.format(newCode, { parser: 'babel' })
 
   // console.log(require('chalk').yellow(prettifiedCode))
-  console.log(require('chalk').yellow('Generated Connected React Component for ' + componentName + '. An unconnected version has been saved in the same directory for reference.'))
+  console.log(require('chalk').yellow('\nGenerated Connected React Component for ' + componentName + '.\nAn unconnected version has been saved in the same directory for reference.\n'))
+
+  let providerCode = `You will also need to wrap your root component in the Provider wrapper. Here's the code for that:
+  import { Provider } from 'react-redux' 
+  import store from './store'
+  ...
+  <Provider store={store}>
+    <App />
+  </Provider>
+  `
+  console.log(require('chalk').red(providerCode))
 
   fs.writeFile(componentFile, prettifiedCode, (err) => {
     if (err) throw new Error(err)
