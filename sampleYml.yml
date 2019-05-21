@@ -1,0 +1,38 @@
+Structure: Ducks
+
+Models:
+
+  - Campus:
+
+    Slice:
+      - Name: string
+      - Quacking: Boolean
+      - Ducklings: Object
+      - Fly2Gether: Boolean
+
+  - terminator:
+  
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+
+    Actions:
+      - getJohnConnor
+      - hastaLaVista
+
+    Thunks:
+      - getAll:
+          - "/api/terminator"
+          - getJohnConnor
+      - getOne:
+          - "/api/terminator/:terminator"
+          - getJohnConnor
+
+  - DucklingTerminator:
+
+    Slice:
+      - WillBeBack: Boolean
+      - OneLiners: Array
+      - Sequels: Number
+      
