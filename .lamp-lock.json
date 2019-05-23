@@ -1,5 +1,5 @@
 {
-	"Structure": "Rails",
+	"Structure": "Ducks",
 	"Models": [
 		{
 			"Campus": null,
@@ -15,18 +15,6 @@
 				},
 				{
 					"Fly2Gether": "Boolean"
-				}
-			],
-			"CRUD": true,
-			"Actions": [
-				"countDux"
-			],
-			"Thunks": [
-				{
-					"getAll": [
-						"/api/Dux",
-						"getAllCampus"
-					]
 				}
 			]
 		},

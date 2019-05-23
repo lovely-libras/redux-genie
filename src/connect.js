@@ -2,8 +2,8 @@ const fs = require('fs');
 const parser = require('@babel/parser').parse;
 const traverse = require('@babel/traverse').default;
 const generate = require('@babel/generator').default;
-const prettier = require('prettier');
 const t = require("@babel/types");
+const prettier = require('prettier');
 const chalk = require('chalk')
 
 module.exports = (componentFile, componentName, models, stateObject) => {
@@ -36,11 +36,9 @@ module.exports = (componentFile, componentName, models, stateObject) => {
 
   let componentType
 
-  // lets figure out if is a functional or class component
   traverse(fileAST, {
     FunctionDeclaration(path){
 
-      // find the function name inside the AST
       if(path.node.id.name === componentName){
         componentNode = path.node
         componentType = 'function'
@@ -166,6 +164,7 @@ module.exports = (componentFile, componentName, models, stateObject) => {
   theCode.splice(theCode.length-1, 0, parser(mapDispatchFunction, {sourceType: 'module'}))
 
   theCode.unshift(parser(`import { connect } from "react-redux"`, {sourceType: 'module'}))
+  
   let theExport
 
   traverse(fileAST, {
@@ -180,12 +179,11 @@ module.exports = (componentFile, componentName, models, stateObject) => {
 
   const prettifiedCode = prettier.format(newCode, { parser: 'babel' })
 
-  // console.log(require('chalk').yellow(prettifiedCode))
   console.log(require('chalk').yellow('\nGenerated Connected React Component for ' + componentName + '.\nAn unconnected version has been saved in the same directory for reference.\n'))
 
   let providerCode = `You will also need to wrap your root component in the Provider wrapper. Here's the code for that:
   import { Provider } from 'react-redux' 
-  import store from './store'
+  import store from '.../../path/to/store'
   ...
   <Provider store={store}>
     <App />

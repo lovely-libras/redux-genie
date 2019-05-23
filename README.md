@@ -417,14 +417,6 @@ store.js
 
 ---
 
-#### genie help (genie h)
-
-```bash
-genie help
-```
-
----
-
 ### Team Redux Genie:
 
 - [Gregory Ardison-Gardner](https://www.linkedin.com/in/ardison-gardner/)

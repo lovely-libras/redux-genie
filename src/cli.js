@@ -35,8 +35,12 @@ if (command === 'generate' || command === 'gen' || command === 'g') {
 
 if (command === 'list' || command === 'ls' || command === 'l') {
   
-  let ls = `node ${__dirname}/ls.js`;
-  shell(ls);
+  if(arg1 && arg1 !== 'models'){
+    require('./storeList')(arg1, input.m)
+    return
+  }
+
+  require('./ls')(arg1)
 }
 
 if (command === 'delete' || command === 'del' || command === 'd') {
@@ -92,8 +96,6 @@ if (command === 'connect'){
     
     require('./connect')(input._[3], input._[4], input.m)
   })
-
- 
 }
 
 if (command === 'sim') {
