@@ -95,6 +95,23 @@ const diffLock = (definedCurrent) => {
 
 		let addedModels = current.Models.filter(model => !lastYaml[Object.entries(model)[0]])
 
+		// test if the user added a duplicate model
+
+		let yamTest = {}
+
+		current.Models.forEach(model => {
+
+			let modelName = Object.entries(model)[0]
+
+			if(yamTest[modelName]){
+
+				console.log('Update failed, duplicate Model detected: ', modelName)
+				process.exit()
+			}
+			yamTest[modelName] = true
+
+		})
+
 		// traverse the current models to see if the user
 		// added or changed any properties
 
@@ -126,6 +143,25 @@ const diffLock = (definedCurrent) => {
 						let thisDiff = diff( previous.Models[modelIndex][part], model[part] )
 
 						if(thisDiff && !(part === 'CRUD')){
+
+							// filter duplicates 
+
+							let dupeFilter = {}
+
+							thisDiff.forEach(diff =>{
+
+								// not a new entry
+
+								if(diff[0] === ' '){
+									dupeFilter[diff[1]] = true
+								}
+
+								// make sure any entry that already exists isn't listed as "+"
+								if(dupeFilter[diff[1]]){
+									diff[0] = ' '
+								}
+
+							})
 
 							if(!thisDiff.filter){
 								console.log('Please added some property to: ', part)

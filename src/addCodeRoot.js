@@ -25,7 +25,6 @@ module.exports = (commandLine) => {
 	const existingModel = addCall.model || addCall.Model || addCall.m || addCall.MODEL
 	const newModel = addCall.newModel || addCall.newmodel || addCall.M || addCall.NEWMODEL
 
-
 	if(Array.isArray(existingModel)){
 
 		console.error(require('chalk').yellow('ERROR: can only edit one model at a time. Please run consecutive calls for', existingModel.join(' and ')))
@@ -80,8 +79,6 @@ module.exports = (commandLine) => {
 		if(definedThunks){
 
 			Array.isArray(definedThunks) ? modelObject.Thunks.push(...definedThunks.map(thunk => { return { [thunk] : ['blank', 'blank']} } )) : modelObject.Thunks.push({ [definedThunks] : ['blank', 'blank'] }  ) ;
-			console.log(chalk.white(`Remember to fill in your thunks: they're going to be generated with a "blank" endpoint and "blank" action`))
-
 		}
 
 		if(definedActions){
@@ -140,7 +137,6 @@ module.exports = (commandLine) => {
 				definedThunks = definedThunks.filter(thunk =>  !currentThunks.includes(thunk) )
 				definedThunks = definedThunks.map(thunk => { return { [thunk] : ['blank', 'blank']} } )
 				thisModel.Thunks.push(...definedThunks)
-				console.log(chalk.white(`Remember to fill in your thunks: they're going to be generated with a "blank" endpoint and "blank" action`))
 
 			}
 			else{
@@ -149,17 +145,12 @@ module.exports = (commandLine) => {
 				
 				if(!currentThunks.includes(Object.keys(definedThunks)[0])){
 					thisModel.Thunks.push(definedThunks)
-					console.log(chalk.white(`Remember to fill in your thunks: they're going to be generated with a "blank" endpoint and "blank" action`))
-
 				}
 				else{ 
 
 					console.log('Thunk', Object.keys(definedThunks)[0], 'is already defined on', Object.keys(thisModel)[0])
 				} 
-				
-
 			}
-
 		}
 
 		if(definedActions){

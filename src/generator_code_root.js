@@ -1,12 +1,14 @@
 const chalk = require('chalk');
 const fs = require('fs');
 let { spawn } = require('child_process');
-let rails = require('./generator_code_files/rails_style/rails_index');
-const ducks = require('./generator_code_files/ducks_style');
+let rails = require('./../generator_code_files/rails_style/rails_index');
+const ducks = require('./../generator_code_files/ducks_style');
 const yaml = require('js-yaml');
-const createStore = require('./generator_code_files/ducks_style/create_store');
-const createCombineReducers = require('./generator_code_files/ducks_style/create_combine_reducers');
+const createStore = require('./../generator_code_files/ducks_style/create_store');
+const createCombineReducers = require('./../generator_code_files/ducks_style/create_combine_reducers');
 const { makeLock } = require('./lock');
+
+module.exports = () => { 
 
 if (fs.existsSync('./.lamp-lock.json')) {
   console.log(
@@ -28,9 +30,7 @@ if (fs.existsSync('./.lamp-lock.json')) {
   } catch (e) {
     console.log(
       chalk.red(
-        `You do not have a ${'lamp.config.yml'} configuration file!\nFor help creating the ${'lamp.config.yml'}, please visit us at ${chalk.cyan(
-          'https://redux-genie.herokuapp.com'
-        )}`
+        `No lamp.config file found.`
       )
     );
     process.exit();
@@ -69,7 +69,11 @@ if (fs.existsSync('./.lamp-lock.json')) {
     });
 
     makeDir.on('exit', () => {
-      rails(Models, Thunks, Logging);
+
+      setTimeout(()=>{
+
+        rails(Models, Thunks, Logging);
+      }, 2000)
     });
   }
 
@@ -81,18 +85,6 @@ if (fs.existsSync('./.lamp-lock.json')) {
     );
 
     // create action types, action creators, and reducer
-
-    Models.forEach((model, i) => {
-      let modelName = Object.keys(model)[0][0]
-        .toUpperCase()
-        .concat(Object.keys(model)[0].slice(1));
-
-      let makeDir = spawn(`mkdir store/${modelName}`, { shell: true });
-
-      makeDir.on('exit', () => {
-        ducks(model, modelName, Thunks);
-      });
-    });
 
     rootStore.on('exit', () => {
       // create combine reducers
@@ -127,6 +119,41 @@ if (fs.existsSync('./.lamp-lock.json')) {
           )
         );
       });
+
+      /*
+      to guarantee that the files will be written after the folder
+      directories are created, wait til the end of all the mkdir calls
+      */
+
+      let modelFiles = []
+
+      Models.forEach((model, i) => {
+        let modelName = Object.keys(model)[0][0]
+          .toUpperCase()
+          .concat(Object.keys(model)[0].slice(1));
+
+        let makeDir = spawn(`mkdir store/${modelName}`, { shell: true });
+
+        makeDir.on('exit', () => {
+          modelFiles.push([model, modelName, Thunks])
+          if( i === Models.length - 1 ){
+
+            setTimeout(()=>{
+
+              makeModelFiles()
+            }, 2000) //  ¯\_(ツ)_/¯
+          } // better safe than sorry
+        });
+      });
+
+      function makeModelFiles(){
+
+        modelFiles.forEach((array)=>{
+          ducks(...array)
+        })
+      }
     });
   }
+}
+
 }

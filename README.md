@@ -6,7 +6,7 @@ Made for developers creating JavaScript applications with [Redux](https://redux.
 
 Redux Genie isn't a "starter kit" or a library of helper methods. It actually writes your Redux boilerplate code, either creating new files or injecting code into an existing store files. This makes the writing process easier to start, easier to manage as you progress, and less error-prone, without abstracting over the functionality of Redux itself.
 
-The genie can be comprehensive- generating the whole Redux store from the ontset of a project- or granular- creating or operating on a specific slice of state for an existing project.
+The genie can be comprehensive- generating the whole Redux store from the onset of a project- or granular- creating or operating on a specific slice of state for an existing project.
 
 ```bash
 npm install -g redux-genie
@@ -16,7 +16,7 @@ Check out our [documentation](https://redux-genie.herokuapp.com/), which include
 
 ---
 
-## Store Declaration at the beginning of a project
+# Store Declaration at the beginning of a project
 
 To generate a store, Redux Genie's configuration file- lamp.config.yml - will need define the total store structure. 
 
@@ -27,7 +27,9 @@ https://redux.js.org/faq/code-structure
 Structure: Rails || Ducks
 ```
 
-Define the slices of state. We refer to them as "Models", but they can correspond to database models, domains (e.g. "landing page"), features (e.g. "checkout"), or any other way you want to organize state. The genie automatically generates and configures all CRUD methods with separate subreducers for each Model, with Thunks linked to the Redux-Thunk middleware calling your defined API endpoints.
+Define the slices of state. We refer to them as "Models", but they could also be called "Domains" (in the sense of "domain driven design"). Essentially, they are the specific way you want to organize the entities in state. 
+
+The genie automatically generates and configures all CRUD methods with separate subreducers for each Model, with Thunks linked to the Redux-Thunk middleware calling your defined API endpoints.
 
 ```
 Structure: Rails
@@ -87,7 +89,7 @@ store.js
 
 ### Ducks-Style
 
-> “Ducks”: separate folders per feature or domain
+> “Ducks”: separate folders per Model/Domain
 
 Generated file structure:
 ```
@@ -110,7 +112,7 @@ store.js
 
 ---
 
-### _lamp.config.yml_ options
+# _lamp.config.yml_ options
 
 Options to customize the generate call.
 
@@ -208,12 +210,109 @@ Models:
 
 ---
 
-### CLI 
+# CLI 
 
 #### genie generate
 
 ```bash
 genie generate
+```
+
+---
+
+#### genie connect
+
+```bash
+genie connect
+```
+
+Connects  a  React  component  to  the  store via the React-Redux library.
+
+Must define the path to the component to be converted, the  name of the component, and the models/domains to connect:
+
+```bash
+genie   connect  app/components/ExampleThree.js  ExampleThree  -m DucklingTerminator
+```
+
+Can connect multiple models at one time:
+
+```bash
+genie  connect  app/components/ExampleThree.js  ExampleThree   -m
+DucklingTerminator -m Velociraptor -m Replicant
+```
+
+The genie will insert the code for the connect method into the current file, and generate an unconnected copy of the source file in the same directory.
+
+##### Example:
+
+Source file
+
+```js
+import React from 'react';
+
+export default function ExampleThree (props){
+
+  const { stuff } = props;
+
+  return (
+    <div>
+
+    </div>
+  );
+};
+```
+
+Connect call:
+
+```bash
+genie connect app/components/ExampleThree.js ExampleThree -m DucklingTerminator
+```
+
+Output:
+
+```js
+import { connect } from "react-redux";
+
+import {
+  getDucklingTerminator,
+  getAllDucklingTerminator,
+  createDucklingTerminator,
+  updateDucklingTerminator,
+  deleteDucklingTerminator
+} from "../../store/DucklingTerminator/actions_for_DucklingTerminator.js";
+
+import React from "react";
+
+function ExampleThree(props) {
+  const { stuff } = props;
+  return (
+    <div>
+
+    </div>
+  );
+}
+
+const mapStateToProps = ({ DucklingTerminator_state }) => {
+  return {
+    isQuacking: DucklingTerminator_state.isQuacking,
+    DucklingTerminatorList: DucklingTerminator_state.DucklingTerminatorList,
+    isLoading: DucklingTerminator_state.isLoading,
+    SingleDucklingTerminator: DucklingTerminator_state.SingleDucklingTerminator
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  getDucklingTerminator: () => dispatch(getDucklingTerminator()),
+  getAllDucklingTerminator: () => dispatch(getAllDucklingTerminator()),
+  createDucklingTerminator: () => dispatch(createDucklingTerminator()),
+  updateDucklingTerminator: () => dispatch(updateDucklingTerminator()),
+  deleteDucklingTerminator: () => dispatch(deleteDucklingTerminator())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExampleThree);
 ```
 
 ---
@@ -290,13 +389,13 @@ Outputs a sample _lamp.config.yml_ file to the current working directory.
 
 ---
 
-#### genie list ( genie ls )
+#### genie list  
 
 ```bash
-genie ls
+genie list
 ```
 
-Prints a visual representation of the store directory: 
+Prints the store file structure: 
 
 ```bash
 actions
@@ -318,16 +417,7 @@ store.js
 
 ---
 
-#### genie help (genie h)
-
-```bash
-genie help
-```
-
----
-
 ### Team Redux Genie:
-
 
 - [Gregory Ardison-Gardner](https://www.linkedin.com/in/ardison-gardner/)
 - [Jon Cannon](https://www.linkedin.com/in/jonathan-cannon-62675683/)

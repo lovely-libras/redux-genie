@@ -1,3 +1,4 @@
+
 module.exports = (Logging) => {
 
 if(Logging === undefined){

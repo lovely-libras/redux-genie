@@ -1,5 +1,5 @@
 const archy = require('archy');
-const chalk = require('chalk');
+const {red, yellow } = require('chalk');
 const fs = require('fs');
 const path = require('path');
 
@@ -15,19 +15,27 @@ const buildTree = (dir, fileList = []) => {
   return fileList;
 };
 
-const printFileStructure = tree => {
-  for (let i = 0; i < tree.length; i++) {
-    console.log(archy(tree[i]));
-  }
-};
-
-const ls = () => {
+module.exports = (onlyModel) => {
+  
   if (fs.existsSync('./store')) {
+
+    const lamp = JSON.parse(fs.readFileSync("./.lamp-lock.json", "utf8"))
+
+    console.log(red('Models: '))
+
+    lamp.Models.forEach(model => console.log(Object.keys(model)[0]))
+    // console.log(lamp)
+
+    if(onlyModel) return
+
     const currentDir = path.join(process.cwd(), './store');
-    console.log('\nROOT: ', currentDir, '\n');
-    const tree = buildTree(currentDir);
-    printFileStructure(tree);
+  
+    console.log(yellow('\nROOT: '), currentDir, '\n');
+
+    buildTree(currentDir).forEach(tree => console.log(red(archy(tree))))
+  
   } else {
+  
     console.log(
       chalk.red(
         `You have not yet created the store with ${chalk.white(
@@ -37,5 +45,3 @@ const ls = () => {
     );
   }
 };
-
-ls();
